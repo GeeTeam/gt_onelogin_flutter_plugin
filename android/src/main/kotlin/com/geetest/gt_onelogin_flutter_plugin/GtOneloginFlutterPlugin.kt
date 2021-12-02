@@ -1,4 +1,4 @@
-package com.example.gt_onelogin_flutter_plugin
+package com.geetest.gt_onelogin_flutter_plugin
 
 import androidx.annotation.NonNull
 
