@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.gt_onelogin_flutter_plugin_example">
+    package="com.geetest.gt_onelogin_flutter_plugin_example">
    <application
         android:label="gt_onelogin_flutter_plugin_example"
         android:icon="@mipmap/ic_launcher">

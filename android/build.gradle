@@ -1,4 +1,4 @@
-group 'com.example.gt_onelogin_flutter_plugin'
+group 'com.geetest.gt_onelogin_flutter_plugin'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -47,4 +47,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.geetest.android:onelogin:2.5.3.2"
 }
