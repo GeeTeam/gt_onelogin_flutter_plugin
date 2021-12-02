@@ -11,13 +11,17 @@ class _Constant{
   static const init = "$methodNames/init";
   static const requestToken = "$methodNames/requestToken";
   static const dismissAuthView = "$methodNames/dismissAuthView";
-
-
+  static const sdkVersion = "$methodNames/sdkVersion";
+  static const carrier = "$methodNames/carrier";
+  static const isProtocolCheckboxChecked = "$methodNames/isProtocolCheckboxChecked";
+  static const isReady = "$methodNames/isReady";
 
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";
   static const appId = "$methodParameters/appId";
   static const timeout = "$methodParameters/timeout";
+  static const bool = "$methodParameters/bool";
+
 
 }
