@@ -15,13 +15,12 @@ class _Constant{
   static const carrier = "$methodNames/carrier";
   static const isProtocolCheckboxChecked = "$methodNames/isProtocolCheckboxChecked";
   static const isReady = "$methodNames/isReady";
-
+  static const setLogEnable = "$methodNames/setLogEnable";
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";
   static const appId = "$methodParameters/appId";
   static const timeout = "$methodParameters/timeout";
-  static const bool = "$methodParameters/bool";
 
 
 }

@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import OneLoginSDK
 
 public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -9,6 +10,84 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    result("iOS " + UIDevice.current.systemVersion)
+      print("\(call.method)")
+      switch call.method {
+      case Constant.`init`:
+          setup(call: call, result: result)
+      case Constant.requestToken:
+          fallthrough
+      case Constant.dismissAuthView:
+          dismissAuthView(call: call, result: result)
+      case Constant.setLogEnable:
+          setup(call: call, result: result)
+      case Constant.carrier:
+          getCurrentCarrier(call: call, result: result)
+      case Constant.sdkVersion:
+          sdkVersion(call: call, result: result)
+      case Constant.isProtocolCheckboxChecked:
+          isProtocolCheckboxChecked(call: call, result: result)
+      case Constant.isReady:
+          isReady(call: call, result: result)
+      default:
+          result(FlutterMethodNotImplemented)
+      }
   }
+}
+
+//核心接口
+extension SwiftGtOneloginFlutterPlugin{
+    func setup(call:FlutterMethodCall,result: @escaping FlutterResult){
+        guard let arguments = call.arguments as? [String:Any],let appId = arguments[Constant.appId] as? String,!appId.isEmpty  else {
+            result(FlutterError(code: call.method, message: "appId 参数必传", details: nil))
+            return
+        }
+        OneLoginPro.register(withAppID: appId)
+        result(true)
+    }
+    
+    func requestToken(call:FlutterMethodCall,result: @escaping FlutterResult){
+        
+    }
+    
+    func dismissAuthView(call:FlutterMethodCall,result: @escaping FlutterResult){
+        OneLoginPro.dismissAuthViewController {
+            result(true)
+        }
+        
+    }
+    
+}
+
+//配置接口
+extension SwiftGtOneloginFlutterPlugin{
+    func setLogEnable(call:FlutterMethodCall,result: @escaping FlutterResult){
+        guard let isEnable = call.arguments as? Bool else{
+            result(FlutterError(code: call.method, message: "参数必传", details: nil))
+            return
+        }
+        OneLoginPro.setLogEnabled(isEnable)
+        OneLoginPro.setCMLogEnabled(isEnable)
+        result(true)
+    }
+    
+    func getCurrentCarrier(call:FlutterMethodCall,result: @escaping FlutterResult){
+        guard let info = OneLoginPro.currentNetworkInfo(),let carrierName = info.carrierName,let carrierType = CarrierType.init(rawValue: carrierName) else{
+            result(CarrierType.unknow.intValue)
+            return
+        }
+        
+        result(carrierType.intValue)
+    }
+    
+    func sdkVersion(call:FlutterMethodCall,result: @escaping FlutterResult){
+        result(OneLoginPro.sdkVersion)
+    }
+    
+    func isProtocolCheckboxChecked(call:FlutterMethodCall,result: @escaping FlutterResult){
+        result(OneLoginPro.isProtocolCheckboxChecked)
+    }
+    
+    func isReady(call:FlutterMethodCall,result: @escaping FlutterResult){
+        result(OneLoginPro.isPreGetTokenResultValidate())
+    }
 }

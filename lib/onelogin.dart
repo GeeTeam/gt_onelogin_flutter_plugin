@@ -29,7 +29,7 @@ class GtOneloginFlutterPlugin {
 /// -------------配置接口------------------
   //设置是否开启日志
   static setLogEnable(bool enable){
-    return _channel.invokeMethod(_Constant.bool);
+    return _channel.invokeMethod(_Constant.setLogEnable,enable);
   }
 
   //获取SDK版本号
