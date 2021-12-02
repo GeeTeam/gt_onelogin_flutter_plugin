@@ -38,9 +38,9 @@ class GtOneloginFlutterPlugin {
   }
 
   //获取当前运营商
-  static Future<CarrierType> getCurrentCarrier() async{
+  static Future<OLCarrierType> getCurrentCarrier() async{
     int carrier = await _channel.invokeMethod(_Constant.carrier);
-    return CarrierType.values[carrier];
+    return OLCarrierType.values[carrier];
   }
 
   //隐私条款是否勾选
@@ -51,6 +51,11 @@ class GtOneloginFlutterPlugin {
   //预取号拿到的token是否还在有效期
   static Future<bool> isReady() async{
     return await _channel.invokeMethod(_Constant.isReady);
+  }
+
+  //Only for android ,销毁SDK
+  static destroy(){
+    return  _channel.invokeMethod(_Constant.destroy);
   }
 
 }

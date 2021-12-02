@@ -5,14 +5,14 @@
 //  Created by noctis on 2021/12/2.
 //
 
-enum CarrierType:String{
+enum OLCarrierType:String{
    case unknow = "unknow"
    case cm = "CM"    // 移动
    case cu = "CU"  // 联通
    case ct = "CT"  //电信
 }
 
-extension CarrierType{
+extension OLCarrierType{
     func intValue() -> Int{
         switch self {
         case .unknow:

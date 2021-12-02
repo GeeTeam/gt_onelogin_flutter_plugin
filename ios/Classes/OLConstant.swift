@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct Constant{
+struct OLConstant{
     ///方法通道名称
     static let methodChannel = "com.geetest.one_login_plugin";
 

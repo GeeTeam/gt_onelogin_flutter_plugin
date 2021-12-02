@@ -16,6 +16,9 @@ class _Constant{
   static const isProtocolCheckboxChecked = "$methodNames/isProtocolCheckboxChecked";
   static const isReady = "$methodNames/isReady";
   static const setLogEnable = "$methodNames/setLogEnable";
+  static const destroy = "$methodNames/destroy";
+
+
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";
