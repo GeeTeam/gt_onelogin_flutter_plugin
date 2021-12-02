@@ -6,23 +6,22 @@
 //
 
 enum CarrierType:String{
+   case unknow = "unknow"
    case cm = "CM"    // 移动
    case cu = "CU"  // 联通
    case ct = "CT"  //电信
-   case unknow = "unknow"
-    
 }
 
 extension CarrierType{
     func intValue() -> Int{
         switch self {
-        case .cm:
-            return 0
-        case .cu:
-            return 1
-        case .ct:
-            return 2
         case .unknow:
+            return 0
+        case .cm:
+            return 1
+        case .cu:
+            return 2
+        case .ct:
             return 3
         } 
     }
