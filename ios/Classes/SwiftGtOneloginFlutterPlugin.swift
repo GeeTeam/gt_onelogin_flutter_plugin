@@ -4,13 +4,13 @@ import OneLoginSDK
 
 public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "gt_onelogin_flutter_plugin", binaryMessenger: registrar.messenger())
+      let channel = FlutterMethodChannel(name: OLConstant.methodChannel, binaryMessenger: registrar.messenger())
     let instance = SwiftGtOneloginFlutterPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-      print("\(call.method)")
+      print("\(call.method):\(String(describing: call.arguments))")
       switch call.method {
       case OLConstant.`init`:
           setup(call: call, result: result)
