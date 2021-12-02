@@ -40,10 +40,22 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
         init(call)
       }
       Constant.requestToken -> {
-        requestToken(call)
+        requestToken()
       }
       Constant.dismissAuthView -> {
         OneLoginHelper.with().dismissAuthActivity()
+      }
+      Constant.isReady -> {
+        result.success(OneLoginHelper.with().isPreGetTokenResultValidate)
+      }
+      Constant.setLogEnable -> {
+        OneLoginHelper.with().setLogEnable(call.arguments as Boolean)
+      }
+      Constant.carrier -> {
+        getCarrier(result)
+      }
+      Constant.isProtocolCheckboxChecked -> {
+        result.success(OneLoginHelper.with().isPrivacyChecked)
       }
       else -> {
         result.notImplemented()
@@ -74,7 +86,7 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
-  private fun requestToken(call: MethodCall) {
+  private fun requestToken() {
     OneLoginHelper.with().requestToken(OneLoginThemeConfig.Builder().build(), object : AbstractOneLoginListener() {
       override fun onResult(p0: JSONObject?) {
         requireNotNull(p0) {
@@ -94,8 +106,29 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       }
 
       override fun onLoginButtonClick() {
-        channel.invokeMethod("onLoginButtonClick", HashMap<String, Any>())
+        Log.i(TAG, "onAuthButtonClick")
+        channel.invokeMethod(Constant.onAuthButtonClick, null)
       }
     })
+  }
+
+  /**
+   * 获取sim卡运营商类型
+   */
+  private fun getCarrier(result: Result) {
+    when (OneLoginHelper.with().getSimOperator(mContext)) {
+      Carrier.CM.name -> {
+        result.success(Carrier.CM.value)
+      }
+      Carrier.CU.name -> {
+        result.success(Carrier.CU.value)
+      }
+      Carrier.CT.name -> {
+        result.success(Carrier.CT.value)
+      }
+      else -> {
+        result.success(Carrier.unknown.value)
+      }
+    }
   }
 }

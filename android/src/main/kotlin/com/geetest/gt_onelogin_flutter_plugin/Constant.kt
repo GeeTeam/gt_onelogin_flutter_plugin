@@ -15,7 +15,14 @@ class Constant {
         val carrier = "$methodNames/carrier";
         val isProtocolCheckboxChecked = "$methodNames/isProtocolCheckboxChecked";
         val isReady = "$methodNames/isReady";
+        val setLogEnable = "$methodNames/setLogEnable";
 
+        ///native事件回调flutter方法名称
+        val onBackButtonClick = "$methodNames/onBackButtonClick";
+        val onAuthButtonClick = "$methodNames/onAuthButtonClick";
+        val onSwitchButtonClick = "$methodNames/onSwitchButtonClick";
+        val onTermItemClick = "$methodNames/onTermItemClick"; //点击服务条款
+        val onTermCheckBoxClick = "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
 
         ///方法参数
         val methodParameters = "$methodChannel/methodParameters";
