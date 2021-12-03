@@ -40,6 +40,12 @@ struct OLConstant{
     static let termsItemTitle = "\(methodParameters)/termsItemTitle";
     static let termsItemUrl = "\(methodParameters)/termsItemUrl";
     
+    
+    static let rectWidth  = "\(methodParameters)/rectWidth"
+    static let rectHeight = "\(methodParameters)/rectHeight"
+    static let rectX      = "\(methodParameters)/rectX"
+    static let rectY      = "\(methodParameters)/rectY"
+    
     //  UI配置参数
     //Only for iOS 授权页面支持的横竖屏方向
     static let supportedinterfaceOrientations = "\(methodParameters)/supportedinterfaceOrientations";

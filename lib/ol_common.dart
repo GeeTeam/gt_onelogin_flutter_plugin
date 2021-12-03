@@ -32,6 +32,11 @@ class _OLConstant{
 
   static const termsItemTitle = "$methodParameters/termsItemTitle";
   static const termsItemUrl = "$methodParameters/termsItemUrl";
+
+  static const rectWidth  = "$methodParameters/rectWidth";
+  static const rectHeight = "$methodParameters/rectHeight";
+  static const rectX      = "$methodParameters/rectX";
+  static const rectY      = "$methodParameters/rectY";
   
  //  UI配置参数
  //Only for iOS 授权页面支持的横竖屏方向

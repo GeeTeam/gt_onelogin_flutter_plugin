@@ -24,8 +24,8 @@ class GtOneloginFlutterPlugin {
 
   //拉起授权页
   Future<Map<String, dynamic>> requestToken() async {
-    var result = await _channel.invokeMethod(_OLConstant.requestToken);
-    return HashMap.from(result as Map<dynamic, dynamic>);
+    Map map = await _channel.invokeMethod(_OLConstant.requestToken);
+    return LinkedHashMap.from(map);
   }
 
   //关闭授权页
@@ -96,7 +96,7 @@ class GtOneloginFlutterPlugin {
 
   Future<dynamic> _handler(MethodCall call) async {
     debugPrint(flutterLog + "receive native method : " + call.method +
-        " args: " + (call.arguments ?? "null"));
+        " args: " + ((call.arguments==null ? '' : (call.arguments as String))));
     switch (call.method) {
       case _OLConstant.onBackButtonClick:
         return _onBackButtonClick!(call.arguments?.cast<String, dynamic>());

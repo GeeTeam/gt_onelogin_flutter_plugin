@@ -3,6 +3,7 @@ import UIKit
 import OneLoginSDK
 
 public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
+    let iosLog = "| Geetest | OneLogin iOS | "
     var channel:FlutterMethodChannel!
     
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -41,7 +42,7 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
 extension SwiftGtOneloginFlutterPlugin{
     func setup(call:FlutterMethodCall,result: @escaping FlutterResult){
         guard let arguments = call.arguments as? [String:Any],let appId = arguments[OLConstant.appId] as? String,!appId.isEmpty  else {
-            result(FlutterError(code: call.method, message: "appId 参数必传", details: nil))
+            result(FlutterError(code: call.method, message: (iosLog+"appId 参数必传"), details: nil))
             return
         }
         OneLoginPro.register(withAppID: appId)
@@ -49,21 +50,37 @@ extension SwiftGtOneloginFlutterPlugin{
     }
     
     func requestToken(call:FlutterMethodCall,result: @escaping FlutterResult){
-        let authModel = OLAuthViewModel()
         let vc = UIApplication.shared.keyWindow?.rootViewController
+        OneLoginPro.requestToken(with: vc!, viewModel: uiConfigure()) { dict in
+            guard let dict = dict as? [String:Any],!dict.isEmpty,let status = dict["status"] as? Int,status == -20302 || status == -20303 else{
+                result(dict)
+                return
+            }
+            result(nil)
+        }
+    }
+    
+    func uiConfigure() -> OLAuthViewModel{
+        let authModel = OLAuthViewModel()
         authModel.clickAuthButtonBlock = {[weak self] in
               self?.channel.invokeMethod(OLConstant.onAuthButtonClick, arguments: nil)
         }
-        OneLoginPro.requestToken(with: vc!, viewModel: authModel) { _ in
-            
+        authModel.clickCheckboxBlock = {[weak self] (isChecked) in
+            self?.channel.invokeMethod(OLConstant.onTermCheckBoxClick, arguments: isChecked)
         }
+        authModel.clickBackButtonBlock = { [weak self] in
+            self?.channel.invokeMethod(OLConstant.onBackButtonClick, arguments: nil)
+        }
+        authModel.clickSwitchButtonBlock = {[weak self] in
+            self?.channel.invokeMethod(OLConstant.onSwitchButtonClick, arguments: nil)
+        }
+        return authModel
     }
     
     func dismissAuthView(call:FlutterMethodCall,result: @escaping FlutterResult){
         OneLoginPro.dismissAuthViewController {
             result(true)
         }
-        
     }
     
 }
@@ -85,7 +102,6 @@ extension SwiftGtOneloginFlutterPlugin{
             result(OLCarrierType.unknow.intValue)
             return
         }
-        
         result(carrierType.intValue)
     }
     
