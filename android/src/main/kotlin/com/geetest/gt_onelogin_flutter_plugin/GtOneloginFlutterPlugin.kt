@@ -40,7 +40,7 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
         init(call)
       }
       Constant.requestToken -> {
-        requestToken()
+        requestToken(result)
       }
       Constant.dismissAuthView -> {
         OneLoginHelper.with().dismissAuthActivity()
@@ -56,6 +56,9 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       }
       Constant.isProtocolCheckboxChecked -> {
         result.success(OneLoginHelper.with().isPrivacyChecked)
+      }
+      Constant.destroy -> {
+        OneLoginHelper.with().cancel()
       }
       else -> {
         result.notImplemented()
@@ -86,7 +89,7 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
-  private fun requestToken() {
+  private fun requestToken(result: Result) {
     OneLoginHelper.with().requestToken(OneLoginThemeConfig.Builder().build(), object : AbstractOneLoginListener() {
       override fun onResult(p0: JSONObject?) {
         requireNotNull(p0) {
@@ -95,19 +98,44 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
         Log.i(TAG, "onResult: $p0")
         val argumentsMap = HashMap<String, Any>()
         val keyIterator: Iterator<String> = p0.keys()
-        var key : String?
-        var value : Any?
+        var key : String
+        var value : Any
         while (keyIterator.hasNext()) {
           key = keyIterator.next()
           value = p0[key]
+          if (value is JSONObject) {
+            value = value.toString()
+          }
           argumentsMap[key] = value
         }
-        channel.invokeMethod("onResult", argumentsMap)
+        result.success(argumentsMap)
       }
 
       override fun onLoginButtonClick() {
         Log.i(TAG, "onAuthButtonClick")
         channel.invokeMethod(Constant.onAuthButtonClick, null)
+      }
+
+      override fun onBackButtonClick() {
+        Log.i(TAG, "onBackButtonClick")
+        channel.invokeMethod(Constant.onBackButtonClick, null)
+      }
+
+      override fun onSwitchButtonClick() {
+        Log.i(TAG, "onSwitchButtonClick")
+        channel.invokeMethod(Constant.onSwitchButtonClick, null)
+      }
+
+      override fun onPrivacyCheckBoxClick(isChecked: Boolean) {
+        Log.i(TAG, "onTermCheckBoxClick")
+        val argus = mapOf("isChecked" to isChecked)
+        channel.invokeMethod(Constant.onTermCheckBoxClick, argus)
+      }
+
+      override fun onPrivacyClick(name: String?, url: String?) {
+        Log.i(TAG, "onTermItemClick")
+        val argus = mapOf("name" to name, "url" to url)
+        channel.invokeMethod(Constant.onTermItemClick, argus)
       }
     })
   }

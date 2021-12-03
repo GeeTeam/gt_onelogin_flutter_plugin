@@ -6,9 +6,9 @@ class GtOneloginFlutterPlugin {
   final MethodChannel _channel;
   static const String flutterLog = "| Geetest | Flutter | ";
 
-  GtOneloginFlutterPlugin.private(MethodChannel channel) : _channel = channel;
+  GtOneloginFlutterPlugin._internal(MethodChannel channel) : _channel = channel;
   static final GtOneloginFlutterPlugin _instance =
-      GtOneloginFlutterPlugin.private(const MethodChannel(_OLConstant.methodChannel));
+      GtOneloginFlutterPlugin._internal(const MethodChannel(_OLConstant.methodChannel));
   factory GtOneloginFlutterPlugin() => _instance;
 
   /// ------------核心接口-----------
@@ -24,7 +24,8 @@ class GtOneloginFlutterPlugin {
 
   //拉起授权页
   Future<Map<String, dynamic>> requestToken() async {
-    return await _channel.invokeMethod(_OLConstant.requestToken);
+    var result = await _channel.invokeMethod(_OLConstant.requestToken);
+    return HashMap.from(result as Map<dynamic, dynamic>);
   }
 
   //关闭授权页
@@ -95,7 +96,7 @@ class GtOneloginFlutterPlugin {
 
   Future<dynamic> _handler(MethodCall call) async {
     debugPrint(flutterLog + "receive native method : " + call.method +
-        " args: " + ((call.arguments==null ? '' : (call.arguments as String))));
+        " args: " + (call.arguments ?? "null"));
     switch (call.method) {
       case _OLConstant.onBackButtonClick:
         return _onBackButtonClick!(call.arguments?.cast<String, dynamic>());

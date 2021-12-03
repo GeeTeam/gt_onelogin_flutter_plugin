@@ -16,6 +16,7 @@ class Constant {
         val isProtocolCheckboxChecked = "$methodNames/isProtocolCheckboxChecked";
         val isReady = "$methodNames/isReady";
         val setLogEnable = "$methodNames/setLogEnable";
+        val destroy = "$methodNames/destroy";
 
         ///native事件回调flutter方法名称
         val onBackButtonClick = "$methodNames/onBackButtonClick";
