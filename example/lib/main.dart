@@ -95,6 +95,7 @@ class _MyAppState extends State<MyApp> {
     configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.isDialogStyle = true;
     configure.dialogCornersRadius = 40;
+    configure.backgroundColor = Colors.orange;
     oneLoginPlugin.requestToken(configure).then((result) async {
       debugPrint(result.toString());
       int status = result["status"];
