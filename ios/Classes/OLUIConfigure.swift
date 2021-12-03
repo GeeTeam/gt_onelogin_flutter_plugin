@@ -9,13 +9,21 @@ import Foundation
 import OneLoginSDK
 
 
-@available(iOS 12.0, *)
 class OLUIConfigure{
     //Only for iOS 授权页面支持的横竖屏方向
     var supportedinterfaceOrientations:UIInterfaceOrientationMask?
       //Only for iOS 授权页面界面样式
 
-    var userinterfaceStyle:UIUserInterfaceStyle?
+//    @available(iOS 12.0, *)
+//    var userinterfaceStyle:UIUserInterfaceStyle?{
+//        set{
+//            _userinterfaceStyle = newValue
+//        }
+//        get{
+//            return self.userinterfaceStyle
+//        }
+//
+//    }
 
       ///--------------弹窗----------------
       //是否是弹框样式
@@ -35,9 +43,10 @@ class OLUIConfigure{
         if let orientationsIndex = dict[OLConstant.supportedinterfaceOrientations] as? UInt  {
             self.supportedinterfaceOrientations = UIInterfaceOrientationMask(rawValue: orientationsIndex);
         }
-        if let userinterfaceStyleIndex = dict[OLConstant.supportedinterfaceOrientations] as? Int,let userinterfaceStyle = UIUserInterfaceStyle(rawValue: userinterfaceStyleIndex) {
-            self.userinterfaceStyle = userinterfaceStyle;
-        }
+        
+//        if let userinterfaceStyleIndex = dict[OLConstant.supportedinterfaceOrientations] as? Int,let userinterfaceStyle = UIUserInterfaceStyle(rawValue: userinterfaceStyleIndex) {
+////            self.userinterfaceStyle = userinterfaceStyle;
+//        }
         if let isDialogStyle = dict[OLConstant.isDialogStyle] as? Bool{
             self.isDialogStyle = isDialogStyle
         }
@@ -71,9 +80,9 @@ class OLUIConfigure{
             
             authViewModel.supportedInterfaceOrientations = supportedInterfaceOrientations
         }
-        if let userinterfaceStyle = userinterfaceStyle{
-            authViewModel.userInterfaceStyle = NSNumber(value: userinterfaceStyle.rawValue)
-        }
+//        if #available(iOS 12.0, *),let userinterfaceStyle = userinterfaceStyle {
+//            authViewModel.userInterfaceStyle = NSNumber(value: userinterfaceStyle.rawValue)
+//        }
         if let isDialogStyle = isDialogStyle {
             authViewModel.isPopup = isDialogStyle
         }

@@ -1,30 +1,40 @@
 PODS:
   - Flutter (1.0.0)
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
   - gt_onelogin_flutter_plugin (0.0.1):
     - Flutter
     - OneLoginSDK-iOS
   - OneLoginSDK-iOS (2.6.0):
     - OneLoginSDK-iOS/Main (= 2.6.0)
   - OneLoginSDK-iOS/Main (2.6.0)
+  - Toast (4.0.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - gt_onelogin_flutter_plugin (from `.symlinks/plugins/gt_onelogin_flutter_plugin/ios`)
 
 SPEC REPOS:
   trunk:
     - OneLoginSDK-iOS
+    - Toast
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
   gt_onelogin_flutter_plugin:
     :path: ".symlinks/plugins/gt_onelogin_flutter_plugin/ios"
 
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   gt_onelogin_flutter_plugin: 1cb98eb6c11309dd486096397ab124282f1801fe
   OneLoginSDK-iOS: bf6644ed8abe042db7b2aca7fa2f034bf7eb9533
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
 PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
 

@@ -23,8 +23,8 @@ class GtOneloginFlutterPlugin {
   }
 
   //拉起授权页
-  Future<Map<String, dynamic>> requestToken() async {
-    Map map = await _channel.invokeMethod(_OLConstant.requestToken);
+  Future<Map<String, dynamic>> requestToken([OLUIConfigure? configure]) async {
+    Map map = await _channel.invokeMethod(_OLConstant.requestToken,configure?.toMap());
     return LinkedHashMap.from(map);
   }
 

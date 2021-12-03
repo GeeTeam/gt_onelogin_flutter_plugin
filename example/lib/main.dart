@@ -91,7 +91,11 @@ class _MyAppState extends State<MyApp> {
 
   //拉起授权页
   requestToken() {
-    oneLoginPlugin.requestToken().then((result) async {
+    var configure = OLUIConfigure();
+    configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
+    configure.isDialogStyle = true;
+    configure.dialogCornersRadius = 40;
+    oneLoginPlugin.requestToken(configure).then((result) async {
       debugPrint(result.toString());
       int status = result["status"];
       if (status == 200) {

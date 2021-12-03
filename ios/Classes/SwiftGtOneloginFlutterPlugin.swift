@@ -51,7 +51,12 @@ extension SwiftGtOneloginFlutterPlugin{
     
     func requestToken(call:FlutterMethodCall,result: @escaping FlutterResult){
         let vc = UIApplication.shared.keyWindow?.rootViewController
-        OneLoginPro.requestToken(with: vc!, viewModel: uiConfigure()) { dict in
+        var authModel = OLAuthViewModel()
+        if let authModelDict = call.arguments as? [String:Any]  {
+            authModel = OLUIConfigure(dict: authModelDict).toAuthViewModel()
+        }
+        uiConfigure(authModel)
+        OneLoginPro.requestToken(with: vc!, viewModel: authModel) { dict in
             guard let dict = dict as? [String:Any],!dict.isEmpty,let status = dict["status"] as? Int,status == -20302 || status == -20303 else{
                 result(dict)
                 return
@@ -60,8 +65,7 @@ extension SwiftGtOneloginFlutterPlugin{
         }
     }
     
-    func uiConfigure() -> OLAuthViewModel{
-        let authModel = OLAuthViewModel()
+    func uiConfigure(_ authModel:OLAuthViewModel){
         authModel.clickAuthButtonBlock = {[weak self] in
               self?.channel.invokeMethod(OLConstant.onAuthButtonClick, arguments: nil)
         }
@@ -74,7 +78,6 @@ extension SwiftGtOneloginFlutterPlugin{
         authModel.clickSwitchButtonBlock = {[weak self] in
             self?.channel.invokeMethod(OLConstant.onSwitchButtonClick, arguments: nil)
         }
-        return authModel
     }
     
     func dismissAuthView(call:FlutterMethodCall,result: @escaping FlutterResult){
