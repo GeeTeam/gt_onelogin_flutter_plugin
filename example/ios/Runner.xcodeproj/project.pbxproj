@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -369,10 +369,11 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
+					/usr/lib/swift,
 					"@executable_path/Frameworks",
+					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.gtOneloginFlutterPluginExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geetest.gateauth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -493,10 +494,11 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
+					/usr/lib/swift,
 					"@executable_path/Frameworks",
+					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.gtOneloginFlutterPluginExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geetest.gateauth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -512,10 +514,11 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
+					/usr/lib/swift,
 					"@executable_path/Frameworks",
+					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.gtOneloginFlutterPluginExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geetest.gateauth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

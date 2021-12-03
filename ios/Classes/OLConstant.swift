@@ -13,7 +13,7 @@ struct OLConstant{
     ///方法名称
     static let methodNames = "\(methodChannel)/methodNames";
     //初始化
-    static let init = "\(methodNames)/init";
+    static let `init` = "\(methodNames)/init";
     static let requestToken = "\(methodNames)/requestToken";
     static let dismissAuthView = "\(methodNames)/dismissAuthView";
     static let sdkVersion = "\(methodNames)/sdkVersion";
@@ -23,6 +23,13 @@ struct OLConstant{
     static let setLogEnable = "\(methodNames)/setLogEnable";
     static let destroy = "\(methodNames)/destroy";
 
+
+    ///native事件回调flutter方法名称
+    static let onBackButtonClick = "\(methodNames)/onBackButtonClick";
+    static let onAuthButtonClick = "\(methodNames)/onAuthButtonClick";
+    static let onSwitchButtonClick = "\(methodNames)/onSwitchButtonClick";
+    static let onTermItemClick = "\(methodNames)/onTermItemClick"; //点击服务条款
+    static let onTermCheckBoxClick = "\(methodNames)/onTermCheckBoxClick"; //点击服务条款的选择框
 
 
     ///方法参数

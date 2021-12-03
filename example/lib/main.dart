@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       appId = androidOLAppId;
     } else {
       //TODO appId
-      appId = "xxx";
+      appId = "b41a959b5cac4dd1277183e074630945";
     }
     oneLoginPlugin.init(appId);
 

@@ -83,7 +83,7 @@ class GtOneloginFlutterPlugin {
       EventHandler onSwitchButtonClick,
       EventHandler onTermItemClick,
       EventHandler onTermCheckBoxClick) {
-    print(flutterLog + "addEventListener");
+    debugPrint(flutterLog + "addEventListener");
     _onBackButtonClick = onBackButtonClick;
     _onAuthButtonClick = onAuthButtonClick;
     _onSwitchButtonClick = onSwitchButtonClick;
@@ -94,8 +94,8 @@ class GtOneloginFlutterPlugin {
   }
 
   Future<dynamic> _handler(MethodCall call) async {
-    print(flutterLog + "receive native method : " + call.method +
-        " args: " + call.arguments);
+    debugPrint(flutterLog + "receive native method : " + call.method +
+        " args: " + ((call.arguments==null ? '' : (call.arguments as String))));
     switch (call.method) {
       case _OLConstant.onBackButtonClick:
         return _onBackButtonClick!(call.arguments?.cast<String, dynamic>());
@@ -107,6 +107,8 @@ class GtOneloginFlutterPlugin {
         return _onTermItemClick!(call.arguments?.cast<String, dynamic>());
       case _OLConstant.onTermCheckBoxClick:
         return _onTermCheckBoxClick!(call.arguments?.cast<String, dynamic>());
+      default:
+        return null;
     }
   }
 }

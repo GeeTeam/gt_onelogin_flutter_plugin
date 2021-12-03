@@ -180,7 +180,7 @@ class _OLConstant{
   //隐私条款页面标题栏字体颜色
   static const  navWebViewTextColor = "$methodParameters/navWebViewTextColor";
   //隐私条款页面标题栏字体大小
-  static const     navWebViewTextSize = "$methodParameters/navWebViewTextSize";
+  static const  navWebViewTextSize = "$methodParameters/navWebViewTextSize";
 
 
 

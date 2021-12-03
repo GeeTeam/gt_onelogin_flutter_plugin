@@ -3,9 +3,12 @@ import UIKit
 import OneLoginSDK
 
 public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
+    var channel:FlutterMethodChannel!
+    
   public static func register(with registrar: FlutterPluginRegistrar) {
       let channel = FlutterMethodChannel(name: OLConstant.methodChannel, binaryMessenger: registrar.messenger())
     let instance = SwiftGtOneloginFlutterPlugin()
+      instance.channel = channel
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
@@ -15,7 +18,7 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
       case OLConstant.`init`:
           setup(call: call, result: result)
       case OLConstant.requestToken:
-          fallthrough
+          requestToken(call: call, result: result)
       case OLConstant.dismissAuthView:
           dismissAuthView(call: call, result: result)
       case OLConstant.setLogEnable:
@@ -46,7 +49,14 @@ extension SwiftGtOneloginFlutterPlugin{
     }
     
     func requestToken(call:FlutterMethodCall,result: @escaping FlutterResult){
-        
+        let authModel = OLAuthViewModel()
+        let vc = UIApplication.shared.keyWindow?.rootViewController
+        authModel.clickAuthButtonBlock = {[weak self] in
+              self?.channel.invokeMethod(OLConstant.onAuthButtonClick, arguments: nil)
+        }
+        OneLoginPro.requestToken(with: vc!, viewModel: authModel) { _ in
+            
+        }
     }
     
     func dismissAuthView(call:FlutterMethodCall,result: @escaping FlutterResult){
