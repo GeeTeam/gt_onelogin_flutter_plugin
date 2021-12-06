@@ -58,6 +58,23 @@ extension SwiftGtOneloginFlutterPlugin{
         uiConfigure(authModel)
         OneLoginPro.requestToken(with: vc!, viewModel: authModel) { dict in
             guard let dict = dict as? [String:Any],!dict.isEmpty,let status = dict["status"] as? Int,status == -20302 || status == -20303 else{
+                
+                if let dict = dict as? [String:Any] {
+                    var dictNew:[AnyHashable:Any] = [:]
+                    dict.forEach({ (key: AnyHashable, value: Any) in
+                        dictNew[key] = value
+                    })
+                    if let status = dict["status"] as? Int, status == 200,let process_id = dictNew["processID"] as? String,let appId = dictNew["appID"] as? String {
+                        dictNew["process_id"] = process_id
+                        dictNew["app_id"] = appId
+                        dictNew.removeValue(forKey: "appID")
+                        dictNew.removeValue(forKey: "processID")
+                        result(dictNew)
+                        return
+                    }
+                    
+                }
+                
                 result(dict)
                 return
             }

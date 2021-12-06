@@ -1,14 +1,13 @@
-import 'dart:collection';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:gt_onelogin_flutter_plugin/gt_onelogin_flutter_plugin.dart';
+import 'package:dio/dio.dart';
 
-const androidOLAppId = "b41a959b5cac4dd1277183e074630945";
+const olAppId = "b41a959b5cac4dd1277183e074630945";
+const getPhoneUrl = "http://onepass.geetest.com/onelogin/result";
 const String tag = "| Geetest | Example | ";
 
 void main() {
@@ -38,14 +37,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _init() {
-    String appId;
-    if (Platform.isAndroid) {
-      appId = androidOLAppId;
-    } else {
-      //TODO appId
-      appId = "b41a959b5cac4dd1277183e074630945";
-    }
-    oneLoginPlugin.init(appId);
+    oneLoginPlugin.init(olAppId);
 
     oneLoginPlugin.addEventListener(onBackButtonClick, onAuthButtonClick,
         onSwitchButtonClick, onTermItemClick, onTermCheckBoxClick);
@@ -118,17 +110,18 @@ class _MyAppState extends State<MyApp> {
         .requestToken(_isCustomUI ? _getOLUIConfigure() : null)
         .then((result) async {
           debugPrint("oneLoginPlugin then $result");
-      debugPrint(result.toString());
       int status = result["status"];
       if (status == 200) {
         Map<String, dynamic> params = {};
-        params["process_id"] = result["processID"];
+        params["process_id"] = result["process_id"];
         params["token"] = result["token"];
-        params["id_2_sign"] = result["appID"];
+        params["id_2_sign"] = result["app_id"];
         if (result["authcode"] != null){
           params["authcode"] = result["authcode"];
         }
         await verifyToken(params);
+
+
       } else {
         oneLoginPlugin.dismissAuthView();
       }
@@ -170,38 +163,62 @@ class _MyAppState extends State<MyApp> {
 
   //一键登录校验token
   Future<dynamic> verifyToken(Map<String, dynamic> params) async {
-    // params.forEach((key, value) {
-    //   debugPrint("$key : $value");
-    // });
-    String _url = "https://onepass.geetest.com/onelogin/result";
-
-    try {
-      final response = await http.post(Uri.parse(_url),
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-          },
-          body: params);
-      String toast;
-      if (response.statusCode == 200) {
-        toast = "登录成功";
-        debugPrint("Validate success. response: " + response.body);
-      } else {
-        toast = "登录失败：${response.statusCode}";
-        debugPrint("Validate failed. response status: ${response.statusCode}");
+    var options = BaseOptions(
+      baseUrl: 'http://onepass.geetest.com',
+      connectTimeout: 5000,
+      receiveTimeout: 3000,
+    );
+    Dio dio = Dio(options);
+    final response = await dio.post<Map<String, dynamic>>("/onelogin/result",data: params);
+    String toast = "登录失败";
+    if (response.statusCode == 200 ) {
+      var result = response.data;
+      debugPrint(response.data.toString());
+      if (result != null && result["status"] == 200) {
+        toast = "登录成功，手机号为:${result["result"]}";
       }
-      oneLoginPlugin.dismissAuthView();
-      Fluttertoast.showToast(
-          msg: toast,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.white10,
-          textColor: Colors.black87,
-          fontSize: 16.0);
-    } on SocketException {
-      // 未联网时无法完成二次验证，在此处理无网络时的逻辑
-      debugPrint("No Internet Connection");
-      oneLoginPlugin.dismissAuthView();
     }
+    oneLoginPlugin.dismissAuthView();
+    Fluttertoast.showToast(
+        msg: toast,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white10,
+        textColor: Colors.black87,
+        fontSize: 16.0);
+    return;
+
+
+  //   String _url = "http://onepass.geetest.com/onelogin/result";
+  //
+  //   try {
+  //     final response = await http.post(Uri.parse(_url),
+  //         // headers: {
+  //         //   "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+  //         // },
+  //         body: params);
+  //     String toast;
+  //     if (response.statusCode == 200) {
+  //       toast = "登录成功";
+  //       debugPrint("Validate success. response: " + response.body);
+  //     } else {
+  //       toast = "登录失败：${response.statusCode}";
+  //       debugPrint("Validate failed. response status: ${response.statusCode}");
+  //     }
+  //     oneLoginPlugin.dismissAuthView();
+  //     Fluttertoast.showToast(
+  //         msg: toast,
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.CENTER,
+  //         timeInSecForIosWeb: 1,
+  //         backgroundColor: Colors.white10,
+  //         textColor: Colors.black87,
+  //         fontSize: 16.0);
+  //   } on SocketException {
+  //     // 未联网时无法完成二次验证，在此处理无网络时的逻辑
+  //     debugPrint("No Internet Connection");
+  //     oneLoginPlugin.dismissAuthView();
+  //   }
   }
 }
