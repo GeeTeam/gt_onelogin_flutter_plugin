@@ -7,6 +7,7 @@
 
 import Foundation
 import OneLoginSDK
+import UIKit
 
 
 class OLUIConfigure{
@@ -100,7 +101,7 @@ class OLUIConfigure{
       //[正常状态的背景图片, 不可用状态的背景图片, 高亮状态的背景图片],iOS数组最多为3，Android最多为2
     var authButtonImages:[String]?;
       //授权按钮的size 位置
-    var authButtonRect:CGRect;
+    var authButtonRect:CGRect?;
       //Only for iOS 授权按钮圆角
     var authButtonCornerRadius:Double?;
 //      //授权按钮文字
@@ -110,6 +111,63 @@ class OLUIConfigure{
 //      //授权按钮字体大小
 //    var authzBtnTextSize:int? ;
     var authBtnAttString:NSAttributedString?
+    
+    ///--------------SLogan----------------
+      // Only for iOS slogan 文案
+    var sloganText:String?;
+      // slogan文字颜色
+    var sloganColor:UIColor? ;
+      // slogan字体大小
+    var sloganSize:Int?;
+      //slogan size 位置
+    var sloganRect:CGRect?;
+    
+    ///--------------隐私条款----------------
+      //隐私条款 位置及大小
+    var termsRect:CGRect?;
+      //隐私条款基础文字颜色
+    var termTextColor:UIColor?;
+      //隐私条款文本：隐私条款协议文字颜色
+//    var termsClauseColor:UIColor?;
+//      //隐私条款文本：隐私条款字体大小
+//    var termsClauseTextSize:Int?;
+//      //隐私条款文本：隐私条款文字行间距
+//    var termsLineSpacingExtra:Double?;
+//      //隐私条款文本：隐私条款文字行间距的倍数
+//    var termsLineSpacingMultiplier:Int?;
+    var termsClauseAttributes:[NSAttributedString.Key:Any]?
+      //隐私条款文本：隐私条款名称是否显示书名号
+    var termsBookTitleMarkHidden:Bool?;
+      //未同意隐私条款的提示文字
+    var termsUncheckedToastText:String?;
+      //服务条款文案对齐方式
+    var termsAlignmentIOS:Int?;
+//      int? termsAlignmentAndroid;
+      //隐私条款对象数组
+    var terms:[OLPrivacyTermItem]?;
+      //除隐私条款外的其他文案,连接字符串
+    var auxiliaryPrivacyWords:[String]?;
+
+      //隐私条款CheckBox：未选中下按钮的图片地址
+    var uncheckedImage:UIImage?;
+      //隐私条款CheckBox：选中下按钮的图片地址
+    var  checkedImage:UIImage?;
+      //隐私条款CheckBox：选择框是否默认勾选
+    var defaultCheckBoxState:Bool?;
+      //隐私条款CheckBox size及位置
+    var checkBoxRect:CGRect?;
+
+      //Only for iOS 服务条款页面导航栏是否隐藏
+    var webNaviHidden:Bool?
+      //Only for iOS 服务条款页面导航的背景颜色
+    var webNaviBgColor:UIColor?;
+      //隐私条款页面标题栏文字
+//    var navWebViewText:String?;
+//      //隐私条款页面标题栏字体颜色
+//    var navWebViewTextColor:UIColor?;
+//      //隐私条款页面标题栏字体大小
+//    var navWebViewTextSize:Int?;
+    var navWebViewAttString : NSAttributedString?
 
     init(dict:[String:Any]) {
         if let orientationsIndex = dict[OLConstant.supportedinterfaceOrientations] as? UInt  {
@@ -130,7 +188,7 @@ class OLUIConfigure{
         }
         self.navigationBarColor = parseColor(dict: dict, key: OLConstant.navigationBarColor)
         self.navHidden = parseBool(dict: dict, key: OLConstant.navHidden)
-        self.navAttributedString = NSAttributedString.textFontColorString(color: dict[OLConstant.navTextColor] as? UIColor, font: dict[OLConstant.navTextSize] as? Int, text: (dict[OLConstant.navText] as! String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.navAttributedString = NSAttributedString.textFontColorString(color: dict[OLConstant.navTextColor] as? UIColor, font: dict[OLConstant.navTextSize] as? Int, text: (dict[OLConstant.navText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
         self.navBackImage = parseIntoAssetsImage(dict: dict, key: OLConstant.navBackImage)
         self.navBackImageRect = parseRect(dict: dict, key: OLConstant.navBackImageRect)
         self.navBackImageHidden = parseBool(dict: dict, key: OLConstant.navBackImageHidden)
@@ -141,15 +199,34 @@ class OLUIConfigure{
         self.numberColor = parseColor(dict: dict, key: OLConstant.numberColor)
         self.numberSize = parseInt(dict: dict, key: OLConstant.numberSize)
         self.numberRect = parseRect(dict: dict, key: OLConstant.numberRect)
-        self.switchButtonText = dict[OLConstant.switchButtonText] as? String
+        self.switchButtonText = parseString(dict: dict, key: OLConstant.switchButtonText)
         self.switchTextSize = parseInt(dict: dict, key: OLConstant.switchTextSize)
         self.switchButtonColor = parseColor(dict: dict, key: OLConstant.switchButtonColor)
         self.switchButtonHidden = parseBool(dict: dict, key: OLConstant.switchButtonHidden)
         self.switchButtonRect = parseRect(dict: dict, key: OLConstant.switchButtonRect)
-        self.authButtonImages = dict[OLConstant.authButtonImages] as? String
+        self.authButtonImages = dict[OLConstant.authButtonImages] as? [String]
         self.authButtonRect = parseRect(dict: dict, key: OLConstant.authButtonRect)
         self.authButtonCornerRadius = parseDouble(dict: dict, key: OLConstant.authButtonCornerRadius)
-        self.authBtnAttString = NSAttributedString.textFontColorString(color: dict[OLConstant.authzBtnColor] as? UIColor, font: dict[OLConstant.authzBtnColor] as? Int, text: (dict[OLConstant.authzBtnText] as! String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.authBtnAttString = NSAttributedString.textFontColorString(color: dict[OLConstant.authzBtnColor] as? UIColor, font: dict[OLConstant.authzBtnColor] as? Int, text: (dict[OLConstant.authzBtnText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.sloganText = parseString(dict: dict, key: OLConstant.sloganText)
+        self.sloganSize = parseInt(dict: dict, key: OLConstant.sloganSize)
+        self.sloganColor = parseColor(dict: dict, key: OLConstant.sloganColor)
+        self.sloganRect = parseRect(dict: dict, key: OLConstant.sloganRect)
+        self.termsRect = parseRect(dict: dict, key: OLConstant.termsRect)
+        self.termsClauseAttributes = parseAttributes(dict: dict, colorKey: OLConstant.termsClauseColor, OLConstant.termsClauseTextSize, OLConstant.termsLineSpacingExtra, OLConstant.termsLineSpacingMultiplier)
+        self.termsBookTitleMarkHidden = parseBool(dict: dict, key: OLConstant.termsBookTitleMarkHidden)
+        self.termsUncheckedToastText = parseString(dict: dict, key: OLConstant.termsUncheckedToastText)
+        self.termsAlignmentIOS = parseInt(dict: dict, key: OLConstant.termsAlignmentIOS)
+        self.terms = parsePrivacyTermItem(dict: dict, key: OLConstant.terms)
+        self.auxiliaryPrivacyWords = dict[OLConstant.auxiliaryPrivacyWords] as? [String]
+        self.uncheckedImage = parseIntoAssetsImage(dict: dict, key: OLConstant.uncheckedImage)
+        self.checkedImage = parseIntoAssetsImage(dict: dict, key: OLConstant.checkedImage)
+        self.defaultCheckBoxState = parseBool(dict: dict, key: OLConstant.defaultCheckBoxState)
+        self.checkBoxRect = parseRect(dict: dict, key: OLConstant.checkBoxRect)
+        self.webNaviHidden = parseBool(dict: dict, key: OLConstant.webNaviHidden)
+        self.webNaviBgColor = parseColor(dict: dict, key: OLConstant.webNaviBgColor)
+        self.navWebViewAttString = NSAttributedString.textFontColorString(color: dict[OLConstant.navWebViewTextColor] as? UIColor, font: dict[OLConstant.navWebViewTextSize] as? Int, text: (dict[OLConstant.navWebViewText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        
     }
     
     
@@ -217,6 +294,45 @@ extension OLUIConfigure{
             authViewModel.switchButtonFont = UIFont.systemFont(ofSize: CGFloat(switchTextSize))
         }
         authViewModel.authButtonTitle = authBtnAttString
+        authViewModel.sloganText = sloganText
+        if let sloganColor = sloganColor {
+            authViewModel.sloganTextColor = sloganColor
+        }
+        if let sloganTextFont = sloganSize  {
+            authViewModel.sloganTextFont = UIFont.systemFont(ofSize: CGFloat(sloganTextFont))
+        }
+        if let sloganRect = sloganRect {
+            authViewModel.sloganRect = sloganRect.olRect()
+        }
+        if let termsRect = termsRect {
+            authViewModel.termsRect = termsRect.olRect()
+        }
+        authViewModel.privacyTermsAttributes = termsClauseAttributes
+        if let termsBookTitleMarkHidden = termsBookTitleMarkHidden {
+            authViewModel.hasQuotationMarkOnCarrierProtocol = termsBookTitleMarkHidden
+        }
+        authViewModel.notCheckProtocolHint = termsUncheckedToastText
+        if let alignInt = termsAlignmentIOS,let align = NSTextAlignment(rawValue: alignInt) {
+            authViewModel.termsAlignment = align
+        }
+        authViewModel.additionalPrivacyTerms = terms
+        authViewModel.auxiliaryPrivacyWords = auxiliaryPrivacyWords
+        authViewModel.uncheckedImage = uncheckedImage
+        authViewModel.checkedImage = checkedImage
+        if let defaultCheckBoxState = defaultCheckBoxState {
+            authViewModel.defaultCheckBoxState = defaultCheckBoxState
+        }
+        if let checkBoxRect = checkBoxRect  {
+            authViewModel.termsRect = checkBoxRect.olRect()
+        }
+        if let webNaviHidden = webNaviHidden {
+            authViewModel.webNaviHidden = webNaviHidden
+        }
+        if let webNaviBgColor = webNaviBgColor {
+            authViewModel.webNaviBgColor = webNaviBgColor
+        }
+        authViewModel.webNaviTitle = navWebViewAttString
+        
         
         
         return authViewModel
@@ -226,7 +342,7 @@ extension OLUIConfigure{
 
 extension OLUIConfigure{
     func parseBool(dict:[String:Any],key:String) -> Bool?{
-        return dict[OLConstant.navHidden] as? Bool
+        return dict[key] as? Bool
     }
     
     func parseDouble(dict:[String:Any],key:String) -> Double?{
@@ -241,6 +357,31 @@ extension OLUIConfigure{
             return UIColor(hexString: colorString)
         }
         return nil
+    }
+    
+    func parseString(dict:[String:Any],key:String) -> String?{
+        return dict[key] as? String
+    }
+    
+    func parseAttributes(dict:[String:Any],colorKey:String?,_ textSizeKey:String?,_ lineSpacingKey:String?,_ lineSpacingMultiplierKey:String?)-> [NSAttributedString.Key:Any]?{
+        var attributes : [NSAttributedString.Key:Any] = [:]
+        if let key = colorKey,let color = parseColor(dict: dict, key: key) {
+            attributes[NSAttributedString.Key.foregroundColor] = color
+        }
+        if let  key = textSizeKey,let textSize = parseInt(dict: dict, key: key) {
+            attributes[NSAttributedString.Key.font] = UIFont.systemFont(ofSize:CGFloat(textSize))
+        }
+        if lineSpacingKey != nil || lineSpacingMultiplierKey != nil {
+            let paragraphStyle = NSMutableParagraphStyle()
+            if let key = lineSpacingKey,let lineSpacing = parseDouble(dict: dict, key: key) {
+                paragraphStyle.lineSpacing = lineSpacing
+            }
+            if let key = lineSpacingMultiplierKey,let lineSpacingMultiplier = parseDouble(dict: dict, key: key) {
+                paragraphStyle.lineHeightMultiple = lineSpacingMultiplier
+            }
+            attributes[NSAttributedString.Key.paragraphStyle] = paragraphStyle
+        }
+        return attributes.isEmpty ? nil : attributes
     }
     
     func parseIntoAssetsImage(dict:[String:Any],key:String) -> UIImage?{
@@ -276,6 +417,20 @@ extension OLUIConfigure{
             return CGRect(x: x, y: y, width: width, height: height)
         }
         return CGRect.zero
+    }
+    
+    func parsePrivacyTermItem(dict:[String:Any],key:String) -> [OLPrivacyTermItem]?{
+        if let privacyTerms = dict[key] as? [[String:String]],!privacyTerms.isEmpty {
+            return privacyTerms.compactMap { item -> OLPrivacyTermItem? in
+                guard let title = item[OLConstant.termsItemTitle],!title.isEmpty,
+                      let urlString = item[OLConstant.termsItemUrl],!urlString.isEmpty,
+                      let url = URL(string: urlString) else {
+                    return nil
+                }
+                return OLPrivacyTermItem(title: title, linkURL: url)
+            }
+        }
+        return nil
     }
 }
 

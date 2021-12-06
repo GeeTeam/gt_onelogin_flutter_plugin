@@ -65,6 +65,6 @@ extension NSAttributedString{
 
 extension CGRect{
     func olRect() -> OLRect{
-        return OLRect(portraitTopYOffset: origin.y, portraitCenterXOffset: origin.y, portraitLeftXOffset: origin.y, landscapeTopYOffset: origin.x, landscapeCenterXOffset:  origin.x, landscapeLeftXOffset:  origin.x, size: size)
+        return OLRect(portraitTopYOffset: origin.y, portraitCenterXOffset: origin.x, portraitLeftXOffset: 0, landscapeTopYOffset: origin.y, landscapeCenterXOffset:  0, landscapeLeftXOffset:  origin.x, size: size)
     }
 }

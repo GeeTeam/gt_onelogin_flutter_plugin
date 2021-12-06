@@ -25,6 +25,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final GtOneloginFlutterPlugin oneLoginPlugin = GtOneloginFlutterPlugin();
 
+  //是否是弹窗模式
+  bool _isDialog = false;
+
+  //是否自定义授权页面UI
+  bool _isCustomUI = false;
+
   @override
   void initState() {
     super.initState();
@@ -41,26 +47,26 @@ class _MyAppState extends State<MyApp> {
     }
     oneLoginPlugin.init(appId);
 
-    oneLoginPlugin.addEventListener(
-        onBackButtonClick,
-        onAuthButtonClick,
-        onSwitchButtonClick,
-        onTermItemClick,
-        onTermCheckBoxClick);
+    oneLoginPlugin.addEventListener(onBackButtonClick, onAuthButtonClick,
+        onSwitchButtonClick, onTermItemClick, onTermCheckBoxClick);
   }
 
   void onBackButtonClick(Map<String, dynamic>? message) async {
     debugPrint(tag + "onBackButtonClick");
   }
+
   void onAuthButtonClick(Map<String, dynamic>? message) async {
     debugPrint(tag + "onAuthButtonClick");
   }
+
   void onSwitchButtonClick(Map<String, dynamic>? message) async {
     debugPrint(tag + "onSwitchButtonClick");
   }
+
   void onTermItemClick(Map<String, dynamic>? message) async {
     debugPrint(tag + "onTermItemClick");
   }
+
   void onTermCheckBoxClick(Map<String, dynamic>? message) async {
     debugPrint(tag + "onTermCheckBoxClick");
   }
@@ -70,18 +76,35 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('GTOneLoginFlutter example app'),
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Welcome to Geetest OneLogin\n'),
               TextButton(
                   onPressed: () {
                     requestToken();
                   },
                   child: const Text("OneLogin start")),
+              const SizedBox(height: 50,),
+              SwitchListTile(
+                  title: const Text("是否弹窗模式"),
+                  value: _isDialog,
+                  onChanged: (isOn) {
+                    setState(() {
+                      _isDialog = isOn;
+                    });
+                  }),
+              const SizedBox(height: 50,),
+              SwitchListTile(
+                  title: const Text("是否自定义UI"),
+                  value: _isCustomUI,
+                  onChanged: (isOn) {
+                    setState(() {
+                      _isCustomUI = isOn;
+                    });
+                  }),
             ],
           ),
         ),
@@ -91,12 +114,9 @@ class _MyAppState extends State<MyApp> {
 
   //拉起授权页
   requestToken() {
-    var configure = OLUIConfigure();
-    configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
-    configure.isDialogStyle = true;
-    configure.dialogCornersRadius = 40;
-    configure.backgroundColor = Colors.orange;
-    oneLoginPlugin.requestToken(configure).then((result) async {
+    oneLoginPlugin
+        .requestToken(_isCustomUI ? _getOLUIConfigure() : null)
+        .then((result) async {
       debugPrint(result.toString());
       int status = result["status"];
       if (status == 200) {
@@ -110,6 +130,30 @@ class _MyAppState extends State<MyApp> {
         oneLoginPlugin.dismissAuthView();
       }
     });
+  }
+
+  OLUIConfigure _getOLUIConfigure() {
+    var configure = OLUIConfigure();
+    configure.isDialogStyle = _isDialog;
+    // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
+    configure.dialogCornersRadius = 40;
+    configure.backgroundColor = Colors.orange;
+    configure.webNaviBgColor = Colors.purpleAccent;
+    configure.logoImage = "onelogin";
+    // configure.logoImageRect = OLRect(width: 200,height: 150,x: 0,y: 20);
+    configure.terms = [
+      OLTermsPrivacyItem("测试标题1", "http://www.baidu.com"),
+      OLTermsPrivacyItem("哈哈哈哈2", "https://www.geetest.com")
+    ];
+    configure.auxiliaryPrivacyWords = [
+      "句首",
+      "第一个链接词",
+      "第二个链接词",
+      "第三个链接词",
+      "句尾"
+    ];
+    debugPrint("configure:${configure.toMap()}");
+    return configure;
   }
 
   //一键登录校验token
@@ -141,8 +185,7 @@ class _MyAppState extends State<MyApp> {
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.white10,
           textColor: Colors.black87,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
     } on SocketException {
       // 未联网时无法完成二次验证，在此处理无网络时的逻辑
       debugPrint("No Internet Connection");

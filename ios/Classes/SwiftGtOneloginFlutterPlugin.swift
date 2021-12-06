@@ -14,7 +14,7 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-      print("\(call.method):\(String(describing: call.arguments))")
+      print(iosLog+":\(call.method):\(String(describing: call.arguments))")
       switch call.method {
       case OLConstant.`init`:
           setup(call: call, result: result)
@@ -61,7 +61,7 @@ extension SwiftGtOneloginFlutterPlugin{
                 result(dict)
                 return
             }
-            result(nil)
+//            result(nil)
         }
     }
     

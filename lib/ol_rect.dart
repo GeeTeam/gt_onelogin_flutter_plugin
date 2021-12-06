@@ -8,12 +8,12 @@ class OLRect{
 
   OLRect({this.height,this.width,this.x,this.y});
 
-  toMap(){
+  Map<String,dynamic> toMap(){
     return {
       _OLConstant.rectWidth:width,
       _OLConstant.rectHeight:height,
       _OLConstant.rectX:x,
       _OLConstant.rectY:y
-    };
+    }..removeWhere((key, value) => value == null);
   }
 }
