@@ -91,11 +91,11 @@ class OLUIConfigure{
   //Only for iOS 授权按钮圆角
   double? authButtonCornerRadius;
   //授权按钮文字
-  String? authzBtnText;
+  String? authBtnText;
   //授权按钮文字颜色
-  Color? authzBtnColor;
+  Color? authBtnColor;
   //授权按钮字体大小
-  int? authzBtnTextSize;
+  int? authBtnTextSize;
 
   ///--------------SLogan----------------
   // Only for iOS slogan 文案
@@ -198,9 +198,9 @@ class OLUIConfigure{
       _OLConstant.authButtonImages :authButtonImages,
       _OLConstant. authButtonRect :authButtonRect?.toMap(),
       _OLConstant. authButtonCornerRadius :authButtonCornerRadius,
-      _OLConstant. authzBtnText :authzBtnText,
-      _OLConstant.authzBtnColor :authzBtnColor?.hexString,
-      _OLConstant.authzBtnTextSize :authzBtnTextSize,
+      _OLConstant. authzBtnText :authBtnText,
+      _OLConstant.authzBtnColor :authBtnColor?.hexString,
+      _OLConstant.authzBtnTextSize :authBtnTextSize,
       _OLConstant. sloganText :sloganText,
       _OLConstant.sloganColor :sloganColor?.hexString,
       _OLConstant.sloganSize :sloganSize,

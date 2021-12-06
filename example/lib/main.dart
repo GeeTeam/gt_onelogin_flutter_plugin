@@ -117,14 +117,15 @@ class _MyAppState extends State<MyApp> {
     oneLoginPlugin
         .requestToken(_isCustomUI ? _getOLUIConfigure() : null)
         .then((result) async {
+          debugPrint("oneLoginPlugin then $result");
       debugPrint(result.toString());
       int status = result["status"];
       if (status == 200) {
-        Map<String, String> params = HashMap();
-        params["process_id"] = result["process_id"];
+        Map<String, dynamic> params = {};
+        params["process_id"] = result["processID"];
         params["token"] = result["token"];
         params["authcode"] = result["authcode"];
-        params["id_2_sign"] = result["app_id"];
+        params["id_2_sign"] = result["appID"];
         await verifyToken(params);
       } else {
         oneLoginPlugin.dismissAuthView();
@@ -135,32 +136,41 @@ class _MyAppState extends State<MyApp> {
   OLUIConfigure _getOLUIConfigure() {
     var configure = OLUIConfigure();
     configure.isDialogStyle = _isDialog;
+    configure.dialogRect =OLRect(y: 0);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
-    configure.dialogCornersRadius = 40;
-    configure.backgroundColor = Colors.orange;
-    configure.webNaviBgColor = Colors.purpleAccent;
+    configure.dialogCornersRadius = 20;
+    configure.navigationBarColor = Colors.green;
     configure.logoImage = "onelogin";
-    // configure.logoImageRect = OLRect(width: 200,height: 150,x: 0,y: 20);
+    configure.navText = "一键登录";
+    configure.switchButtonText = "自定义切换按钮文案";
+    configure.switchButtonColor = Colors.brown;
+    configure.authBtnText = "授权登录";
+    configure.authBtnColor = Colors.blueAccent;
+    configure.sloganText = "极验提供统一认证服务";
+    configure.termsClauseColor = Colors.orange;
+    configure.termTextColor = Colors.purple;
+
     configure.terms = [
-      OLTermsPrivacyItem("测试标题1", "http://www.baidu.com"),
-      OLTermsPrivacyItem("哈哈哈哈2", "https://www.geetest.com")
+      OLTermsPrivacyItem("自定义服务条款1", "http://www.baidu.com"),
+      OLTermsPrivacyItem("自定义服务条款2", "https://www.geetest.com"),
+      OLTermsPrivacyItem("自定义服务条款3", "https://www.geetest.com")
     ];
     configure.auxiliaryPrivacyWords = [
-      "句首",
-      "第一个链接词",
-      "第二个链接词",
-      "第三个链接词",
-      "句尾"
+      "条款前文案",
+      "&",
+      "%",
+      "~",
+      "条款后的文案"
     ];
     debugPrint("configure:${configure.toMap()}");
     return configure;
   }
 
   //一键登录校验token
-  Future<dynamic> verifyToken(Map<String, String> params) async {
-    params.forEach((key, value) {
-      debugPrint("$key : $value");
-    });
+  Future<dynamic> verifyToken(Map<String, dynamic> params) async {
+    // params.forEach((key, value) {
+    //   debugPrint("$key : $value");
+    // });
     String _url = "https://onepass.geetest.com/onelogin/result";
 
     try {
