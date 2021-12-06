@@ -124,8 +124,10 @@ class _MyAppState extends State<MyApp> {
         Map<String, dynamic> params = {};
         params["process_id"] = result["processID"];
         params["token"] = result["token"];
-        params["authcode"] = result["authcode"];
         params["id_2_sign"] = result["appID"];
+        if (result["authcode"] != null){
+          params["authcode"] = result["authcode"];
+        }
         await verifyToken(params);
       } else {
         oneLoginPlugin.dismissAuthView();
