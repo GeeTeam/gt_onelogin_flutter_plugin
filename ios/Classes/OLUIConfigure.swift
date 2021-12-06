@@ -323,7 +323,7 @@ extension OLUIConfigure{
             authViewModel.defaultCheckBoxState = defaultCheckBoxState
         }
         if let checkBoxRect = checkBoxRect  {
-            authViewModel.termsRect = checkBoxRect.olRect()
+            authViewModel.checkBoxRect = checkBoxRect.olRect()
         }
         if let webNaviHidden = webNaviHidden {
             authViewModel.webNaviHidden = webNaviHidden
