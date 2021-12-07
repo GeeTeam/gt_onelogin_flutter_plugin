@@ -32,6 +32,8 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
           isProtocolCheckboxChecked(call: call, result: result)
       case OLConstant.isReady:
           isReady(call: call, result: result)
+      case  OLConstant.destroy:
+          result(true)
       default:
           result(FlutterMethodNotImplemented)
       }
