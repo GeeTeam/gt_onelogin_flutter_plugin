@@ -193,36 +193,5 @@ class _MyAppState extends State<MyApp> {
         textColor: Colors.black87,
         fontSize: 16.0);
     return;
-
-    //   String _url = "http://onepass.geetest.com/onelogin/result";
-    //
-    //   try {
-    //     final response = await http.post(Uri.parse(_url),
-    //         // headers: {
-    //         //   "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-    //         // },
-    //         body: params);
-    //     String toast;
-    //     if (response.statusCode == 200) {
-    //       toast = "登录成功";
-    //       debugPrint("Validate success. response: " + response.body);
-    //     } else {
-    //       toast = "登录失败：${response.statusCode}";
-    //       debugPrint("Validate failed. response status: ${response.statusCode}");
-    //     }
-    //     oneLoginPlugin.dismissAuthView();
-    //     Fluttertoast.showToast(
-    //         msg: toast,
-    //         toastLength: Toast.LENGTH_SHORT,
-    //         gravity: ToastGravity.CENTER,
-    //         timeInSecForIosWeb: 1,
-    //         backgroundColor: Colors.white10,
-    //         textColor: Colors.black87,
-    //         fontSize: 16.0);
-    //   } on SocketException {
-    //     // 未联网时无法完成二次验证，在此处理无网络时的逻辑
-    //     debugPrint("No Internet Connection");
-    //     oneLoginPlugin.dismissAuthView();
-    //   }
   }
 }

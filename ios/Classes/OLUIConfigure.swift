@@ -362,6 +362,8 @@ extension OLUIConfigure{
     
 }
 
+
+//数据解析
 extension OLUIConfigure{
     func parseBool(dict:[String:Any],key:String) -> Bool?{
         return dict[key] as? Bool

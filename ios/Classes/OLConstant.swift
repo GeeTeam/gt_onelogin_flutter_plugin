@@ -128,11 +128,11 @@ struct OLConstant{
     //Only for iOS 授权按钮圆角
     static let authButtonCornerRadius = "\(methodParameters)/authButtonCornerRadius";
     //授权按钮文字
-    static let authzBtnText = "\(methodParameters)/authzBtnText";
+    static let authBtnText = "\(methodParameters)/authBtnText";
     //授权按钮文字颜色
-    static let authzBtnColor = "\(methodParameters)/authzBtnColor";
+    static let authBtnColor = "\(methodParameters)/authBtnColor";
     //授权按钮字体大小
-    static let  authzBtnTextSize = "\(methodParameters)/authzBtnTextSize";
+    static let  authBtnTextSize = "\(methodParameters)/authBtnTextSize";
     ///--------------SLogan----------------
     // Only for iOS slogan 文案
     static let sloganText = "\(methodParameters)/sloganText";
