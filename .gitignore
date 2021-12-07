@@ -207,3 +207,5 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio,xcode,visualstudiocode,cocoapods
+
+pubspec.lock

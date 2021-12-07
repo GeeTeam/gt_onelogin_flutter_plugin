@@ -38,8 +38,8 @@ class _OLConstant{
   static const rectX      = "$methodParameters/rectX";
   static const rectY      = "$methodParameters/rectY";
   
- //  UI配置参数
- //Only for iOS 授权页面支持的横竖屏方向
+  ///  UI配置参数
+  //Only for iOS 授权页面支持的横竖屏方向
   static const supportedinterfaceOrientations = "$methodParameters/supportedinterfaceOrientations";
   //Only for iOS 授权页面界面样式
   static const userinterfaceStyle = "$methodParameters/userinterfaceStyle";
@@ -50,6 +50,8 @@ class _OLConstant{
   static const dialogRect = "$methodParameters/dialogRect";
   //弹窗圆角
   static const dialogCornersRadius = "$methodParameters/dialogCornersRadius";
+  //服务条款页面是否使用弹窗样式
+  static const isWebDialogStyle = "$methodParameters/isWebDialogStyle";
   ///--------------背景----------------
   //设置背景图片
   static const authViewBackgroundImage = "$methodParameters/authViewBackgroundImage";
@@ -60,7 +62,10 @@ class _OLConstant{
   static const statusBarBgColor = "$methodParameters/statusBarBgColor";
   //状态栏样式
   static const statusBarStyle = "$methodParameters/statusBarStyle";
-  ///--------------标题栏，虚拟按键----------------
+  ///--------------系统虚拟按键----------------
+  //Only for Android
+  static const systemNavBarBgColor = "$methodParameters/systemNavBarBgColor";
+  ///--------------标题栏----------------
   //标题栏：颜色
   static const navigationBarColor = "$methodParameters/navigationBarColor";
   //Only for Android 标题栏：高度
@@ -120,11 +125,11 @@ class _OLConstant{
   //Only for iOS 授权按钮圆角
   static const authButtonCornerRadius = "$methodParameters/authButtonCornerRadius";
   //授权按钮文字
-  static const authzBtnText = "$methodParameters/authzBtnText";
+  static const authBtnText = "$methodParameters/authBtnText";
   //授权按钮文字颜色
-  static const authzBtnColor = "$methodParameters/authzBtnColor";
+  static const authBtnColor = "$methodParameters/authBtnColor";
   //授权按钮字体大小
-  static const  authzBtnTextSize = "$methodParameters/authzBtnTextSize";
+  static const  authBtnTextSize = "$methodParameters/authBtnTextSize";
   ///--------------SLogan----------------
   // Only for iOS slogan 文案
   static const sloganText = "$methodParameters/sloganText";
@@ -140,7 +145,7 @@ class _OLConstant{
   //隐私条款 位置及大小
   static const termsRect = "$methodParameters/termsRect";
   //Only for Android Slogan 隐私条款相对于底部 y 偏移
-  static const termsaOffsetBottom = "$methodParameters/termsaOffsetBottom";
+  static const termsOffsetBottom = "$methodParameters/termsOffsetBottom";
   //Only for Android Slogan  是否跳转到默认的隐私条款页面
   static const isUseNormalWebActivity = "$methodParameters/isUseNormalWebActivity";
   //Only for Android Slogan  隐私条款选择框和文本的对齐方式

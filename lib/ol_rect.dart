@@ -6,7 +6,7 @@ class OLRect{
   double? x;
   double? y;
 
-  OLRect({this.height,this.width,this.x,this.y});
+  OLRect({this.width,this.height,this.x,this.y});
 
   Map<String,dynamic> toMap(){
     return {
