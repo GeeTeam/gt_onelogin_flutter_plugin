@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 
-part 'ol_common.dart';
+part 'ol_constant.dart';
 part 'onelogin.dart';
 part 'ol_enum.dart';
 part 'ol_rect.dart';
