@@ -23,7 +23,7 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
       case OLConstant.dismissAuthView:
           dismissAuthView(call: call, result: result)
       case OLConstant.setLogEnable:
-          setup(call: call, result: result)
+          setLogEnable(call: call, result: result)
       case OLConstant.carrier:
           getCurrentCarrier(call: call, result: result)
       case OLConstant.sdkVersion:
@@ -48,6 +48,9 @@ extension SwiftGtOneloginFlutterPlugin{
             return
         }
         OneLoginPro.register(withAppID: appId)
+        OneLogin.preGetToken(completion: { _ in
+            
+        })
         result(true)
     }
     

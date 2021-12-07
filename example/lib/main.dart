@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -11,7 +10,11 @@ const getPhoneUrl = "http://onepass.geetest.com/onelogin/result";
 const String tag = "| Geetest | Example | ";
 
 void main() {
-  runApp(const MyApp());
+  runApp( MaterialApp(
+    title: "GTOneLoginPlugin demo",
+    theme:  ThemeData(primaryColor: Colors.white),
+    home: const MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -65,40 +68,42 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('GTOneLoginFlutter example app'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                  onPressed: () {
-                    requestToken();
-                  },
-                  child: const Text("OneLogin start")),
-              const SizedBox(height: 50,),
-              SwitchListTile(
-                  title: const Text("是否弹窗模式"),
-                  value: _isDialog,
-                  onChanged: (isOn) {
-                    setState(() {
-                      _isDialog = isOn;
-                    });
-                  }),
-              const SizedBox(height: 50,),
-              SwitchListTile(
-                  title: const Text("是否自定义UI"),
-                  value: _isCustomUI,
-                  onChanged: (isOn) {
-                    setState(() {
-                      _isCustomUI = isOn;
-                    });
-                  }),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('GTOneLoginFlutter example app'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+                onPressed: () {
+                  requestToken();
+                },
+                child: const Text("OneLogin start")),
+            const SizedBox(
+              height: 50,
+            ),
+            SwitchListTile(
+                title: const Text("是否弹窗模式"),
+                value: _isDialog,
+                onChanged: (isOn) {
+                  setState(() {
+                    _isDialog = isOn;
+                  });
+                }),
+            const SizedBox(
+              height: 50,
+            ),
+            SwitchListTile(
+                title: const Text("是否自定义UI"),
+                value: _isCustomUI,
+                onChanged: (isOn) {
+                  setState(() {
+                    _isCustomUI = isOn;
+                  });
+                }),
+          ],
         ),
       ),
     );
@@ -109,19 +114,17 @@ class _MyAppState extends State<MyApp> {
     oneLoginPlugin
         .requestToken(_isCustomUI ? _getOLUIConfigure() : null)
         .then((result) async {
-          debugPrint("oneLoginPlugin then $result");
+      debugPrint("oneLoginPlugin then $result");
       int status = result["status"];
       if (status == 200) {
         Map<String, dynamic> params = {};
         params["process_id"] = result["process_id"];
         params["token"] = result["token"];
         params["id_2_sign"] = result["app_id"];
-        if (result["authcode"] != null){
+        if (result["authcode"] != null) {
           params["authcode"] = result["authcode"];
         }
         await verifyToken(params);
-
-
       } else {
         oneLoginPlugin.dismissAuthView();
       }
@@ -130,8 +133,11 @@ class _MyAppState extends State<MyApp> {
 
   OLUIConfigure _getOLUIConfigure() {
     var configure = OLUIConfigure();
+    var screenSize = MediaQuery.of(context).size;
+    debugPrint("屏幕高度：$screenSize");
+
     configure.isDialogStyle = _isDialog;
-    configure.dialogRect =OLRect(y: 0);
+    configure.dialogRect = OLRect(y: (screenSize.height-500)/2,x:(screenSize.width-300)/2,height: 500,width: 300);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.dialogCornersRadius = 20;
     configure.navigationBarColor = Colors.green;
@@ -139,24 +145,22 @@ class _MyAppState extends State<MyApp> {
     configure.navText = "一键登录";
     configure.switchButtonText = "自定义切换按钮文案";
     configure.switchButtonColor = Colors.brown;
+    configure.authButtonRect = OLRect(width: 200);
+    configure.authBtnColor = Colors.yellow;
     configure.authBtnText = "授权登录";
     configure.authBtnColor = Colors.blueAccent;
     configure.sloganText = "极验提供统一认证服务";
     configure.termsClauseColor = Colors.orange;
     configure.termTextColor = Colors.purple;
+    configure.checkBoxRect = OLRect(width: 20,height: 30);
+    configure.termsRect = OLRect(x: 50);
 
     configure.terms = [
       OLTermsPrivacyItem("自定义服务条款1", "http://www.baidu.com"),
       OLTermsPrivacyItem("自定义服务条款2", "https://www.geetest.com"),
       OLTermsPrivacyItem("自定义服务条款3", "https://www.geetest.com")
     ];
-    configure.auxiliaryPrivacyWords = [
-      "条款前文案",
-      "&",
-      "%",
-      "~",
-      "条款后的文案"
-    ];
+    configure.auxiliaryPrivacyWords = ["条款前文案", "&", "%", "~", "条款后的文案"];
     debugPrint("configure:${configure.toMap()}");
     return configure;
   }
@@ -169,9 +173,10 @@ class _MyAppState extends State<MyApp> {
       receiveTimeout: 3000,
     );
     Dio dio = Dio(options);
-    final response = await dio.post<Map<String, dynamic>>("/onelogin/result",data: params);
+    final response =
+        await dio.post<Map<String, dynamic>>("/onelogin/result", data: params);
     String toast = "登录失败";
-    if (response.statusCode == 200 ) {
+    if (response.statusCode == 200) {
       var result = response.data;
       debugPrint(response.data.toString());
       if (result != null && result["status"] == 200) {
@@ -189,36 +194,35 @@ class _MyAppState extends State<MyApp> {
         fontSize: 16.0);
     return;
 
-
-  //   String _url = "http://onepass.geetest.com/onelogin/result";
-  //
-  //   try {
-  //     final response = await http.post(Uri.parse(_url),
-  //         // headers: {
-  //         //   "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-  //         // },
-  //         body: params);
-  //     String toast;
-  //     if (response.statusCode == 200) {
-  //       toast = "登录成功";
-  //       debugPrint("Validate success. response: " + response.body);
-  //     } else {
-  //       toast = "登录失败：${response.statusCode}";
-  //       debugPrint("Validate failed. response status: ${response.statusCode}");
-  //     }
-  //     oneLoginPlugin.dismissAuthView();
-  //     Fluttertoast.showToast(
-  //         msg: toast,
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.CENTER,
-  //         timeInSecForIosWeb: 1,
-  //         backgroundColor: Colors.white10,
-  //         textColor: Colors.black87,
-  //         fontSize: 16.0);
-  //   } on SocketException {
-  //     // 未联网时无法完成二次验证，在此处理无网络时的逻辑
-  //     debugPrint("No Internet Connection");
-  //     oneLoginPlugin.dismissAuthView();
-  //   }
+    //   String _url = "http://onepass.geetest.com/onelogin/result";
+    //
+    //   try {
+    //     final response = await http.post(Uri.parse(_url),
+    //         // headers: {
+    //         //   "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    //         // },
+    //         body: params);
+    //     String toast;
+    //     if (response.statusCode == 200) {
+    //       toast = "登录成功";
+    //       debugPrint("Validate success. response: " + response.body);
+    //     } else {
+    //       toast = "登录失败：${response.statusCode}";
+    //       debugPrint("Validate failed. response status: ${response.statusCode}");
+    //     }
+    //     oneLoginPlugin.dismissAuthView();
+    //     Fluttertoast.showToast(
+    //         msg: toast,
+    //         toastLength: Toast.LENGTH_SHORT,
+    //         gravity: ToastGravity.CENTER,
+    //         timeInSecForIosWeb: 1,
+    //         backgroundColor: Colors.white10,
+    //         textColor: Colors.black87,
+    //         fontSize: 16.0);
+    //   } on SocketException {
+    //     // 未联网时无法完成二次验证，在此处理无网络时的逻辑
+    //     debugPrint("No Internet Connection");
+    //     oneLoginPlugin.dismissAuthView();
+    //   }
   }
 }

@@ -180,7 +180,7 @@ class OLUIConfigure{
         self.dialogRect =  parseRect(dict: dict, key: OLConstant.dialogRect)
         self.dialogCornersRadius = dict[OLConstant.dialogCornersRadius] as? Double
         self.dialogCornersRadius = parseDouble(dict: dict, key: OLConstant.dialogCornersRadius)
-        self.authViewBackgroundImage = parseIntoAssetsImage(dict: dict, key: OLConstant.authViewBackgroundImage)
+        self.authViewBackgroundImage = parseIntoAssetsImage(dict[OLConstant.authViewBackgroundImage])
         self.backgroundColor = parseColor(dict: dict, key: OLConstant.backgroundColor)
         if let statusBarStyleIndex = dict[OLConstant.statusBarStyle] as? Int,
            let statusBarStyle = UIStatusBarStyle(rawValue: statusBarStyleIndex){
@@ -189,10 +189,10 @@ class OLUIConfigure{
         self.navigationBarColor = parseColor(dict: dict, key: OLConstant.navigationBarColor)
         self.navHidden = parseBool(dict: dict, key: OLConstant.navHidden)
         self.navAttributedString = NSAttributedString.textFontColorString(color: dict[OLConstant.navTextColor] as? UIColor, font: dict[OLConstant.navTextSize] as? Int, text: (dict[OLConstant.navText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
-        self.navBackImage = parseIntoAssetsImage(dict: dict, key: OLConstant.navBackImage)
+        self.navBackImage = parseIntoAssetsImage(dict[OLConstant.navBackImage])
         self.navBackImageRect = parseRect(dict: dict, key: OLConstant.navBackImageRect)
         self.navBackImageHidden = parseBool(dict: dict, key: OLConstant.navBackImageHidden)
-        self.logoImage = parseIntoAssetsImage(dict: dict, key: OLConstant.logoImage)
+        self.logoImage = parseIntoAssetsImage(dict[OLConstant.logoImage])
         self.logoImageRect = parseRect(dict: dict, key: OLConstant.logoImageRect)
         self.logoImageHidden = parseBool(dict: dict, key: OLConstant.logoImageHidden)
         self.logoCornerRadius = parseDouble(dict: dict, key: OLConstant.logoCornerRadius)
@@ -219,8 +219,8 @@ class OLUIConfigure{
         self.termsAlignmentIOS = parseInt(dict: dict, key: OLConstant.termsAlignmentIOS)
         self.terms = parsePrivacyTermItem(dict: dict, key: OLConstant.terms)
         self.auxiliaryPrivacyWords = dict[OLConstant.auxiliaryPrivacyWords] as? [String]
-        self.uncheckedImage = parseIntoAssetsImage(dict: dict, key: OLConstant.uncheckedImage)
-        self.checkedImage = parseIntoAssetsImage(dict: dict, key: OLConstant.checkedImage)
+        self.uncheckedImage = parseIntoAssetsImage(dict[OLConstant.uncheckedImage])
+        self.checkedImage = parseIntoAssetsImage(dict[OLConstant.checkedImage])
         self.defaultCheckBoxState = parseBool(dict: dict, key: OLConstant.defaultCheckBoxState)
         self.checkBoxRect = parseRect(dict: dict, key: OLConstant.checkBoxRect)
         self.webNaviHidden = parseBool(dict: dict, key: OLConstant.webNaviHidden)
@@ -252,10 +252,11 @@ extension OLUIConfigure{
         if let dialogCornersRadius = dialogCornersRadius{
             authViewModel.popupCornerRadius = dialogCornersRadius
         }
-        authViewModel.backgroundColor = backgroundColor
         if let dialogCornersRadius = dialogCornersRadius{
             authViewModel.popupCornerRadius = dialogCornersRadius
         }
+        authViewModel.backgroundImage = authViewBackgroundImage
+        authViewModel.backgroundColor = backgroundColor
         if let statusBarStyle = statusBarStyle {
             authViewModel.statusBarStyle = statusBarStyle
         }
@@ -288,12 +289,33 @@ extension OLUIConfigure{
         if let numberRect = numberRect {
             authViewModel.phoneNumRect = numberRect.olRect()
         }
+        authViewModel.switchButtonBackgroundColor = switchButtonBackgroundColor
+        if let switchButtonRect= switchButtonRect {
+            authViewModel.switchButtonRect = switchButtonRect.olRect()
+        }
+        if let switchButtonHidden = switchButtonHidden {
+            authViewModel.switchButtonHidden = switchButtonHidden
+        }
         authViewModel.switchButtonText = switchButtonText
         authViewModel.switchButtonColor = switchButtonColor
         if let switchTextSize = switchTextSize {
             authViewModel.switchButtonFont = UIFont.systemFont(ofSize: CGFloat(switchTextSize))
         }
         authViewModel.authButtonTitle = authBtnAttString
+        if let imagesString = authButtonImages,!imagesString.isEmpty {
+            let images = imagesString.compactMap({ [weak self](string) in
+                return self?.parseIntoAssetsImage(imagesString)
+            })
+            if !images.isEmpty,images.count <= 3  {
+                authViewModel.authButtonImages = images
+            }
+        }
+        if let authButtonRect = authButtonRect {
+            authViewModel.authButtonRect = authButtonRect.olRect()
+        }
+        if let authButtonCornerRadius = authButtonCornerRadius {
+            authViewModel.authButtonCornerRadius = authButtonCornerRadius
+        }
         authViewModel.sloganText = sloganText
         if let sloganColor = sloganColor {
             authViewModel.sloganTextColor = sloganColor
@@ -384,8 +406,8 @@ extension OLUIConfigure{
         return attributes.isEmpty ? nil : attributes
     }
     
-    func parseIntoAssetsImage(dict:[String:Any],key:String) -> UIImage?{
-        if let imageString = dict[key] as? String,!imageString.isEmpty{
+    func parseIntoAssetsImage(_ value:Any?) -> UIImage?{
+        if let imageString = value as? String,!imageString.isEmpty{
             if let image =  UIImage(named: imageString) {
                 return image
             }else{

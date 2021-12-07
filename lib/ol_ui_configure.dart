@@ -146,7 +146,7 @@ class OLUIConfigure{
   String? checkedImage;
   //隐私条款CheckBox：选择框是否默认勾选
   bool? defaultCheckBoxState;
-  //隐私条款CheckBox size及位置
+  //隐私条款CheckBox size及位置 ,若设置勾选框和隐私条款的整体偏移，请设置termsRect 的 x y
   OLRect? checkBoxRect;
 
   //Only for iOS 服务条款页面导航栏是否隐藏
