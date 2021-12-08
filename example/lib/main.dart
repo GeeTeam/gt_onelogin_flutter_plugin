@@ -68,7 +68,9 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () {
                   requestToken();
                 },
-                child: const Text("OneLogin start")),
+                child: const Text("OneLogin start",style: TextStyle(
+                    fontSize: 20
+                ),)),
             const SizedBox(
               height: 50,
             ),
@@ -125,9 +127,9 @@ class _MyAppState extends State<MyApp> {
 
     configure.isDialogStyle = _isDialog;
     configure.dialogRect = OLRect(
-        y: (screenSize.height - 500) / 2,
+        y: (screenSize.height - 340) / 2,
         x: (screenSize.width - 300) / 2,
-        height: 500,
+        height: 340,
         width: 300);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.dark;
@@ -135,17 +137,22 @@ class _MyAppState extends State<MyApp> {
     configure.navigationBarColor = const Color(0x8cff90ff);
     configure.logoImage = "onelogin";
     configure.navText = "一键登录";
-    configure.navBackImageRect = OLRect(y: 50, x: 50, width: 20, height: 20);
     configure.switchButtonText = "自定义切换按钮文案";
     configure.switchButtonColor = Colors.brown;
-    configure.authButtonRect = OLRect(width: 200);
+    configure.authButtonImages = ["bg_logo_launch","bg_logo_launch","bg_logo_launch"];
+    configure.authButtonRect = OLRect(x: 0,y: 0,width: 300,height: 40);
     configure.authBtnColor = Colors.yellow;
     configure.authBtnText = "授权登录";
     configure.authBtnColor = Colors.blueAccent;
     configure.sloganText = "极验提供统一认证服务";
+    configure.sloganColor = Colors.lightGreen;
     configure.termsClauseColor = Colors.orange;
     configure.termTextColor = Colors.purple;
     configure.termsRect = OLRect(x: 50);
+
+    configure.logoImage = '网关取号_logo';
+    configure.numberColor = Colors.pinkAccent;
+    configure.numberSize = 16;
 
     configure.terms = [
       OLTermsPrivacyItem("自定义服务条款1", "http://www.baidu.com"),

@@ -299,7 +299,7 @@ extension OLUIConfigure{
         authViewModel.authButtonTitle = authBtnAttString
         if let imagesString = authButtonImages,!imagesString.isEmpty {
             let images = imagesString.compactMap({ [weak self](string) in
-                return self?.parseIntoAssetsImage(imagesString)
+                return self?.parseIntoAssetsImage(string)
             })
             if !images.isEmpty,images.count <= 3  {
                 authViewModel.authButtonImages = images
