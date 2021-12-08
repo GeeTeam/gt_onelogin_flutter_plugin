@@ -89,7 +89,8 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
   }
 
   private fun requestToken(uiConfig: Any?, result: Result) {
-    OneLoginHelper.with().requestToken(UIHelper.generateUIConfig(uiConfig), object : AbstractOneLoginListener() {
+    val oneLoginUIConfig = UIHelper.generateUIConfig(uiConfig, mContext)
+    OneLoginHelper.with().requestToken(oneLoginUIConfig, object : AbstractOneLoginListener() {
       override fun onResult(p0: JSONObject?) {
         requireNotNull(p0) {
           "onResult argument is null"

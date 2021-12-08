@@ -113,8 +113,6 @@ class _OLConstant{
   static const switchButtonBackgroundColor = "$methodParameters/switchButtonBackgroundColor";
   // 切换账号按钮size  位置
   static const switchButtonRect = "$methodParameters/switchButtonRect";
-  //Only for Android 切换账号相对于底部 y 偏移
-  static const switchButtonOffsetYB = "$methodParameters/switchButtonOffsetYB";
   //Only for Android 切换账号背景图片
   static const switchButtonBgImage = "$methodParameters/switchButtonBgImage";
   ///--------------一键登录按钮----------------
@@ -139,17 +137,11 @@ class _OLConstant{
   static const  sloganSize = "$methodParameters/sloganSize";
   //slogan size 位置
   static const sloganRect = "$methodParameters/sloganRect";
-  //Only for Android Slogan 相对于底部 y 偏移
-  static const sloganOffsetYB = "$methodParameters/sloganOffsetYB";
   ///--------------隐私条款----------------
   //隐私条款 位置及大小
   static const termsRect = "$methodParameters/termsRect";
-  //Only for Android Slogan 隐私条款相对于底部 y 偏移
-  static const termsOffsetBottom = "$methodParameters/termsOffsetBottom";
   //Only for Android Slogan  是否跳转到默认的隐私条款页面
   static const isUseNormalWebActivity = "$methodParameters/isUseNormalWebActivity";
-  //Only for Android Slogan  隐私条款选择框和文本的对齐方式
-  static const  termsGravityWithCheckbox = "$methodParameters/termsGravityWithCheckbox";
   //隐私条款基础文字颜色
   static const termTextColor = "$methodParameters/termTextColor";
   //隐私条款文本：隐私条款协议文字颜色
@@ -164,9 +156,6 @@ class _OLConstant{
   static const termsBookTitleMarkHidden = "$methodParameters/termsBookTitleMarkHidden";
   //未同意隐私条款的提示文字
   static const termsUncheckedToastText = "$methodParameters/termsUncheckedToastText";
-  //服务条款文案对齐方式
-  static const  termsAlignmentIOS = "$methodParameters/termsAlignmentIOS";
-  static const  termsAlignmentAndroid = "$methodParameters/termsAlignmentAndroid";
   //隐私条款对象数组
   static const terms = "$methodParameters/terms";
   //除隐私条款外的其他文案,连接字符串
@@ -178,8 +167,6 @@ class _OLConstant{
   static const checkedImage = "$methodParameters/checkedImage";
   //隐私条款CheckBox：选择框是否默认勾选
   static const defaultCheckBoxState = "$methodParameters/defaultCheckBoxState";
-  //隐私条款CheckBox size及位置
-  static const checkBoxRect = "$methodParameters/checkBoxRect";
 
   //Only for iOS 服务条款页面导航栏是否隐藏
   static const webNaviHidden = "$methodParameters/webNaviHidden";

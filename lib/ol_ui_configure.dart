@@ -61,7 +61,7 @@ class OLUIConfigure{
   //号码栏字体颜色
   Color? numberColor;
   //号码栏字体大小
-  double? numberSize;
+  int? numberSize;
   //号码栏 size 位置
   OLRect? numberRect;
 
@@ -69,9 +69,9 @@ class OLUIConfigure{
   // 切换账号按钮文本
   String? switchButtonText;
   // 切换账号按钮字体颜色
-  Color?  switchButtonColor;
+  Color? switchButtonColor;
   // 切换账号按钮字体大小
-  int?  switchTextSize;
+  int? switchTextSize;
   // 切换账号按钮是否隐藏
   bool? switchButtonHidden;
   //Only for iOS  切换账号按钮背景颜色
@@ -112,8 +112,6 @@ class OLUIConfigure{
   ///--------------隐私条款----------------
   //隐私条款 位置及大小
   OLRect? termsRect;
-  //Only for Android Slogan 隐私条款相对于底部 y 偏移
-  double? termsaOffsetBottom;
   //Only for Android Slogan  是否跳转到默认的隐私条款页面
   bool? isUseNormalWebActivity;
   //隐私条款基础文字颜色
@@ -125,7 +123,7 @@ class OLUIConfigure{
   //隐私条款文本：隐私条款文字行间距
   double? termsLineSpacingExtra;
   //隐私条款文本：隐私条款文字行间距的倍数
-  int? termsLineSpacingMultiplier;
+  double? termsLineSpacingMultiplier;
   //隐私条款文本：隐私条款名称是否显示书名号
   bool? termsBookTitleMarkHidden;
   //未同意隐私条款的提示文字
@@ -193,7 +191,6 @@ class OLUIConfigure{
       _OLConstant. switchButtonHidden :switchButtonHidden,
       _OLConstant.switchButtonBackgroundColor :switchButtonBackgroundColor?.hexString,
       _OLConstant. switchButtonRect :switchButtonRect?.toMap(),
-      _OLConstant. switchButtonOffsetYB :switchButtonOffsetYB,
       _OLConstant. switchButtonBgImage :switchButtonBgImage,
       _OLConstant.authButtonImages :authButtonImages,
       _OLConstant. authButtonRect :authButtonRect?.toMap(),
@@ -205,9 +202,7 @@ class OLUIConfigure{
       _OLConstant.sloganColor :sloganColor?.hexString,
       _OLConstant.sloganSize :sloganSize,
       _OLConstant. sloganRect :sloganRect?.toMap(),
-      _OLConstant. sloganOffsetYB :sloganOffsetYB,
       _OLConstant. termsRect :termsRect?.toMap(),
-      _OLConstant. termsOffsetBottom :termsaOffsetBottom,
       _OLConstant. isUseNormalWebActivity :isUseNormalWebActivity,
       _OLConstant.termTextColor :termTextColor?.hexString,
       _OLConstant.termsClauseColor :termsClauseColor?.hexString,

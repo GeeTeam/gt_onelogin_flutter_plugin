@@ -103,8 +103,6 @@ class Constant {
         const val switchButtonHidden = "$methodParameters/switchButtonHidden";
         // 切换账号按钮size  位置
         const val switchButtonRect = "$methodParameters/switchButtonRect";
-        //Only for Android 切换账号相对于底部 y 偏移
-        const val switchButtonOffsetYB = "$methodParameters/switchButtonOffsetYB";
         //Only for Android 切换账号背景图片
         const val switchButtonBgImage = "$methodParameters/switchButtonBgImage";
         ///--------------一键登录按钮----------------
@@ -125,17 +123,11 @@ class Constant {
         const val  sloganSize = "$methodParameters/sloganSize";
         //slogan size 位置
         const val sloganRect = "$methodParameters/sloganRect";
-        //Only for Android Slogan 相对于底部 y 偏移
-        const val sloganOffsetYB = "$methodParameters/sloganOffsetYB";
         ///--------------隐私条款----------------
         //隐私条款 位置及大小
         const val termsRect = "$methodParameters/termsRect";
-        //Only for Android Slogan 隐私条款相对于底部 y 偏移
-        const val termsOffsetBottom = "$methodParameters/termsOffsetBottom";
         //Only for Android Slogan  是否跳转到默认的隐私条款页面
         const val isUseNormalWebActivity = "$methodParameters/isUseNormalWebActivity";
-        //Only for Android Slogan  隐私条款选择框和文本的对齐方式
-        const val  termsGravityWithCheckbox = "$methodParameters/termsGravityWithCheckbox";
         //隐私条款基础文字颜色
         const val termTextColor = "$methodParameters/termTextColor";
         //隐私条款文本：隐私条款协议文字颜色
@@ -150,9 +142,6 @@ class Constant {
         const val termsBookTitleMarkHidden = "$methodParameters/termsBookTitleMarkHidden";
         //未同意隐私条款的提示文字
         const val termsUncheckedToastText = "$methodParameters/termsUncheckedToastText";
-        //服务条款文案对齐方式
-        const val  termsAlignmentIOS = "$methodParameters/termsAlignmentIOS";
-        const val  termsAlignmentAndroid = "$methodParameters/termsAlignmentAndroid";
         //隐私条款对象数组
         const val terms = "$methodParameters/terms";
         //除隐私条款外的其他文案,连接字符串
@@ -164,13 +153,7 @@ class Constant {
         const val checkedImage = "$methodParameters/checkedImage";
         //隐私条款CheckBox：选择框是否默认勾选
         const val defaultCheckBoxState = "$methodParameters/defaultCheckBoxState";
-        //隐私条款CheckBox size及位置
-        const val checkBoxRect = "$methodParameters/checkBoxRect";
 
-        //Only for iOS 服务条款页面导航栏是否隐藏
-        const val webNaviHidden = "$methodParameters/webNaviHidden";
-        //Only for iOS 服务条款页面导航的背景颜色
-        const val webNaviBgColor = "$methodParameters/webNaviBgColor";
         //隐私条款页面标题栏文字
         const val navWebViewText = "$methodParameters/navWebViewText";
         //隐私条款页面标题栏字体颜色

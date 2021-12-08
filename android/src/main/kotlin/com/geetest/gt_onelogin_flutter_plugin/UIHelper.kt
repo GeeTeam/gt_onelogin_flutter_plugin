@@ -1,5 +1,7 @@
 package com.geetest.gt_onelogin_flutter_plugin
 
+import android.content.Context
+import android.graphics.BitmapFactory
 import android.nfc.FormatException
 import android.util.Log
 import com.geetest.onelogin.config.OneLoginThemeConfig
@@ -7,7 +9,7 @@ import com.geetest.onelogin.config.OneLoginThemeConfig
 object UIHelper {
     private const val tag = "| Geetest | Android | "
 
-    fun generateUIConfig(param: Any?) : OneLoginThemeConfig {
+    fun generateUIConfig(param: Any?, context: Context) : OneLoginThemeConfig {
         Log.i(tag, "generateUIConfig enter ${param?.toString()}")
         if (param !is Map<*, *>) {
             Log.i(tag, "uiConfig is null")
@@ -15,20 +17,224 @@ object UIHelper {
         }
         val uiConfigBuilder = OneLoginThemeConfig.Builder()
 
+        val displayMetrics = context.resources.displayMetrics
+        val screenWidth = (displayMetrics.widthPixels/displayMetrics.density).toInt()
+
         //弹窗模式
-        setDialogStyle(param, uiConfigBuilder)
+        val dialogWidth = setDialogStyle(param, uiConfigBuilder, screenWidth)
+        val authViewWidth = if (dialogWidth == 0) {
+            screenWidth
+        } else {
+            dialogWidth
+        }
 
         //背景
         if (param.containsKey(Constant.authViewBackgroundImage)) {
             uiConfigBuilder.setAuthBGImgPath(param[Constant.authViewBackgroundImage] as String)
         }
 
-        //导航栏、状态栏
+        //导航栏、状态栏的颜色
         setSystemBar(param, uiConfigBuilder)
 
         //标题栏布局
-        setAuthNavLayout(param, uiConfigBuilder)
+        val authNavHeight = setAuthNavLayout(param, uiConfigBuilder)
 
+        //标题栏文本相关
+        setAuthNavTextView(param, uiConfigBuilder)
+
+        //返回按钮
+        setBackButton(param, uiConfigBuilder)
+
+        //logo
+        setLogo(param, uiConfigBuilder, authViewWidth, authNavHeight)
+
+        //号码栏
+        setNumber(param, uiConfigBuilder)
+
+        //切换账号
+        setSwitch(param, uiConfigBuilder)
+
+        //授权按钮的图片资源和布局
+        setAuthButtonLayout(param, uiConfigBuilder)
+
+        //授权按钮文本相关
+        setAuthButtonTextView(param, uiConfigBuilder)
+
+        //slogan
+        setSlogan(param, uiConfigBuilder)
+
+        //设置隐私条款布局
+        setPrivacyLayout(param, uiConfigBuilder)
+
+        //checkbox
+        setCheckBox(param, uiConfigBuilder, context)
+
+        //服务条款的文字颜色、大小
+        setPrivacyClauseView(param, uiConfigBuilder)
+
+        //服务条款文本内部的间距
+        setPrivacyLineSpacing(param, uiConfigBuilder)
+
+        //隐私条款文本：隐私条款名称是否显示书名号
+        if (param.containsKey(Constant.termsBookTitleMarkHidden)) {
+            val termsBookTitleMarkHidden = param[Constant.termsBookTitleMarkHidden] as Boolean
+            uiConfigBuilder.setPrivacyAddFrenchQuotes(!termsBookTitleMarkHidden)
+        }
+
+        //未同意隐私条款的提示文字
+        if (param.containsKey(Constant.termsUncheckedToastText)) {
+            val termsUncheckedToastText = param[Constant.termsUncheckedToastText] as String
+            uiConfigBuilder.setPrivacyUnCheckedToastText(termsUncheckedToastText)
+        }
+
+        //服务条款的内容
+        setPrivacyClauseText(param, uiConfigBuilder)
+
+        return  uiConfigBuilder.build()
+    }
+
+    //设置授权页对话框模式
+    private fun setDialogStyle(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder, screenWidth: Int): Int {
+        if (!param.containsKey(Constant.isDialogStyle)) {
+            return 0
+        }
+        val dialogStyle = param[Constant.isDialogStyle] as Boolean
+        if (!dialogStyle) {
+            return 0
+        }
+        var dialogWidth = 300
+        var dialogHeight = 500
+        var dialogX = 0
+        var dialogY = 0
+        if (param.containsKey(Constant.dialogRect)) {
+            val dialogRectMap = param[Constant.dialogRect]
+            if (dialogRectMap is Map<*, *>) {
+                val dialogRect = convertMapToRect(dialogRectMap)
+                dialogRect.width?.let {
+                    dialogWidth = it
+                }
+                dialogRect.height?.let {
+                    dialogHeight = it
+                }
+                dialogRect.x?.let {
+                    //客户设置了距离屏幕左侧的margin
+                    dialogX = it-(screenWidth-dialogWidth)/2
+                }
+                dialogRect.y?.let {
+                    dialogY = it
+                }
+                Log.i(tag, "dialogRect width:${dialogRect.width} height:${dialogRect.height} x:${dialogRect.x} y:${dialogRect.y}")
+            }
+        }
+        var isWebDialogStyle = false
+        if (param.containsKey(Constant.isWebDialogStyle)) {
+            isWebDialogStyle = param[Constant.isWebDialogStyle] as Boolean
+        }
+        uiConfigBuilder.setDialogTheme(true,
+            dialogWidth, dialogHeight, dialogX, dialogY, false, isWebDialogStyle)
+        return dialogWidth;
+    }
+
+    private fun setSystemBar(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.statusBarBgColor)
+            && !param.containsKey(Constant.systemNavBarBgColor)
+            && !param.containsKey(Constant.statusBarStyle)) {
+            return
+        }
+        //状态栏
+        var statusBarBgColor = 0
+        if (param.containsKey(Constant.statusBarBgColor)) {
+            statusBarBgColor = hexStrToInt(param[Constant.statusBarBgColor] as String)
+        }
+        //导航栏
+        var systemNavBarBgColor = 0
+        if (param.containsKey(Constant.systemNavBarBgColor)) {
+            systemNavBarBgColor = hexStrToInt(param[Constant.systemNavBarBgColor] as String)
+        }
+        //状态栏是否为亮色：内容为黑色 暗色：内容为白色
+        var statusBarStyle = false //默认为亮色
+        if (param.containsKey(Constant.statusBarStyle)) {
+            statusBarStyle = (param[Constant.statusBarStyle] as Int) != 2 //暗色枚举对应的序号为2
+        }
+        uiConfigBuilder.setStatusBar(statusBarBgColor, systemNavBarBgColor, statusBarStyle)
+    }
+
+    private fun setAuthNavLayout(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder): Int {
+        if (!param.containsKey(Constant.authNavHeight)
+            && !param.containsKey(Constant.navigationBarColor)
+            && !param.containsKey(Constant.navHidden)) {
+            return 49
+        }
+        var authNavHeight = 49 //高度
+        if (param.containsKey(Constant.authNavHeight)) {
+            authNavHeight = (param[Constant.authNavHeight] as Double).toInt()
+        }
+        var navigationBarColor = 0 //颜色
+        if (param.containsKey(Constant.navigationBarColor)) {
+            navigationBarColor = hexStrToInt(param[Constant.navigationBarColor] as String)
+        }
+        var navHidden = false //隐藏
+        if (param.containsKey(Constant.navHidden)) {
+            navHidden = param[Constant.navHidden] as Boolean
+        }
+        uiConfigBuilder.setAuthNavLayout(navigationBarColor, authNavHeight, true, navHidden)
+        return if (navHidden) {
+            0
+        } else {
+            authNavHeight
+        }
+    }
+
+    private fun setBackButton(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.navBackImage)
+            && !param.containsKey(Constant.navBackImageHidden)
+            && !param.containsKey(Constant.navBackImageRect)) {
+            return
+        }
+
+        //返回按钮图片
+        var navBackImage = "gt_one_login_ic_chevron_left_black"
+        if (param.containsKey(Constant.navBackImage)) {
+            navBackImage = param[Constant.navBackImage] as String
+        }
+        //返回按钮是否隐藏
+        var navBackImageHidden = false
+        if (param.containsKey(Constant.navBackImageHidden)) {
+            navBackImageHidden = param[Constant.navBackImageHidden] as Boolean
+        }
+        //返回按钮图片 size 位置
+        var navBackWidth = 24
+        var navBackHeight = 24
+        var navBackOffsetX = 12
+        var navBackOffsetY: Int? = null
+        if (param.containsKey(Constant.navBackImageRect)) {
+            val navBackImageRectMap = param[Constant.navBackImageRect]
+            if (navBackImageRectMap is Map<*, *>) {
+                val navBackImageRect = convertMapToRect(navBackImageRectMap)
+                navBackImageRect.width?.let {
+                    navBackWidth = it
+                }
+                navBackImageRect.height?.let {
+                    navBackHeight = it
+                }
+                navBackImageRect.x?.let {
+                    navBackOffsetX = it
+                }
+                navBackImageRect.y?.let {
+                    navBackOffsetY = it
+                }
+            }
+        }
+        if (navBackOffsetY == null) { //不传y轴偏移表示返回按钮垂直居中
+            uiConfigBuilder.setAuthNavReturnImgView(navBackImage, navBackWidth, navBackHeight,
+                navBackImageHidden, navBackOffsetX)
+        } else {
+            uiConfigBuilder.setAuthNavReturnImgView(navBackImage, navBackWidth, navBackHeight,
+                navBackImageHidden, navBackOffsetX, navBackOffsetY!!)
+        }
+    }
+
+    private fun setAuthNavTextView(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
         //标题栏：文本
         var navText = "一键登录"
         if (param.containsKey(Constant.navText)) {
@@ -63,10 +269,15 @@ object UIHelper {
             navWebViewTextSize = param[Constant.navWebViewTextSize] as Int
         }
         uiConfigBuilder.setAuthNavTextView(navText, navTextColor, navTextSize, navWebTextNormal, navWebViewText, navWebViewTextColor, navWebViewTextSize)
+    }
 
-        //返回按钮
-        setBackButton(param, uiConfigBuilder)
-
+    private fun setLogo(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder,
+                        authViewWidth: Int, authNavHeight: Int) {
+        if (!param.containsKey(Constant.logoImage)
+            && !param.containsKey(Constant.logoImageHidden)
+            && !param.containsKey(Constant.logoImageRect)) {
+            return
+        }
         //logo 图片
         var logoImage = "gt_one_login_logo"
         if (param.containsKey(Constant.logoImage)) {
@@ -78,15 +289,38 @@ object UIHelper {
             logoImageHidden = param[Constant.logoImageHidden] as Boolean
         }
         //logo size 位置
+        var logoWidth = 71
+        var logoHeight = 71
+        var logoOffsetX = 0
+        var logoOffsetY = 125
         if (param.containsKey(Constant.logoImageRect)) {
             val logoImageRect = param[Constant.logoImageRect]
             if (logoImageRect is Map<*, *>) {
-                val logoRect = convertMapToRect(logoImageRect, 71, 71, 125, 0)
-                uiConfigBuilder.setLogoImgView(logoImage,
-                    logoRect.width!!, logoRect.height!!, logoImageHidden, logoRect.y!!, 0, logoRect.x!!)
+                val logoRect = convertMapToRect(logoImageRect)
+                logoRect.width?.let {
+                    logoWidth = it
+                }
+                logoRect.height?.let {
+                    logoHeight = it
+                }
+                logoRect.x?.let {
+                    logoOffsetX = it-(authViewWidth-logoWidth)/2
+                }
+                logoRect.y?.let {
+                    logoOffsetY = it+authNavHeight //android sdk中logo的y轴偏移的起点是状态栏下边缘
+                }
             }
         }
+        uiConfigBuilder.setLogoImgView(logoImage,
+            logoWidth, logoHeight, logoImageHidden, logoOffsetY, 0, logoOffsetX)
+    }
 
+    private fun setNumber(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.numberColor)
+            && !param.containsKey(Constant.numberSize)
+            && !param.containsKey(Constant.numberRect)) {
+            return
+        }
         //号码栏字体颜色
         var numberColor = 0xFF3D424C.toInt()
         if (param.containsKey(Constant.numberColor)) {
@@ -95,17 +329,31 @@ object UIHelper {
         //号码栏字体大小
         var numberSize = 24
         if (param.containsKey(Constant.numberSize)) {
-            numberSize = (param[Constant.numberSize] as Double).toInt()
+            numberSize = param[Constant.numberSize] as Int
         }
         //号码栏 size 位置
+        var numberRect: OLRect? = null
         if (param.containsKey(Constant.numberRect)) {
             val numberRectMap = param[Constant.numberRect]
             if (numberRectMap is Map<*, *>) {
-                val numberRect = convertMapToRect(numberRectMap, 0, 0, 0, 200)
-                uiConfigBuilder.setNumberView(numberColor, numberSize, numberRect.y!!, 0, numberRect.x!!)
+                numberRect = convertMapToRect(numberRectMap,0, 0, 0, 200)
             }
         }
+        if (numberRect == null) {
+            numberRect = OLRect(0, 0, 0, 200)
+        }
+        uiConfigBuilder.setNumberView(numberColor, numberSize, numberRect.y!!, 0, numberRect.x!!)
+    }
 
+    private fun setSwitch(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.switchButtonText)
+            && !param.containsKey(Constant.switchButtonColor)
+            && !param.containsKey(Constant.navTextSize)
+            && !param.containsKey(Constant.switchButtonHidden)
+            && !param.containsKey(Constant.switchButtonBgImage)
+            && !param.containsKey(Constant.switchButtonRect)) {
+            return
+        }
         // 切换账号按钮文本
         var switchButtonText = "切换账号"
         if (param.containsKey(Constant.switchButtonText)) {
@@ -119,7 +367,7 @@ object UIHelper {
         // 切换账号按钮字体大小
         var switchTextSize = 14
         if (param.containsKey(Constant.navTextSize)) {
-            switchTextSize = (param[Constant.switchTextSize] as Double).toInt()
+            switchTextSize = param[Constant.switchTextSize] as Int
         }
         // 切换账号按钮是否隐藏
         var switchButtonHidden = false
@@ -131,23 +379,28 @@ object UIHelper {
         if (param.containsKey(Constant.switchButtonBgImage)) {
             switchButtonBgImage = param[Constant.switchButtonBgImage] as String
         }
-        // 切换账号相对于底部 y 偏移
-        var switchButtonOffsetYB = 0
-        if (param.containsKey(Constant.switchButtonOffsetYB)) {
-            switchButtonOffsetYB = (param[Constant.switchButtonOffsetYB] as Double).toInt()
-        }
         // 切换账号按钮size  位置
+        var switchButtonRect: OLRect? = null
         if (param.containsKey(Constant.switchButtonRect)) {
             val switchButtonRectMap = param[Constant.switchButtonRect]
             if (switchButtonRectMap is Map<*, *>) {
-                val switchButtonRect = convertMapToRect(switchButtonRectMap, 80, 25, 0, 249)
-                //切换账号的宽 高 Y轴偏移
-                uiConfigBuilder.setSwitchView(switchButtonText, switchButtonColor, switchTextSize,
-                    switchButtonHidden, switchButtonRect.y!!, switchButtonOffsetYB, switchButtonRect.x!!)
-                uiConfigBuilder.setSwitchViewLayout(switchButtonBgImage, switchButtonRect.width!!, switchButtonRect.height!!)
+                switchButtonRect = convertMapToRect(switchButtonRectMap, 80, 25, 0, 249)
             }
         }
+        if (switchButtonRect == null) {
+            switchButtonRect = OLRect(80, 25, 0, 249)
+        }
 
+        uiConfigBuilder.setSwitchView(switchButtonText, switchButtonColor, switchTextSize,
+            switchButtonHidden, switchButtonRect.y!!, 0, switchButtonRect.x!!)
+        uiConfigBuilder.setSwitchViewLayout(switchButtonBgImage, switchButtonRect.width!!, switchButtonRect.height!!)
+    }
+
+    private fun setAuthButtonLayout(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.authButtonImages)
+            && !param.containsKey(Constant.authButtonRect)) {
+            return
+        }
         // 授权按钮 正常状态的背景图片, 不可用状态的背景图片
         var authButtonImage = "gt_one_login_btn"
         var authButtonUncheckedImage = "gt_one_login_btn_unchecked"
@@ -157,14 +410,25 @@ object UIHelper {
             authButtonUncheckedImage = authButtonImages[1] as String
         }
         //授权按钮的size 位置
-        val authButtonRect: OLRect?
+        var authButtonRect: OLRect? = null
         if (param.containsKey(Constant.authButtonRect)) {
             val authButtonRectMap = param[Constant.authButtonRect]
             if (authButtonRectMap is Map<*, *>) {
                 authButtonRect = convertMapToRect(authButtonRectMap, 268, 36, 0, 249)
-                uiConfigBuilder.setLogBtnLayout(authButtonImage, authButtonUncheckedImage, authButtonRect.width!!,
-                    authButtonRect.height!!, authButtonRect.y!!, 0, authButtonRect.x!!)
             }
+        }
+        if (authButtonRect == null) {
+            authButtonRect = OLRect(268, 36, 0, 249)
+        }
+        uiConfigBuilder.setLogBtnLayout(authButtonImage, authButtonUncheckedImage, authButtonRect.width!!,
+            authButtonRect.height!!, authButtonRect.y!!, 0, authButtonRect.x!!)
+    }
+
+    private fun setAuthButtonTextView(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.authBtnText)
+            && !param.containsKey(Constant.authBtnColor)
+            && !param.containsKey(Constant.authBtnTextSize)) {
+            return
         }
         //授权按钮文字
         var authBtnText = "一键登录"
@@ -179,10 +443,17 @@ object UIHelper {
         //授权按钮字体大小
         var authBtnTextSize = 15
         if (param.containsKey(Constant.authBtnTextSize)) {
-            authBtnTextSize = (param[Constant.authBtnTextSize] as Double).toInt()
+            authBtnTextSize = param[Constant.authBtnTextSize] as Int
         }
         uiConfigBuilder.setLogBtnTextView(authBtnText, authBtnColor, authBtnTextSize)
+    }
 
+    private fun setSlogan(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.sloganColor)
+            && !param.containsKey(Constant.sloganSize)
+            && !param.containsKey(Constant.sloganRect)) {
+            return
+        }
         // slogan文字颜色
         var sloganColor = 0xFFA8A8A8.toInt()
         if (param.containsKey(Constant.sloganColor)) {
@@ -191,26 +462,26 @@ object UIHelper {
         // slogan字体大小
         var sloganSize = 10
         if (param.containsKey(Constant.sloganSize)) {
-            sloganSize = (param[Constant.sloganSize] as Double).toInt()
-        }
-        // Slogan 相对于底部 y 偏移
-        var sloganOffsetYB = 0
-        if (param.containsKey(Constant.sloganOffsetYB)) {
-            sloganOffsetYB = (param[Constant.sloganOffsetYB] as Double).toInt()
+            sloganSize = param[Constant.sloganSize] as Int
         }
         //slogan size 位置
+        var sloganRect: OLRect? = null
         if (param.containsKey(Constant.sloganRect)) {
             val sloganRectMap = param[Constant.sloganRect]
             if (sloganRectMap is Map<*, *>) {
-                val sloganRect = convertMapToRect(sloganRectMap, 0, 0, 382, 0)
-                uiConfigBuilder.setSloganView(sloganColor, sloganSize, sloganRect.y!!, sloganOffsetYB, sloganRect.x!!)
+                sloganRect = convertMapToRect(sloganRectMap, 0, 0, 0, 382)
             }
         }
+        if (sloganRect == null) {
+            sloganRect = OLRect(0, 0, 0, 382)
+        }
+        uiConfigBuilder.setSloganView(sloganColor, sloganSize, sloganRect.y!!, 0, sloganRect.x!!)
+    }
 
-        //隐私条款相对于底部 y 偏移
-        var termsOffsetBottom = 0
-        if (param.containsKey(Constant.termsOffsetBottom)) {
-            termsOffsetBottom = (param[Constant.termsOffsetBottom] as Double).toInt()
+    private fun setPrivacyLayout(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.isUseNormalWebActivity)
+            && !param.containsKey(Constant.termsRect)) {
+            return
         }
         //是否跳转到默认的隐私条款页面
         var isUseNormalWebActivity = true
@@ -218,18 +489,28 @@ object UIHelper {
             isUseNormalWebActivity = param[Constant.isUseNormalWebActivity] as Boolean
         }
         //隐私条款选择框和文本的对齐方式
-        var termsGravityWithCheckbox = 1 //Gravity.CENTER_HORIZONTAL
-        if (param.containsKey(Constant.termsGravityWithCheckbox)) {
-            termsGravityWithCheckbox = (param[Constant.termsGravityWithCheckbox] as Double).toInt()
-        }
+        val termsGravityWithCheckbox = 1 //Gravity.CENTER_HORIZONTAL
+
         //隐私条款 位置及大小
+        var termsRect: OLRect? = null
         if (param.containsKey(Constant.termsRect)) {
             val termsRectMap = param[Constant.termsRect]
             if (termsRectMap is Map<*, *>) {
-                val termsRect = convertMapToRect(termsRectMap, 256, 0, 0, 400)
-                uiConfigBuilder.setPrivacyLayout(termsRect.width!!, termsRect.y!!, termsOffsetBottom, termsRect.x!!,
-                    isUseNormalWebActivity, termsGravityWithCheckbox)
+                termsRect = convertMapToRect(termsRectMap, 256, 0, 0, 400)
             }
+        }
+        if (termsRect == null) {
+            termsRect = OLRect(256, 0, 0, 400)
+        }
+        uiConfigBuilder.setPrivacyLayout(termsRect.width!!, termsRect.y!!, 0, termsRect.x!!,
+            isUseNormalWebActivity, termsGravityWithCheckbox)
+    }
+
+    private fun setCheckBox(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder, context: Context) {
+        if (!param.containsKey(Constant.uncheckedImage)
+            && !param.containsKey(Constant.checkedImage)
+            && !param.containsKey(Constant.defaultCheckBoxState)) {
+            return
         }
 
         //隐私条款CheckBox：未选中下按钮的图片地址
@@ -247,16 +528,23 @@ object UIHelper {
         if (param.containsKey(Constant.defaultCheckBoxState)) {
             defaultCheckBoxState = param[Constant.defaultCheckBoxState] as Boolean
         }
-        //隐私条款CheckBox size及位置
-        if (param.containsKey(Constant.checkBoxRect)) {
-            val checkBoxRectMap = param[Constant.checkBoxRect]
-            if (checkBoxRectMap is Map<*, *>) {
-                val checkBoxRect = convertMapToRect(checkBoxRectMap, 9, 9, 5, 0)
-                uiConfigBuilder.setPrivacyCheckBox(uncheckedImage, checkedImage, defaultCheckBoxState,
-                    checkBoxRect.width!!, checkBoxRect.height!!, checkBoxRect.y!!, checkBoxRect.x!!)
-            }
-        }
 
+        //取选中状态的图片宽高作为checkBox的宽高
+        val options = getPictureSize(checkedImage, context)
+        val checkBoxWidthDp = (options.outWidth/context.resources.displayMetrics.density).toInt()
+        val checkBoxHeightDp = (options.outHeight/context.resources.displayMetrics.density).toInt()
+        Log.i(tag, "checkbox pic width:${options.outWidth} height:${options.outHeight}")
+        Log.i(tag, "checkbox pic checkBoxWidthDp:$checkBoxWidthDp checkBoxHeightDp:$checkBoxHeightDp")
+
+        uiConfigBuilder.setPrivacyCheckBox(uncheckedImage, checkedImage, defaultCheckBoxState, checkBoxWidthDp, checkBoxHeightDp)
+    }
+
+    private fun setPrivacyClauseView(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.termTextColor)
+            && !param.containsKey(Constant.termsClauseColor)
+            && !param.containsKey(Constant.termsClauseTextSize)) {
+            return
+        }
         //隐私条款基础文字颜色
         var termTextColor = 0xFFA8A8A8.toInt()
         if (param.containsKey(Constant.termTextColor)) {
@@ -270,10 +558,16 @@ object UIHelper {
         //隐私条款文本：隐私条款字体大小
         var termsClauseTextSize = 10
         if (param.containsKey(Constant.termsClauseTextSize)) {
-            termsClauseTextSize = (param[Constant.termsClauseTextSize] as Double).toInt()
+            termsClauseTextSize = param[Constant.termsClauseTextSize] as Int
         }
         uiConfigBuilder.setPrivacyClauseView(termTextColor, termsClauseColor, termsClauseTextSize)
+    }
 
+    private fun setPrivacyLineSpacing(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.termsLineSpacingExtra)
+            && !param.containsKey(Constant.termsLineSpacingMultiplier)) {
+            return
+        }
         //隐私条款文本：隐私条款文字行间距
         var termsLineSpacingExtra = 8.0f
         if (param.containsKey(Constant.termsLineSpacingExtra)) {
@@ -285,26 +579,9 @@ object UIHelper {
             termsLineSpacingMultiplier = (param[Constant.termsLineSpacingMultiplier] as Double).toFloat()
         }
         uiConfigBuilder.setPrivacyLineSpacing(termsLineSpacingExtra, termsLineSpacingMultiplier)
+    }
 
-        //隐私条款文本：隐私条款名称是否显示书名号
-        var termsBookTitleMarkHidden = true
-        if (param.containsKey(Constant.termsBookTitleMarkHidden)) {
-            termsBookTitleMarkHidden = param[Constant.termsBookTitleMarkHidden] as Boolean
-        }
-        uiConfigBuilder.setPrivacyAddFrenchQuotes(!termsBookTitleMarkHidden)
-
-        //未同意隐私条款的提示文字
-        if (param.containsKey(Constant.termsUncheckedToastText)) {
-            val termsUncheckedToastText = param[Constant.termsUncheckedToastText] as String
-            uiConfigBuilder.setPrivacyUnCheckedToastText(termsUncheckedToastText)
-        }
-
-        //服务条款文案对齐方式
-        if (param.containsKey(Constant.termsAlignmentAndroid)) {
-            val termsAlignmentAndroid = (param[Constant.termsAlignmentAndroid] as Double).toInt()
-            uiConfigBuilder.setPrivacyTextGravity(termsAlignmentAndroid)
-        }
-
+    private fun setPrivacyClauseText(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
         //隐私条款对象数组
         if (param.containsKey(Constant.terms) && param.containsKey(Constant.auxiliaryPrivacyWords)) {
             val termsList = getPrivacyItemsList(param[Constant.terms] as List<*>)
@@ -330,118 +607,6 @@ object UIHelper {
                     auxiliaryPrivacyWord3, privacyItem2.title, privacyItem2.url, auxiliaryPrivacyWord4)
             }
 
-        }
-
-
-        return  uiConfigBuilder.build()
-    }
-
-    //设置授权页对话框模式
-    private fun setDialogStyle(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
-        if (!param.containsKey(Constant.isDialogStyle)) {
-            return
-        }
-        val dialogStyle = param[Constant.isDialogStyle] as Boolean
-        if (!dialogStyle) {
-            return
-        }
-        var dialogWidth = 300
-        var dialogHeight = 500
-        var dialogX = 0
-        var dialogY = 0
-        if (param.containsKey(Constant.dialogRect)) {
-            val dialogRectMap = param[Constant.dialogRect]
-            if (dialogRectMap is Map<*, *>) {
-                val dialogRect = convertMapToRect(dialogRectMap)
-                dialogRect.width?.let {
-                    dialogWidth = it
-                }
-                dialogRect.height?.let {
-                    dialogHeight = it
-                }
-                dialogRect.x?.let {
-                    //客户设置了距离屏幕左侧的margin
-                    dialogX = it
-                }
-                dialogRect.y?.let {
-                    dialogY = it
-                }
-                Log.i(tag, "dialogRect width:${dialogRect.width} height:${dialogRect.height} x:${dialogRect.x} y:${dialogRect.y}")
-            }
-        }
-        var isWebDialogStyle = false
-        if (param.containsKey(Constant.isWebDialogStyle)) {
-            isWebDialogStyle = param[Constant.isWebDialogStyle] as Boolean
-        }
-        uiConfigBuilder.setDialogTheme(true,
-            dialogWidth, dialogHeight, dialogX, dialogY, false, isWebDialogStyle) //TODO dialogBottomStyle
-    }
-
-    private fun setSystemBar(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
-        if (!param.containsKey(Constant.statusBarBgColor)
-            && !param.containsKey(Constant.systemNavBarBgColor)
-            && !param.containsKey(Constant.statusBarStyle)) {
-            return
-        }
-        //状态栏
-        var statusBarBgColor = 0
-        if (param.containsKey(Constant.statusBarBgColor)) {
-            statusBarBgColor = hexStrToInt(param[Constant.statusBarBgColor] as String)
-        }
-        //导航栏
-        var systemNavBarBgColor = 0
-        if (param.containsKey(Constant.systemNavBarBgColor)) {
-            systemNavBarBgColor = hexStrToInt(param[Constant.systemNavBarBgColor] as String)
-        }
-        //状态栏是否为亮色：内容为黑色 暗色：内容为白色
-        var statusBarStyle = false //默认为亮色
-        if (param.containsKey(Constant.statusBarStyle)) {
-            statusBarStyle = (param[Constant.statusBarStyle] as Int) != 2 //暗色枚举对应的序号为2
-        }
-        uiConfigBuilder.setStatusBar(statusBarBgColor, systemNavBarBgColor, statusBarStyle)
-    }
-
-    private fun setAuthNavLayout(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
-        if (!param.containsKey(Constant.authNavHeight)
-            && !param.containsKey(Constant.navigationBarColor)
-            && !param.containsKey(Constant.navHidden)) {
-            return
-        }
-        var authNavHeight = 49 //高度
-        if (param.containsKey(Constant.authNavHeight)) {
-            authNavHeight = (param[Constant.authNavHeight] as Double).toInt()
-        }
-        var navigationBarColor = 0 //颜色
-        if (param.containsKey(Constant.navigationBarColor)) {
-            navigationBarColor = hexStrToInt(param[Constant.navigationBarColor] as String)
-        }
-        var navHidden = false //隐藏
-        if (param.containsKey(Constant.navHidden)) {
-            navHidden = param[Constant.navHidden] as Boolean
-        }
-        uiConfigBuilder.setAuthNavLayout(navigationBarColor, authNavHeight, true, navHidden)
-    }
-
-    private fun setBackButton(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
-        //返回按钮图片
-        var navBackImage = "gt_one_login_ic_chevron_left_black"
-        if (param.containsKey(Constant.navBackImage)) {
-            navBackImage = param[Constant.navBackImage] as String
-        }
-        //返回按钮是否隐藏
-        var navBackImageHidden = false
-        if (param.containsKey(Constant.navBackImageHidden)) {
-            navBackImageHidden = param[Constant.navBackImageHidden] as Boolean
-        }
-        //返回按钮图片 size 位置
-        if (param.containsKey(Constant.navBackImageRect)) {
-            val navBackImageRectMap = param[Constant.navBackImageRect]
-            if (navBackImageRectMap is Map<*, *>) {
-                val navBackImageRect = convertMapToRect(navBackImageRectMap, 24, 24, 12, 0)
-
-                uiConfigBuilder.setAuthNavReturnImgView(navBackImage, navBackImageRect.width!!,
-                    navBackImageRect.height!!, navBackImageHidden, navBackImageRect.x!!, navBackImageRect.y!!)
-            }
         }
     }
 
@@ -500,17 +665,20 @@ object UIHelper {
         return terms[index]
     }
 
+    /**
+     * 十六进制表示的字符串转整数
+     */
     private fun hexStrToInt(hex: String): Int {
         var result = 0
         val len = hex.length
         for (i in 0 until len) {
             val hexDigit: Int = hex.codePointAt(i)
-            result += if (hexDigit >= 48 && hexDigit <= 57) {
+            result += if (hexDigit in 48..57) {
                 (hexDigit - 48) * (1 shl 4 * (len - 1 - i))
-            } else if (hexDigit >= 65 && hexDigit <= 70) {
+            } else if (hexDigit in 65..70) {
                 // A..F
                 (hexDigit - 55) * (1 shl 4 * (len - 1 - i))
-            } else if (hexDigit >= 97 && hexDigit <= 102) {
+            } else if (hexDigit in 97..102) {
                 // a..f
                 (hexDigit - 87) * (1 shl 4 * (len - 1 - i))
             } else {
@@ -518,5 +686,15 @@ object UIHelper {
             }
         }
         return result
+    }
+
+    private fun getPictureSize(picName: String, context: Context): BitmapFactory.Options {
+        val appInfo = context.applicationInfo
+        val picId = context.resources.getIdentifier(picName, "id", appInfo.packageName)
+
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeResource(context.resources, picId, options)
+        return options
     }
 }
