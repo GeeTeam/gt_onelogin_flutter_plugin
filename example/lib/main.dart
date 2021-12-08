@@ -140,9 +140,10 @@ class _MyAppState extends State<MyApp> {
     configure.dialogRect = OLRect(y: (screenSize.height-500)/2,x:(screenSize.width-300)/2,height: 500,width: 300);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.dialogCornersRadius = 20;
-    configure.navigationBarColor = Colors.green;
+    configure.navigationBarColor = const Color(0x8cff90ff);
     configure.logoImage = "onelogin";
     configure.navText = "一键登录";
+    configure.navBackImageRect = OLRect(y: 50,x: 50,width: 20,height: 20);
     configure.switchButtonText = "自定义切换按钮文案";
     configure.switchButtonColor = Colors.brown;
     configure.authButtonRect = OLRect(width: 200);
@@ -152,13 +153,12 @@ class _MyAppState extends State<MyApp> {
     configure.sloganText = "极验提供统一认证服务";
     configure.termsClauseColor = Colors.orange;
     configure.termTextColor = Colors.purple;
-    configure.checkBoxRect = OLRect(width: 20,height: 30);
     configure.termsRect = OLRect(x: 50);
 
     configure.terms = [
       OLTermsPrivacyItem("自定义服务条款1", "http://www.baidu.com"),
       OLTermsPrivacyItem("自定义服务条款2", "https://www.geetest.com"),
-      OLTermsPrivacyItem("自定义服务条款3", "https://www.geetest.com")
+      OLTermsPrivacyItem("自定义服务条款3", "https://www.geetest.com"),
     ];
     configure.auxiliaryPrivacyWords = ["条款前文案", "&", "%", "~", "条款后的文案"];
     debugPrint("configure:${configure.toMap()}");

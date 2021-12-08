@@ -116,8 +116,6 @@ class OLUIConfigure{
   double? termsaOffsetBottom;
   //Only for Android Slogan  是否跳转到默认的隐私条款页面
   bool? isUseNormalWebActivity;
-  //Only for Android Slogan  隐私条款选择框和文本的对齐方式
-  int? termsGravityWithCheckbox;
   //隐私条款基础文字颜色
   Color? termTextColor;
   //隐私条款文本：隐私条款协议文字颜色
@@ -132,9 +130,6 @@ class OLUIConfigure{
   bool? termsBookTitleMarkHidden;
   //未同意隐私条款的提示文字
   String? termsUncheckedToastText;
-  //服务条款文案对齐方式
-  int? termsAlignmentIOS;
-  int? termsAlignmentAndroid;
   //隐私条款对象数组
   List<OLTermsPrivacyItem>? terms;
   //除隐私条款外的其他文案,连接字符串
@@ -146,8 +141,6 @@ class OLUIConfigure{
   String? checkedImage;
   //隐私条款CheckBox：选择框是否默认勾选
   bool? defaultCheckBoxState;
-  //隐私条款CheckBox size及位置 ,若设置勾选框和隐私条款的整体偏移，请设置termsRect 的 x y
-  OLRect? checkBoxRect;
 
   //Only for iOS 服务条款页面导航栏是否隐藏
   bool? webNaviHidden;
@@ -161,6 +154,13 @@ class OLUIConfigure{
   int?    navWebViewTextSize;
 
   Map<String,dynamic> toMap(){
+    if (terms != null && (terms?.isNotEmpty ?? false)) {
+      if (terms!.length > 3) {
+        debugPrint("terms 参数最多限制为3个");
+        // throw FlutterError("terms 参数最多限制为3个");
+      }
+    }
+
     return {
       _OLConstant.supportedinterfaceOrientations:supportedinterfaceOrientations?.index,
       _OLConstant.userinterfaceStyle:userinterfaceStyle?.index,
@@ -209,7 +209,6 @@ class OLUIConfigure{
       _OLConstant. termsRect :termsRect?.toMap(),
       _OLConstant. termsOffsetBottom :termsaOffsetBottom,
       _OLConstant. isUseNormalWebActivity :isUseNormalWebActivity,
-      _OLConstant.termsGravityWithCheckbox :termsGravityWithCheckbox,
       _OLConstant.termTextColor :termTextColor?.hexString,
       _OLConstant.termsClauseColor :termsClauseColor?.hexString,
       _OLConstant.termsClauseTextSize :termsClauseTextSize,
@@ -217,14 +216,11 @@ class OLUIConfigure{
       _OLConstant.termsLineSpacingMultiplier :termsLineSpacingMultiplier,
       _OLConstant. termsBookTitleMarkHidden :termsBookTitleMarkHidden,
       _OLConstant. termsUncheckedToastText :termsUncheckedToastText,
-      _OLConstant.termsAlignmentIOS :termsAlignmentIOS,
-      _OLConstant.termsAlignmentAndroid :termsAlignmentAndroid,
       _OLConstant.terms :terms?.map((e) => e.toMap()).toList(),
       _OLConstant.auxiliaryPrivacyWords :auxiliaryPrivacyWords,
       _OLConstant. uncheckedImage :uncheckedImage,
       _OLConstant. checkedImage :checkedImage,
       _OLConstant. defaultCheckBoxState :defaultCheckBoxState,
-      _OLConstant. checkBoxRect :checkBoxRect?.toMap(),
       _OLConstant. webNaviHidden :webNaviHidden,
       _OLConstant.webNaviBgColor :webNaviBgColor?.hexString,
       _OLConstant. navWebViewText :navWebViewText,

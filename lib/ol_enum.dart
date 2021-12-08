@@ -14,12 +14,7 @@ extension HexColor on Color{
 //仅供iOSS使用
 enum OLIOSInterfaceOrientation {
   portrait,
-  landscapeLeft,
-  landscapeRight,
-  portraitUpsidedown,
   landscape,
-  all,
-  allButUpsideDown
 }
 
 enum OLIOSUserInterfaceStyle {

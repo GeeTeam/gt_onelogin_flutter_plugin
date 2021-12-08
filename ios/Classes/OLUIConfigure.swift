@@ -31,7 +31,7 @@ class OLUIConfigure{
       //是否是弹框样式
     var isDialogStyle:Bool?
       //弹窗size，位置
-    var dialogRect:CGRect?
+    var dialogRect:OLRect?
       //弹窗圆角
     var dialogCornersRadius:Double?
 
@@ -61,7 +61,7 @@ class OLUIConfigure{
       //返回按钮图片
     var navBackImage:UIImage?
       //返回按钮图片 size 位置
-    var navBackImageRect:CGRect?
+    var navBackImageRect:OLRect?
       //返回按钮是否隐藏
     var navBackImageHidden:Bool?
     
@@ -69,7 +69,7 @@ class OLUIConfigure{
       //logo 图片
     var logoImage:UIImage?
       //logo size 位置
-    var logoImageRect:CGRect? ;
+    var logoImageRect:OLRect? ;
       //logo：是否隐藏
     var logoImageHidden:Bool?;
       //Only for iOS logo圆角，默认为0
@@ -81,7 +81,7 @@ class OLUIConfigure{
       //号码栏字体大小
     var numberSize:Int?;
       //号码栏 size 位置
-    var numberRect:CGRect? ;
+    var numberRect:OLRect? ;
     
     ///--------------切换账号按钮----------------
       // 切换账号按钮文本
@@ -95,13 +95,13 @@ class OLUIConfigure{
       //Only for iOS  切换账号按钮背景颜色
     var switchButtonBackgroundColor:UIColor?
       // 切换账号按钮size  位置
-    var switchButtonRect: CGRect? ;
+    var switchButtonRect: OLRect? ;
     
     ///--------------一键登录按钮----------------
       //[正常状态的背景图片, 不可用状态的背景图片, 高亮状态的背景图片],iOS数组最多为3，Android最多为2
     var authButtonImages:[String]?;
       //授权按钮的size 位置
-    var authButtonRect:CGRect?;
+    var authButtonRect:OLRect?;
       //Only for iOS 授权按钮圆角
     var authButtonCornerRadius:Double?;
 //      //授权按钮文字
@@ -120,11 +120,11 @@ class OLUIConfigure{
       // slogan字体大小
     var sloganSize:Int?;
       //slogan size 位置
-    var sloganRect:CGRect?;
+    var sloganRect:OLRect?;
     
     ///--------------隐私条款----------------
       //隐私条款 位置及大小
-    var termsRect:CGRect?;
+    var termsRect:OLRect?;
       //隐私条款基础文字颜色
     var termTextColor:UIColor?;
       //隐私条款文本：隐私条款协议文字颜色
@@ -155,7 +155,7 @@ class OLUIConfigure{
       //隐私条款CheckBox：选择框是否默认勾选
     var defaultCheckBoxState:Bool?;
       //隐私条款CheckBox size及位置
-    var checkBoxRect:CGRect?;
+    var checkBoxRect:OLRect?;
 
       //Only for iOS 服务条款页面导航栏是否隐藏
     var webNaviHidden:Bool?
@@ -170,14 +170,18 @@ class OLUIConfigure{
     var navWebViewAttString : NSAttributedString?
 
     init(dict:[String:Any]) {
-        if let orientationsIndex = dict[OLConstant.supportedinterfaceOrientations] as? UInt  {
-            self.supportedinterfaceOrientations = UIInterfaceOrientationMask(rawValue: orientationsIndex);
+        if let orientationsIndex = dict[OLConstant.supportedinterfaceOrientations] as? UInt,(orientationsIndex == 0 || orientationsIndex == 1) {
+            if orientationsIndex == 0 {
+                supportedinterfaceOrientations = .portrait
+            }else{
+                supportedinterfaceOrientations = .landscape
+            }
         }
 //        if let userinterfaceStyleIndex = dict[OLConstant.supportedinterfaceOrientations] as? Int,let userinterfaceStyle = UIUserInterfaceStyle(rawValue: userinterfaceStyleIndex) {
 ////            self.userinterfaceStyle = userinterfaceStyle;
 //        }
         self.isDialogStyle = parseBool(dict: dict, key: OLConstant.isDialogStyle)
-        self.dialogRect =  parseRect(dict: dict, key: OLConstant.dialogRect)
+        self.dialogRect = parseRect(dict: dict, key: OLConstant.dialogRect)
         self.dialogCornersRadius = dict[OLConstant.dialogCornersRadius] as? Double
         self.dialogCornersRadius = parseDouble(dict: dict, key: OLConstant.dialogCornersRadius)
         self.authViewBackgroundImage = parseIntoAssetsImage(dict[OLConstant.authViewBackgroundImage])
@@ -207,7 +211,7 @@ class OLUIConfigure{
         self.authButtonImages = dict[OLConstant.authButtonImages] as? [String]
         self.authButtonRect = parseRect(dict: dict, key: OLConstant.authButtonRect)
         self.authButtonCornerRadius = parseDouble(dict: dict, key: OLConstant.authButtonCornerRadius)
-        self.authBtnAttString = NSAttributedString.textFontColorString(color: dict[OLConstant.authzBtnColor] as? UIColor, font: dict[OLConstant.authzBtnColor] as? Int, text: (dict[OLConstant.authzBtnText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.authBtnAttString = NSAttributedString.textFontColorString(color: dict[OLConstant.authBtnColor] as? UIColor, font: dict[OLConstant.authBtnColor] as? Int, text: (dict[OLConstant.authBtnText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
         self.sloganText = parseString(dict: dict, key: OLConstant.sloganText)
         self.sloganSize = parseInt(dict: dict, key: OLConstant.sloganSize)
         self.sloganColor = parseColor(dict: dict, key: OLConstant.sloganColor)
@@ -247,7 +251,7 @@ extension OLUIConfigure{
             authViewModel.isPopup = isDialogStyle
         }
         if let popRect = dialogRect {
-            authViewModel.popupRect = popRect.olRect()
+            authViewModel.popupRect = popRect
         }
         if let dialogCornersRadius = dialogCornersRadius{
             authViewModel.popupCornerRadius = dialogCornersRadius
@@ -267,14 +271,15 @@ extension OLUIConfigure{
         authViewModel.naviTitle = navAttributedString
         authViewModel.naviBackImage = navBackImage
         if let navBackImageRect = navBackImageRect {
-            authViewModel.backButtonRect = navBackImageRect.olRect()
+            authViewModel.backButtonRect = navBackImageRect
+            print("backButtonRect：\(navBackImageRect)")
         }
         if let navBackImageHidden = navBackImageHidden {
             authViewModel.backButtonHidden = navBackImageHidden
         }
         authViewModel.appLogo = logoImage
         if let logoImageRect = logoImageRect {
-            authViewModel.logoRect = logoImageRect.olRect()
+            authViewModel.logoRect = logoImageRect
         }
         if let logoImageHidden = logoImageHidden {
             authViewModel.logoHidden = logoImageHidden
@@ -287,11 +292,11 @@ extension OLUIConfigure{
             authViewModel.phoneNumFont = UIFont.systemFont(ofSize: CGFloat(numberSize))
         }
         if let numberRect = numberRect {
-            authViewModel.phoneNumRect = numberRect.olRect()
+            authViewModel.phoneNumRect = numberRect
         }
         authViewModel.switchButtonBackgroundColor = switchButtonBackgroundColor
-        if let switchButtonRect= switchButtonRect {
-            authViewModel.switchButtonRect = switchButtonRect.olRect()
+        if let switchButtonRect = switchButtonRect {
+            authViewModel.switchButtonRect = switchButtonRect
         }
         if let switchButtonHidden = switchButtonHidden {
             authViewModel.switchButtonHidden = switchButtonHidden
@@ -311,7 +316,7 @@ extension OLUIConfigure{
             }
         }
         if let authButtonRect = authButtonRect {
-            authViewModel.authButtonRect = authButtonRect.olRect()
+            authViewModel.authButtonRect = authButtonRect
         }
         if let authButtonCornerRadius = authButtonCornerRadius {
             authViewModel.authButtonCornerRadius = authButtonCornerRadius
@@ -324,10 +329,10 @@ extension OLUIConfigure{
             authViewModel.sloganTextFont = UIFont.systemFont(ofSize: CGFloat(sloganTextFont))
         }
         if let sloganRect = sloganRect {
-            authViewModel.sloganRect = sloganRect.olRect()
+            authViewModel.sloganRect = sloganRect
         }
         if let termsRect = termsRect {
-            authViewModel.termsRect = termsRect.olRect()
+            authViewModel.termsRect = termsRect
         }
         authViewModel.privacyTermsAttributes = termsClauseAttributes
         if let termsBookTitleMarkHidden = termsBookTitleMarkHidden {
@@ -345,7 +350,7 @@ extension OLUIConfigure{
             authViewModel.defaultCheckBoxState = defaultCheckBoxState
         }
         if let checkBoxRect = checkBoxRect  {
-            authViewModel.checkBoxRect = checkBoxRect.olRect()
+            authViewModel.checkBoxRect = checkBoxRect
         }
         if let webNaviHidden = webNaviHidden {
             authViewModel.webNaviHidden = webNaviHidden
@@ -354,9 +359,7 @@ extension OLUIConfigure{
             authViewModel.webNaviBgColor = webNaviBgColor
         }
         authViewModel.webNaviTitle = navWebViewAttString
-        
-        
-        
+//        authViewModel.termsAlignment
         return authViewModel
     }
     
@@ -378,6 +381,7 @@ extension OLUIConfigure{
     }
     func parseColor(dict:[String:Any],key:String) -> UIColor?{
         if let colorString = dict[key] as? String {
+            print("解析颜色：\(colorString)")
             return UIColor(hexString: colorString)
         }
         return nil
@@ -420,7 +424,8 @@ extension OLUIConfigure{
         return nil
     }
     
-    func parseRect(dict:[String:Any],key:String) -> CGRect{
+    func parseRect(dict:[String:Any],key:String) -> OLRect{
+        var rect = CGRect.zero
         if let rectDict = dict[key] as? [String:Double] {
             var width:Double = 0
             var height:Double = 0
@@ -438,9 +443,13 @@ extension OLUIConfigure{
             if let _y = rectDict[OLConstant.rectY] {
                 y = _y
             }
-            return CGRect(x: x, y: y, width: width, height: height)
+            rect = CGRect(x: x, y: y, width: width, height: height)
         }
-        return CGRect.zero
+        var isForcePortrait:Bool?
+        if let supportOrientation = supportedinterfaceOrientations{
+            isForcePortrait = supportOrientation == .portrait
+        }
+        return rect.olRect(isForcePortrait)
     }
     
     func parsePrivacyTermItem(dict:[String:Any],key:String) -> [OLPrivacyTermItem]?{
