@@ -60,7 +60,7 @@ extension SwiftGtOneloginFlutterPlugin{
         if let authModelDict = call.arguments as? [String:Any]  {
             authModel = OLUIConfigure(dict: authModelDict).toAuthViewModel()
         }
-        uiConfigure(authModel)
+        uiConfigureEvent(authModel)
         OneLoginPro.requestToken(with: vc!, viewModel: authModel) { res in
             guard let dict = res as? [String:Any],!dict.isEmpty,let status = dict["status"] as? Int,status == 500,let errorCode = dict["errorCode"] as? String,errorCode == "-20302" || errorCode == "-20303" else{
                 
@@ -86,18 +86,32 @@ extension SwiftGtOneloginFlutterPlugin{
         }
     }
     
-    func uiConfigure(_ authModel:OLAuthViewModel){
+    func uiConfigureEvent(_ authModel:OLAuthViewModel){
         authModel.clickAuthButtonBlock = {[weak self] in
               self?.channel.invokeMethod(OLConstant.onAuthButtonClick, arguments: nil)
         }
         authModel.clickCheckboxBlock = {[weak self] (isChecked) in
-            self?.channel.invokeMethod(OLConstant.onTermCheckBoxClick, arguments: isChecked)
+            self?.channel.invokeMethod(OLConstant.onTermCheckBoxClick, arguments: isChecked as Bool, result: { err in
+                guard let error = err as? FlutterError else{
+                    return
+                }
+                debugPrint("clickCheckboxBlock error:\(error.message ?? "")")
+            })
         }
         authModel.clickBackButtonBlock = { [weak self] in
             self?.channel.invokeMethod(OLConstant.onBackButtonClick, arguments: nil)
         }
         authModel.clickSwitchButtonBlock = {[weak self] in
             self?.channel.invokeMethod(OLConstant.onSwitchButtonClick, arguments: nil)
+        }
+        authModel.carrierTermItemBlock = {[weak self] (termItem,_) in
+            self?.channel.invokeMethod(OLConstant.onTermItemClick, arguments: [OLConstant.termsItemTitle:termItem.termTitle,                                        OLConstant.termsItemUrl:termItem.termLink.absoluteString] as [String: String],result: { err in
+                guard let error = err as? FlutterError else{
+                    return
+                }
+                debugPrint("carrierTermItemBlock error:\(String(describing: error.message)))")
+            })
+            
         }
     }
     

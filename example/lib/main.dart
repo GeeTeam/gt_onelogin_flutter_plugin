@@ -10,9 +10,9 @@ const getPhoneUrl = "http://onepass.geetest.com/onelogin/result";
 const String tag = "| Geetest | Example | ";
 
 void main() {
-  runApp( MaterialApp(
+  runApp(MaterialApp(
     title: "GTOneLoginPlugin demo",
-    theme:  ThemeData(primaryColor: Colors.white),
+    theme: ThemeData(primaryColor: Colors.white),
     home: const MyApp(),
   ));
 }
@@ -41,29 +41,17 @@ class _MyAppState extends State<MyApp> {
 
   _init() {
     oneLoginPlugin.init(olAppId);
-
-    oneLoginPlugin.addEventListener(onBackButtonClick, onAuthButtonClick,
-        onSwitchButtonClick, onTermItemClick, onTermCheckBoxClick);
-  }
-
-  void onBackButtonClick(Map<String, dynamic>? message) async {
-    debugPrint(tag + "onBackButtonClick");
-  }
-
-  void onAuthButtonClick(Map<String, dynamic>? message) async {
-    debugPrint(tag + "onAuthButtonClick");
-  }
-
-  void onSwitchButtonClick(Map<String, dynamic>? message) async {
-    debugPrint(tag + "onSwitchButtonClick");
-  }
-
-  void onTermItemClick(Map<String, dynamic>? message) async {
-    debugPrint(tag + "onTermItemClick");
-  }
-
-  void onTermCheckBoxClick(Map<String, dynamic>? message) async {
-    debugPrint(tag + "onTermCheckBoxClick");
+    oneLoginPlugin.addEventListener(onBackButtonClick: (_) {
+      debugPrint(tag + "onBackButtonClick");
+    }, onAuthButtonClick: (_) {
+      debugPrint(tag + "onAuthButtonClick");
+    }, onSwitchButtonClick: (_) {
+      debugPrint(tag + "onSwitchButtonClick");
+    }, onTermCheckBoxClick: (isChecked) {
+      debugPrint(tag + "onTermItemClick:$isChecked");
+    }, onTermItemClick: (item) {
+      debugPrint(tag + "onTermItemClick:${item.title} --  ${item.url}");
+    });
   }
 
   @override
@@ -136,14 +124,18 @@ class _MyAppState extends State<MyApp> {
     var screenSize = MediaQuery.of(context).size;
 
     configure.isDialogStyle = _isDialog;
-    configure.dialogRect = OLRect(y: (screenSize.height-500)/2,x:(screenSize.width-300)/2,height: 500,width: 300);
+    configure.dialogRect = OLRect(
+        y: (screenSize.height - 500) / 2,
+        x: (screenSize.width - 300) / 2,
+        height: 500,
+        width: 300);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.dark;
     configure.dialogCornersRadius = 20;
     configure.navigationBarColor = const Color(0x8cff90ff);
     configure.logoImage = "onelogin";
     configure.navText = "一键登录";
-    configure.navBackImageRect = OLRect(y: 50,x: 50,width: 20,height: 20);
+    configure.navBackImageRect = OLRect(y: 50, x: 50, width: 20, height: 20);
     configure.switchButtonText = "自定义切换按钮文案";
     configure.switchButtonColor = Colors.brown;
     configure.authButtonRect = OLRect(width: 200);

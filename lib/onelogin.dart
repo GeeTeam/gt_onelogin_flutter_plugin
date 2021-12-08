@@ -1,6 +1,6 @@
 part of gt_onelogin_flutter_plugin;
 
-typedef EventHandler = void Function(Map<String, dynamic>?);
+typedef EventHandler<T> = void Function(T);
 
 class GtOneloginFlutterPlugin {
   final MethodChannel _channel;
@@ -68,22 +68,22 @@ class GtOneloginFlutterPlugin {
   /// -------------add listener------------------
 
   //点击返回按钮
-  EventHandler? _onBackButtonClick;
+  EventHandler<void>? _onBackButtonClick;
   //点击登录按钮
-  EventHandler? _onAuthButtonClick;
+  EventHandler<void>? _onAuthButtonClick;
   //点击切换账号
-  EventHandler? _onSwitchButtonClick;
+  EventHandler<void>? _onSwitchButtonClick;
   //点击服务条款
-  EventHandler? _onTermItemClick;
+  EventHandler<OLTermsPrivacyItem>? _onTermItemClick;
   //点击服务条款的选择框
-  EventHandler? _onTermCheckBoxClick;
+  EventHandler<bool>? _onTermCheckBoxClick;
 
   addEventListener(
-      EventHandler onBackButtonClick,
-      EventHandler onAuthButtonClick,
-      EventHandler onSwitchButtonClick,
-      EventHandler onTermItemClick,
-      EventHandler onTermCheckBoxClick) {
+      {EventHandler<void>? onBackButtonClick,
+      EventHandler<void>? onAuthButtonClick,
+      EventHandler<void>? onSwitchButtonClick,
+      EventHandler<OLTermsPrivacyItem>? onTermItemClick,
+      EventHandler<bool>? onTermCheckBoxClick}) {
     debugPrint(flutterLog + "addEventListener");
     _onBackButtonClick = onBackButtonClick;
     _onAuthButtonClick = onAuthButtonClick;
@@ -93,21 +93,20 @@ class GtOneloginFlutterPlugin {
 
     _channel.setMethodCallHandler(_handler);
   }
-
   Future<dynamic> _handler(MethodCall call) async {
-    debugPrint(flutterLog + "receive native method : " + call.method +
-        " args: " + ((call.arguments==null ? '' : (call.arguments as String))));
+    debugPrint("${flutterLog + "receive native method : " + call.method +
+        " args: "} ${call.arguments}");
     switch (call.method) {
       case _OLConstant.onBackButtonClick:
-        return _onBackButtonClick!(call.arguments?.cast<String, dynamic>());
+        return _onBackButtonClick?.call(null);
       case _OLConstant.onAuthButtonClick:
-        return _onAuthButtonClick!(call.arguments?.cast<String, dynamic>());
+        return _onAuthButtonClick?.call(null);
       case _OLConstant.onSwitchButtonClick:
-        return _onSwitchButtonClick!(call.arguments?.cast<String, dynamic>());
+        return _onSwitchButtonClick?.call(null);
       case _OLConstant.onTermItemClick:
-        return _onTermItemClick!(call.arguments?.cast<String, dynamic>());
+        return _onTermItemClick?.call(OLTermsPrivacyItem.fromMap(LinkedHashMap.from(call.arguments)));;
       case _OLConstant.onTermCheckBoxClick:
-        return _onTermCheckBoxClick!(call.arguments?.cast<String, dynamic>());
+        return _onTermCheckBoxClick?.call(call.arguments as bool);
       default:
         return null;
     }
