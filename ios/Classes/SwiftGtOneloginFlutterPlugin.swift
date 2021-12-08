@@ -61,10 +61,10 @@ extension SwiftGtOneloginFlutterPlugin{
             authModel = OLUIConfigure(dict: authModelDict).toAuthViewModel()
         }
         uiConfigure(authModel)
-        OneLoginPro.requestToken(with: vc!, viewModel: authModel) { dict in
-            guard let dict = dict as? [String:Any],!dict.isEmpty,let status = dict["status"] as? Int,status == -20302 || status == -20303 else{
+        OneLoginPro.requestToken(with: vc!, viewModel: authModel) { res in
+            guard let dict = res as? [String:Any],!dict.isEmpty,let status = dict["status"] as? Int,status == 500,let errorCode = dict["errorCode"] as? String,errorCode == "-20302" || errorCode == "-20303" else{
                 
-                if let dict = dict as? [String:Any] {
+                if let dict = res as? [String:Any] {
                     var dictNew:[AnyHashable:Any] = [:]
                     dict.forEach({ (key: AnyHashable, value: Any) in
                         dictNew[key] = value
@@ -80,10 +80,9 @@ extension SwiftGtOneloginFlutterPlugin{
                     
                 }
                 
-                result(dict)
+                result(res)
                 return
             }
-//            result(nil)
         }
     }
     

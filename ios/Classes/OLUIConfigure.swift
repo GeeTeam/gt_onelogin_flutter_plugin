@@ -12,20 +12,11 @@ import UIKit
 
 class OLUIConfigure{
     let iosLog = "| Geetest | OneLogin iOS | "
-    //Only for iOS 授权页面支持的横竖屏方向
+    //Only for iOS 授权页面支持的横竖屏方向（portrait or landscape）
     var supportedinterfaceOrientations:UIInterfaceOrientationMask?
       //Only for iOS 授权页面界面样式
-
-//    @available(iOS 12.0, *)
-//    var userinterfaceStyle:UIUserInterfaceStyle?{
-//        set{
-//            _userinterfaceStyle = newValue
-//        }
-//        get{
-//            return self.userinterfaceStyle
-//        }
-//
-//    }
+    var userinterfaceStyle:Int?
+    //  UIUserInterfaceStyle
 
       ///--------------弹窗----------------
       //是否是弹框样式
@@ -134,7 +125,7 @@ class OLUIConfigure{
 //      //隐私条款文本：隐私条款文字行间距
 //    var termsLineSpacingExtra:Double?;
 //      //隐私条款文本：隐私条款文字行间距的倍数
-//    var termsLineSpacingMultiplier:Int?;
+//    var termsLineSpacingMultiplier:Double?;
     var termsClauseAttributes:[NSAttributedString.Key:Any]?
       //隐私条款文本：隐私条款名称是否显示书名号
     var termsBookTitleMarkHidden:Bool?;
@@ -177,9 +168,9 @@ class OLUIConfigure{
                 supportedinterfaceOrientations = .landscape
             }
         }
-//        if let userinterfaceStyleIndex = dict[OLConstant.supportedinterfaceOrientations] as? Int,let userinterfaceStyle = UIUserInterfaceStyle(rawValue: userinterfaceStyleIndex) {
-////            self.userinterfaceStyle = userinterfaceStyle;
-//        }
+        if let userinterfaceStyleIndex = dict[OLConstant.supportedinterfaceOrientations] as? Int {
+            self.userinterfaceStyle = userinterfaceStyleIndex;
+        }
         self.isDialogStyle = parseBool(dict: dict, key: OLConstant.isDialogStyle)
         self.dialogRect = parseRect(dict: dict, key: OLConstant.dialogRect)
         self.dialogCornersRadius = dict[OLConstant.dialogCornersRadius] as? Double
@@ -244,9 +235,9 @@ extension OLUIConfigure{
             
             authViewModel.supportedInterfaceOrientations = supportedInterfaceOrientations
         }
-//        if #available(iOS 12.0, *),let userinterfaceStyle = userinterfaceStyle {
-//            authViewModel.userInterfaceStyle = NSNumber(value: userinterfaceStyle.rawValue)
-//        }
+        if #available(iOS 12.0, *),let userinterfaceStyleIndex = userinterfaceStyle,let _ = UIUserInterfaceStyle(rawValue: userinterfaceStyleIndex) {
+            authViewModel.userInterfaceStyle = NSNumber(value: userinterfaceStyleIndex)
+        }
         if let isDialogStyle = isDialogStyle {
             authViewModel.isPopup = isDialogStyle
         }
@@ -272,7 +263,6 @@ extension OLUIConfigure{
         authViewModel.naviBackImage = navBackImage
         if let navBackImageRect = navBackImageRect {
             authViewModel.backButtonRect = navBackImageRect
-            print("backButtonRect：\(navBackImageRect)")
         }
         if let navBackImageHidden = navBackImageHidden {
             authViewModel.backButtonHidden = navBackImageHidden
@@ -381,7 +371,6 @@ extension OLUIConfigure{
     }
     func parseColor(dict:[String:Any],key:String) -> UIColor?{
         if let colorString = dict[key] as? String {
-            print("解析颜色：\(colorString)")
             return UIColor(hexString: colorString)
         }
         return nil

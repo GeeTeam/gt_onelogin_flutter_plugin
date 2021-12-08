@@ -134,11 +134,11 @@ class _MyAppState extends State<MyApp> {
   OLUIConfigure _getOLUIConfigure() {
     var configure = OLUIConfigure();
     var screenSize = MediaQuery.of(context).size;
-    debugPrint("屏幕高度：$screenSize");
 
     configure.isDialogStyle = _isDialog;
     configure.dialogRect = OLRect(y: (screenSize.height-500)/2,x:(screenSize.width-300)/2,height: 500,width: 300);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
+    configure.userinterfaceStyle = OLIOSUserInterfaceStyle.dark;
     configure.dialogCornersRadius = 20;
     configure.navigationBarColor = const Color(0x8cff90ff);
     configure.logoImage = "onelogin";
