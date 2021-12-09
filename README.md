@@ -84,7 +84,73 @@ configure.terms = [
   OLTermsPrivacyItem("自定义服务条款3", "https://www.geetest.com"),
 ];
 configure.auxiliaryPrivacyWords = ["条款前文案", "&", "%", "~", "条款后的文案"];
-oneLoginPlugin.requestToken(configure);
+oneLoginPlugin.requestToken(configure).then((result) async {
+      int status = result["status"];
+      if (status == 200) {
+        Map<String, dynamic> params = {};
+        params["process_id"] = result["process_id"];
+        params["token"] = result["token"];
+        params["id_2_sign"] = result["app_id"];
+        if (result["authcode"] != null) {
+          params["authcode"] = result["authcode"];
+        }
+        await verifyToken(params);
+      } else {
+        var errCode = result["err_code"];
+        // 获取网关token失败
+        if ("-20103" == errCode) {
+          // TO-DO
+          // 重复调用 requestToken:
+        }
+        else if ("-20202" == errCode) {
+          // TO-DO
+          // 检测到未开启蜂窝网络
+        }
+        else if ("-20203" == errCode) {
+          // TO-DO
+          // 不支持的运营商类型
+        }
+        else if ("-20204" == errCode) {
+          // TO-DO
+          // 未获取有效的 `accessCode` 或已经失效, 请重新初始化，init(appId):
+        }
+        else {
+          // TO-DO
+          // 其他错误类型
+        }
+        oneLoginPlugin.dismissAuthView();
+      }
+    });
+    
+//一键登录校验token
+Future<dynamic> verifyToken(Map<String, dynamic> params) async {
+  var options = BaseOptions(
+    baseUrl: 'http://onepass.geetest.com',
+    connectTimeout: 5000,
+    receiveTimeout: 3000,
+  );
+  Dio dio = Dio(options);
+  final response =
+  await dio.post<Map<String, dynamic>>("/onelogin/result", data: params);
+  String toast = "登录失败";
+  if (response.statusCode == 200) {
+    var result = response.data;
+    debugPrint(response.data.toString());
+    if (result != null && result["status"] == 200) {
+      toast = "登录成功，手机号为:${result["result"]}";
+    }
+  }
+  oneLoginPlugin.dismissAuthView();
+  Fluttertoast.showToast(
+      msg: toast,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.white10,
+      textColor: Colors.black87,
+      fontSize: 16.0);
+  return;
+}
 ```
 
 ### dismissAuthView
@@ -148,6 +214,7 @@ oneLoginPlugin.destroy();
 ### addEventHandler
 
 添加处理回调
+
 ```dart
 oneLoginPlugin.addEventListener(
     onBackButtonClick: (_) {
@@ -164,5 +231,6 @@ oneLoginPlugin.addEventListener(
     }, 
     onTermItemClick: (item) {
       debugPrint(tag + "onTermItemClick:${item.title} --  ${item.url}");
-    });
+    }
+);
 ```

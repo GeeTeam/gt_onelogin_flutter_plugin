@@ -76,6 +76,11 @@ extension SwiftGtOneloginFlutterPlugin{
                         dictNew.removeValue(forKey: "processID")
                         result(dictNew)
                         return
+                    }else if let status = dict["status"] as? Int, status == 500, let errorCode = dictNew["errorCode"] as? String {
+                        dictNew["error_code"] = errorCode
+                        dictNew.removeValue(forKey: "errorCode")
+                        result(dictNew)
+                        return
                     }
                     
                 }
