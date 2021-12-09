@@ -81,8 +81,6 @@ class OLUIConfigure{
   Color? switchButtonBackgroundColor;
   // 切换账号按钮size  位置
   OLRect? switchButtonRect;
-  //Only for Android 切换账号相对于底部 y 偏移
-  double? switchButtonOffsetYB;
   //Only for Android 切换账号背景图片
   String? switchButtonBgImage;
 
@@ -109,8 +107,6 @@ class OLUIConfigure{
   int? sloganSize;
   //slogan size 位置
   OLRect? sloganRect;
-  //Only for Android Slogan 相对于底部 y 偏移
-  double? sloganOffsetYB;
 
   ///--------------隐私条款----------------
   //隐私条款 位置及大小

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.nfc.FormatException
 import android.util.Log
+import android.view.ViewGroup
 import com.geetest.onelogin.config.OneLoginThemeConfig
 
 object UIHelper {
@@ -151,12 +152,12 @@ object UIHelper {
         if (param.containsKey(Constant.systemNavBarBgColor)) {
             systemNavBarBgColor = hexStrToInt(param[Constant.systemNavBarBgColor] as String)
         }
-        //状态栏是否为亮色：内容为黑色 暗色：内容为白色
-        var statusBarStyle = false //默认为亮色
+        //状态栏是否为亮色：true:内容为黑色 false：内容为白色
+        var lightColor = false
         if (param.containsKey(Constant.statusBarStyle)) {
-            statusBarStyle = (param[Constant.statusBarStyle] as Int) != 2 //暗色枚举对应的序号为2
+            lightColor = (param[Constant.statusBarStyle] as Int) == 2 //暗色内容枚举对应的序号为2
         }
-        uiConfigBuilder.setStatusBar(statusBarBgColor, systemNavBarBgColor, statusBarStyle)
+        uiConfigBuilder.setStatusBar(statusBarBgColor, systemNavBarBgColor, lightColor)
     }
 
     private fun setAuthNavLayout(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder): Int {
@@ -366,7 +367,7 @@ object UIHelper {
         }
         // 切换账号按钮字体大小
         var switchTextSize = 14
-        if (param.containsKey(Constant.navTextSize)) {
+        if (param.containsKey(Constant.switchTextSize)) {
             switchTextSize = param[Constant.switchTextSize] as Int
         }
         // 切换账号按钮是否隐藏
@@ -405,9 +406,14 @@ object UIHelper {
         var authButtonImage = "gt_one_login_btn"
         var authButtonUncheckedImage = "gt_one_login_btn_unchecked"
         if (param.containsKey(Constant.authButtonImages)) {
-            val authButtonImages = param[Constant.authButtonImages] as Array<*>
-            authButtonImage = authButtonImages[0] as String
-            authButtonUncheckedImage = authButtonImages[1] as String
+            val authButtonImages = param[Constant.authButtonImages] as List<*>
+            if (authButtonImages.size >= 2) {
+                authButtonImage = authButtonImages[0] as String
+                authButtonUncheckedImage = authButtonImages[1] as String
+            } else if (authButtonImages.size == 1) {
+                authButtonImage = authButtonImages[0] as String
+                authButtonUncheckedImage = authButtonImage
+            }
         }
         //授权按钮的size 位置
         var authButtonRect: OLRect? = null
@@ -500,7 +506,7 @@ object UIHelper {
             }
         }
         if (termsRect == null) {
-            termsRect = OLRect(256, 0, 0, 400)
+            termsRect = OLRect(ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 400) //不设置宽度就包裹内容
         }
         uiConfigBuilder.setPrivacyLayout(termsRect.width!!, termsRect.y!!, 0, termsRect.x!!,
             isUseNormalWebActivity, termsGravityWithCheckbox)
@@ -582,31 +588,80 @@ object UIHelper {
     }
 
     private fun setPrivacyClauseText(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
-        //隐私条款对象数组
-        if (param.containsKey(Constant.terms) && param.containsKey(Constant.auxiliaryPrivacyWords)) {
-            val termsList = getPrivacyItemsList(param[Constant.terms] as List<*>)
-            val auxiliaryPrivacyWords = param[Constant.auxiliaryPrivacyWords] as List<*>
-            if (termsList == null) { //无自定义条款，连接字符位于运营商条款首尾即可
-                val auxiliaryPrivacyWord0 = getAuxiliaryPrivacyWord(0, auxiliaryPrivacyWords)
-                val auxiliaryPrivacyWord1 = getAuxiliaryPrivacyWord(1, auxiliaryPrivacyWords)
-                uiConfigBuilder.setPrivacyTextView(auxiliaryPrivacyWord0, "", "", auxiliaryPrivacyWord1)
-            } else { //有添加自定义条款，将运营商条款置于第一，连接字符个数应比
-                val auxiliaryPrivacyWord0 = getAuxiliaryPrivacyWord(0, auxiliaryPrivacyWords)
-                val auxiliaryPrivacyWord1 = getAuxiliaryPrivacyWord(1, auxiliaryPrivacyWords)
-                val auxiliaryPrivacyWord2 = getAuxiliaryPrivacyWord(2, auxiliaryPrivacyWords)
-                val auxiliaryPrivacyWord3 = getAuxiliaryPrivacyWord(3, auxiliaryPrivacyWords)
-                val auxiliaryPrivacyWord4 = getAuxiliaryPrivacyWord(4, auxiliaryPrivacyWords)
+        if (!param.containsKey(Constant.terms)
+            && !param.containsKey(Constant.auxiliaryPrivacyWords)) {
+            return
+        }
 
-                val privacyItem0 = getPrivacyItem(0, termsList)
-                val privacyItem1 = getPrivacyItem(1, termsList)
-                val privacyItem2 = getPrivacyItem(2, termsList)
+        //服务条款列表
+        val termsList = if (param.containsKey(Constant.terms)) {
+            getPrivacyItemsList(param[Constant.terms] as List<*>)
+        } else {
+            null
+        }
+        //居间连接字符列表
+        val auxiliaryPrivacyWords = if (param.containsKey(Constant.auxiliaryPrivacyWords)) {
+            param[Constant.auxiliaryPrivacyWords] as List<*>
+        } else {
+            null
+        }
 
-                uiConfigBuilder.setPrivacyClauseTextStrings(auxiliaryPrivacyWord0, "", "", "",
-                    auxiliaryPrivacyWord1, privacyItem0.title, privacyItem0.url, "",
-                    auxiliaryPrivacyWord2, privacyItem1.title, privacyItem1.url, "",
-                    auxiliaryPrivacyWord3, privacyItem2.title, privacyItem2.url, auxiliaryPrivacyWord4)
-            }
+        if ((termsList == null || termsList.isEmpty())
+            && (auxiliaryPrivacyWords == null || auxiliaryPrivacyWords.isEmpty())) {
+            return
+        }
 
+        val privacyItem0 = getPrivacyItem(0, termsList)
+        val privacyItem1 = getPrivacyItem(1, termsList)
+        val privacyItem2 = getPrivacyItem(2, termsList)
+
+        //句首字符
+        val auxiliaryWordFirst = if (auxiliaryPrivacyWords != null && auxiliaryPrivacyWords.isNotEmpty()) {
+            auxiliaryPrivacyWords[0] as String
+        } else {
+            ""
+        }
+        //句尾字符
+        val auxiliaryWordEnd = if (auxiliaryPrivacyWords != null && auxiliaryPrivacyWords.size > 1) {
+            auxiliaryPrivacyWords[auxiliaryPrivacyWords.size-1] as String
+        } else {
+            ""
+        }
+
+        val auxiliaryWord1 = if (auxiliaryPrivacyWords != null && auxiliaryPrivacyWords.size > 2) {
+            auxiliaryPrivacyWords[1] as String //取第2个字符作为居间连接符
+        } else {
+            ""
+        }
+        val auxiliaryWord2 = if (auxiliaryPrivacyWords != null && auxiliaryPrivacyWords.size > 3) {
+            auxiliaryPrivacyWords[2] as String //取第3个字符作为居间连接符
+        } else {
+            ""
+        }
+        val auxiliaryWord3 = if (auxiliaryPrivacyWords != null && auxiliaryPrivacyWords.size > 4) {
+            auxiliaryPrivacyWords[3] as String //取第4个字符作为居间连接符
+        } else {
+            ""
+        }
+
+        //运营商条款置于第一
+        if (termsList == null || termsList.isEmpty()) { //无自定义条款，连接字符位于运营商条款首尾即可
+            uiConfigBuilder.setPrivacyTextView(auxiliaryWordFirst, "", "", auxiliaryWordEnd)
+        } else if (termsList.size == 1) { //有一个自定义条款
+            uiConfigBuilder.setPrivacyTextView(auxiliaryWordFirst, auxiliaryWord1, "", auxiliaryWordEnd)
+            uiConfigBuilder.setPrivacyClauseText("", "",
+                privacyItem0.title, privacyItem0.url,
+                "", "")
+        } else if (termsList.size == 2) { //有两个自定义条款
+            uiConfigBuilder.setPrivacyTextView(auxiliaryWordFirst, auxiliaryWord1, auxiliaryWord2, auxiliaryWordEnd)
+            uiConfigBuilder.setPrivacyClauseText("", "",
+                privacyItem0.title, privacyItem0.url,
+                privacyItem1.title, privacyItem1.url)
+        } else { //有三个自定义条款
+            uiConfigBuilder.setPrivacyClauseTextStrings(auxiliaryWordFirst, "", "", "",
+                auxiliaryWord1, privacyItem0.title, privacyItem0.url, "",
+                auxiliaryWord2, privacyItem1.title, privacyItem1.url, "",
+                auxiliaryWord3, privacyItem2.title, privacyItem2.url, auxiliaryWordEnd)
         }
     }
 
@@ -651,14 +706,10 @@ object UIHelper {
         return termsArray.toList()
     }
 
-    private fun getAuxiliaryPrivacyWord(index: Int, words: List<*>): String {
-        if (index >= words.size) {
-            return ""
+    private fun getPrivacyItem(index: Int, terms: List<OLTermsPrivacyItem>?): OLTermsPrivacyItem {
+        if (terms == null) {
+            return OLTermsPrivacyItem("", "")
         }
-        return words[index] as String
-    }
-
-    private fun getPrivacyItem(index: Int, terms: List<OLTermsPrivacyItem>): OLTermsPrivacyItem {
         if (index >= terms.size) {
             return OLTermsPrivacyItem("", "")
         }
