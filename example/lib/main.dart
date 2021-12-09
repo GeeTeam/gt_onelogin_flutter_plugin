@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -5,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gt_onelogin_flutter_plugin/gt_onelogin_flutter_plugin.dart';
 import 'package:dio/dio.dart';
 
-const String olAppId = "b41a959b5cac4dd1277183e074630945_test";
 const getPhoneUrl = "http://onepass.geetest.com/onelogin/result";
 const String tag = "| Geetest | Example | ";
 
@@ -40,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _init() {
-    oneLoginPlugin.init(olAppId);
+    oneLoginPlugin.init("b41a959b5cac4dd1277183e074630945");
     oneLoginPlugin.addEventListener(onBackButtonClick: (_) {
       debugPrint(tag + "onBackButtonClick");
     }, onAuthButtonClick: (_) {
@@ -118,25 +119,29 @@ class _MyAppState extends State<MyApp> {
       } else {
         var errCode = result["err_code"];
         // 获取网关token失败
-        if ("-20103" == errCode) {
-          // TO-DO
-          // 重复调用 requestTokenWithViewController:viewModel:completion:
-        }
-        else if ("-20202" == errCode) {
-          // TO-DO
-          // 检测到未开启蜂窝网络
-        }
-        else if ("-20203" == errCode) {
-          // TO-DO
-          // 不支持的运营商类型
-        }
-        else if ("-20204" == errCode) {
-          // TO-DO
-          // 未获取有效的 `accessCode` 或已经失效, 请重新初始化，init(appId):
-        }
-        else {
-          // TO-DO
-          // 其他错误类型
+        if (Platform.isIOS) { //iOS错误码
+          if ("-20103" == errCode) {
+            // TO-DO
+            // 重复调用 requestTokenWithViewController:viewModel:completion:
+          }
+          else if ("-20202" == errCode) {
+            // TO-DO
+            // 检测到未开启蜂窝网络
+          }
+          else if ("-20203" == errCode) {
+            // TO-DO
+            // 不支持的运营商类型
+          }
+          else if ("-20204" == errCode) {
+            // TO-DO
+            // 未获取有效的 `accessCode` 或已经失效, 请重新初始化，init(appId):
+          }
+          else {
+            // TO-DO
+            // 其他错误类型
+          }
+        }else{ //安卓错误码
+          //TODO Android error code handle
         }
         oneLoginPlugin.dismissAuthView();
       }
@@ -156,6 +161,7 @@ class _MyAppState extends State<MyApp> {
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.dark;
     configure.dialogCornersRadius = 20;
+    configure.authViewBackgroundImage = "login_back";
     configure.navigationBarColor = const Color(0x8cff90ff);
     configure.navText = "一键登录";
     configure.switchButtonText = "自定义切换按钮文案";
