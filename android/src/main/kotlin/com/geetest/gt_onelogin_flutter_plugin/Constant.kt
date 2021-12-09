@@ -22,7 +22,6 @@ class Constant {
         const val onBackButtonClick = "$methodNames/onBackButtonClick";
         const val onAuthButtonClick = "$methodNames/onAuthButtonClick";
         const val onSwitchButtonClick = "$methodNames/onSwitchButtonClick";
-        const val onTermItemClick = "$methodNames/onTermItemClick"; //点击服务条款
         const val onTermCheckBoxClick = "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
 
         ///方法参数

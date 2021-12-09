@@ -96,6 +96,14 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
           "onResult argument is null"
         }
         Log.i(tag, "onResult: $p0")
+        if (p0.has("errorCode")) {
+          val errorCode = p0["errorCode"]
+          // 分别对应：切换账号、点击标题栏返回按钮、点击系统返回按钮。此三者有event回调，不再返回到flutter
+          if (errorCode == "-20303" || errorCode == "-20302" || errorCode == "-20301") {
+            return
+          }
+        }
+
         val argumentsMap = HashMap<String, Any>()
         val keyIterator: Iterator<String> = p0.keys()
         var key: String
@@ -129,12 +137,6 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       override fun onPrivacyCheckBoxClick(isChecked: Boolean) {
         Log.i(tag, "onTermCheckBoxClick")
         channel.invokeMethod(Constant.onTermCheckBoxClick, isChecked)
-      }
-
-      override fun onPrivacyClick(name: String?, url: String?) {
-        Log.i(tag, "onTermItemClick")
-        val argus = mapOf(Constant.termsItemTitle to name, Constant.termsItemUrl to url)
-        channel.invokeMethod(Constant.onTermItemClick, argus)
       }
     })
   }

@@ -46,12 +46,11 @@ class _MyAppState extends State<MyApp> {
       debugPrint(tag + "onBackButtonClick");
     }, onAuthButtonClick: (_) {
       debugPrint(tag + "onAuthButtonClick");
-    }, onSwitchButtonClick: (_) {
+    }, onSwitchButtonClick: (_) { // 用户选择切换账号登录，收到此回调后可关闭授权页，跳转或降级走其他方式登录，或者待用户选择
       debugPrint(tag + "onSwitchButtonClick");
+      oneLoginPlugin.dismissAuthView();
     }, onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
-    }, onTermItemClick: (item) {
-      debugPrint(tag + "onTermItemClick:${item.title} --  ${item.url}");
     });
   }
 

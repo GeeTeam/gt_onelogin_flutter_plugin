@@ -22,7 +22,6 @@ class _OLConstant{
   static const onBackButtonClick = "$methodNames/onBackButtonClick";
   static const onAuthButtonClick = "$methodNames/onAuthButtonClick";
   static const onSwitchButtonClick = "$methodNames/onSwitchButtonClick";
-  static const onTermItemClick = "$methodNames/onTermItemClick"; //点击服务条款
   static const onTermCheckBoxClick = "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
 
   ///方法参数

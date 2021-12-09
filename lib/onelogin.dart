@@ -82,13 +82,11 @@ class GtOneloginFlutterPlugin {
       {EventHandler<void>? onBackButtonClick,
       EventHandler<void>? onAuthButtonClick,
       EventHandler<void>? onSwitchButtonClick,
-      EventHandler<OLTermsPrivacyItem>? onTermItemClick,
       EventHandler<bool>? onTermCheckBoxClick}) {
     debugPrint(flutterLog + "addEventListener");
     _onBackButtonClick = onBackButtonClick;
     _onAuthButtonClick = onAuthButtonClick;
     _onSwitchButtonClick = onSwitchButtonClick;
-    _onTermItemClick = onTermItemClick;
     _onTermCheckBoxClick = onTermCheckBoxClick;
 
     _channel.setMethodCallHandler(_handler);
@@ -103,8 +101,6 @@ class GtOneloginFlutterPlugin {
         return _onAuthButtonClick?.call(null);
       case _OLConstant.onSwitchButtonClick:
         return _onSwitchButtonClick?.call(null);
-      case _OLConstant.onTermItemClick:
-        return _onTermItemClick?.call(OLTermsPrivacyItem.fromMap(LinkedHashMap.from(call.arguments)));;
       case _OLConstant.onTermCheckBoxClick:
         return _onTermCheckBoxClick?.call(call.arguments as bool);
       default:

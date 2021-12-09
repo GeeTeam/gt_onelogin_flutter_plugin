@@ -502,7 +502,7 @@ object UIHelper {
         if (param.containsKey(Constant.termsRect)) {
             val termsRectMap = param[Constant.termsRect]
             if (termsRectMap is Map<*, *>) {
-                termsRect = convertMapToRect(termsRectMap, 256, 0, 0, 400)
+                termsRect = convertMapToRect(termsRectMap, ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 400)
             }
         }
         if (termsRect == null) {
