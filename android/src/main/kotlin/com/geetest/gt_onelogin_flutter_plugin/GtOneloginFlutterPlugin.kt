@@ -128,13 +128,12 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
 
       override fun onPrivacyCheckBoxClick(isChecked: Boolean) {
         Log.i(tag, "onTermCheckBoxClick")
-        val argus = mapOf("isChecked" to isChecked)
-        channel.invokeMethod(Constant.onTermCheckBoxClick, argus)
+        channel.invokeMethod(Constant.onTermCheckBoxClick, isChecked)
       }
 
       override fun onPrivacyClick(name: String?, url: String?) {
         Log.i(tag, "onTermItemClick")
-        val argus = mapOf("name" to name, "url" to url)
+        val argus = mapOf(Constant.termsItemTitle to name, Constant.termsItemUrl to url)
         channel.invokeMethod(Constant.onTermItemClick, argus)
       }
     })

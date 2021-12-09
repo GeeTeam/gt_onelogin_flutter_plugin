@@ -132,7 +132,7 @@ object UIHelper {
         }
         uiConfigBuilder.setDialogTheme(true,
             dialogWidth, dialogHeight, dialogX, dialogY, false, isWebDialogStyle)
-        return dialogWidth;
+        return dialogWidth
     }
 
     private fun setSystemBar(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
@@ -177,7 +177,7 @@ object UIHelper {
         if (param.containsKey(Constant.navHidden)) {
             navHidden = param[Constant.navHidden] as Boolean
         }
-        uiConfigBuilder.setAuthNavLayout(navigationBarColor, authNavHeight, true, navHidden)
+        uiConfigBuilder.setAuthNavLayout(navigationBarColor, authNavHeight, false, navHidden)
         return if (navHidden) {
             0
         } else {
@@ -414,11 +414,11 @@ object UIHelper {
         if (param.containsKey(Constant.authButtonRect)) {
             val authButtonRectMap = param[Constant.authButtonRect]
             if (authButtonRectMap is Map<*, *>) {
-                authButtonRect = convertMapToRect(authButtonRectMap, 268, 36, 0, 249)
+                authButtonRect = convertMapToRect(authButtonRectMap, 268, 36, 0, 324)
             }
         }
         if (authButtonRect == null) {
-            authButtonRect = OLRect(268, 36, 0, 249)
+            authButtonRect = OLRect(268, 36, 0, 324)
         }
         uiConfigBuilder.setLogBtnLayout(authButtonImage, authButtonUncheckedImage, authButtonRect.width!!,
             authButtonRect.height!!, authButtonRect.y!!, 0, authButtonRect.x!!)
@@ -690,7 +690,7 @@ object UIHelper {
 
     private fun getPictureSize(picName: String, context: Context): BitmapFactory.Options {
         val appInfo = context.applicationInfo
-        val picId = context.resources.getIdentifier(picName, "id", appInfo.packageName)
+        val picId = context.resources.getIdentifier(picName, "drawable", appInfo.packageName)
 
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true

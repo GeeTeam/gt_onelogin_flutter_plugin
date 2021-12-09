@@ -149,6 +149,8 @@ class _MyAppState extends State<MyApp> {
     configure.termsClauseColor = Colors.orange;
     configure.termTextColor = Colors.purple;
     configure.termsRect = OLRect(x: 50);
+    configure.checkedImage = "checked";
+    configure.uncheckedImage = "unchecked";
 
     configure.logoImage = '网关取号_logo';
     configure.numberColor = Colors.pinkAccent;

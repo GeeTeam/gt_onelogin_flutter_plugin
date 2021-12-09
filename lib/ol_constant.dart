@@ -140,7 +140,7 @@ class _OLConstant{
   ///--------------隐私条款----------------
   //隐私条款 位置及大小
   static const termsRect = "$methodParameters/termsRect";
-  //Only for Android Slogan  是否跳转到默认的隐私条款页面
+  //Only for Android  是否跳转到默认的隐私条款页面
   static const isUseNormalWebActivity = "$methodParameters/isUseNormalWebActivity";
   //隐私条款基础文字颜色
   static const termTextColor = "$methodParameters/termTextColor";

@@ -27,7 +27,10 @@ class OLUIConfigure{
   //状态栏样式
   OLStatusBarStyle? statusBarStyle;
 
-  ///--------------标题栏，虚拟按键----------------
+  ///--------------系统虚拟按键----------------
+  //Only for Android
+  Color? systemNavBarBgColor;
+  ///--------------标题栏----------------
   //标题栏：颜色
   Color? navigationBarColor;
   //Only for Android 标题栏：高度
@@ -169,6 +172,7 @@ class OLUIConfigure{
       _OLConstant.backgroundColor : backgroundColor?.hexString,
       _OLConstant.statusBarBgColor : statusBarBgColor?.hexString,
       _OLConstant.statusBarStyle : statusBarStyle?.index,
+      _OLConstant.systemNavBarBgColor: systemNavBarBgColor?.hexString,
       _OLConstant.navigationBarColor : navigationBarColor?.hexString,
       _OLConstant.authNavHeight : authNavHeight,
       _OLConstant. navHidden : navHidden,
