@@ -138,8 +138,25 @@ class _MyAppState extends State<MyApp> {
             // TO-DO
             // 其他错误类型
           }
-        }else{ //安卓错误码
-          //TODO Android error code handle
+        } else { //安卓错误码
+          if ("-20200" == errCode) {
+            // TO-DO
+            // 网络不可用
+          } else if ("-20202" == errCode) {
+            // TO-DO
+            // 检测到未开启蜂窝网络
+          }
+          else if ("-20203" == errCode) {
+            // TO-DO
+            // 不支持的运营商类型
+          }
+          else if ("-20105" == errCode) {
+            // TO-DO
+            // 超时。网络信号较差或者配置的超时时间较短，导致预取号或者取号超时
+          } else {
+            // TO-DO
+            // 其他错误类型
+          }
         }
         oneLoginPlugin.dismissAuthView();
       }
@@ -154,10 +171,9 @@ class _MyAppState extends State<MyApp> {
     //弹窗样式
     configure.isDialogStyle = _isDialog;
     configure.dialogRect = OLRect(
-        y: (screenSize.height - 340) / 2,
-        x: (screenSize.width - 300) / 2,
-        height: 340,
-        width: 300);
+        y: screenSize.height - 400,
+        height: 400,
+        width: screenSize.width);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.dark;
     configure.dialogCornersRadius = 20;
@@ -166,22 +182,21 @@ class _MyAppState extends State<MyApp> {
     // configure.authViewBackgroundImage = "one_login_bg_fuchsin";
 
     //状态栏 导航栏
-    configure.statusBarBgColor = Colors.blue;
-    configure.systemNavBarBgColor = Colors.blue;
+    configure.statusBarBgColor = Colors.transparent;
+    configure.systemNavBarBgColor = Colors.transparent;
     configure.statusBarStyle = OLStatusBarStyle.darkContent;
 
     //标题栏
-    configure.navTextColor = Colors.white60;
-    configure.navigationBarColor = Colors.blue;
+    configure.navTextColor = Colors.black;
+    configure.navigationBarColor = Colors.white;
     configure.navText = "一键登录";
     configure.authNavHeight = 50;
     configure.navTextSize = 25;
     configure.navBackImage = "back";
     configure.navBackImageRect = OLRect(
-      width: 20,
-      height: 32,
-      x: 20,
-      y: 9
+      width: 13,
+      height: 21,
+      x: 10,
     );
     configure.navBackImageHidden = false;
     configure.navHidden = false;
@@ -208,14 +223,14 @@ class _MyAppState extends State<MyApp> {
 
     //切换账号
     configure.switchButtonText = "自定义切换按钮文案";
-    configure.switchButtonColor = Colors.white;
+    configure.switchButtonColor = Colors.black54;
     configure.switchTextSize = 16;
     configure.switchButtonRect = OLRect(
         width: 160,
         height: 28,
         x: (screenSize.width - 160) / 2,
         y: 249);
-    configure.switchButtonBgImage = "one_login_bg_fuchsin";
+    // configure.switchButtonBgImage = "one_login_bg_fuchsin";
     configure.switchButtonHidden = false;
 
     //一键登录按钮

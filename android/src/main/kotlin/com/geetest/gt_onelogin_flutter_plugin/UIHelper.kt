@@ -20,9 +20,11 @@ object UIHelper {
 
         val displayMetrics = context.resources.displayMetrics
         val screenWidth = (displayMetrics.widthPixels/displayMetrics.density).toInt()
+        val screenHeight = (displayMetrics.heightPixels/displayMetrics.density).toInt()
+        val statusBarHeight = getStatusBarHeight(context)
 
         //弹窗模式
-        val dialogWidth = setDialogStyle(param, uiConfigBuilder, screenWidth)
+        val dialogWidth = setDialogStyle(param, uiConfigBuilder, screenWidth, screenHeight, statusBarHeight)
         val authViewWidth = if (dialogWidth == 0) {
             screenWidth
         } else {
@@ -95,7 +97,8 @@ object UIHelper {
     }
 
     //设置授权页对话框模式
-    private fun setDialogStyle(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder, screenWidth: Int): Int {
+    private fun setDialogStyle(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder,
+                               screenWidth: Int, screenHeight: Int, statusBarHeight: Int): Int {
         if (!param.containsKey(Constant.isDialogStyle)) {
             return 0
         }
@@ -118,13 +121,15 @@ object UIHelper {
                     dialogHeight = it
                 }
                 dialogRect.x?.let {
-                    //客户设置了距离屏幕左侧的margin
-                    dialogX = it-(screenWidth-dialogWidth)/2
+                    //客户设置了距离屏幕左侧的margin，转换为对话框中心点距离屏幕中心点的x偏移量
+                    dialogX = it - (screenWidth - dialogWidth)/2
                 }
                 dialogRect.y?.let {
-                    dialogY = it
+                    //flutter中设置的y轴偏移量为对话框上边缘距离屏幕顶部的距离
+                    //native中获取的屏幕高不包含状态栏高度
+                    //对话框中心点距离屏幕中心点的距离 = flutter设置的y偏移 + 对话框高度的一半 - 屏幕高度的一半
+                    dialogY = it + dialogHeight/2 - (screenHeight + statusBarHeight)/2
                 }
-                Log.i(tag, "dialogRect width:${dialogRect.width} height:${dialogRect.height} x:${dialogRect.x} y:${dialogRect.y}")
             }
         }
         var isWebDialogStyle = false
@@ -502,11 +507,11 @@ object UIHelper {
         if (param.containsKey(Constant.termsRect)) {
             val termsRectMap = param[Constant.termsRect]
             if (termsRectMap is Map<*, *>) {
-                termsRect = convertMapToRect(termsRectMap, ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 400)
+                termsRect = convertMapToRect(termsRectMap, 256, 0, 0, 400)
             }
         }
         if (termsRect == null) {
-            termsRect = OLRect(ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 400) //不设置宽度就包裹内容
+            termsRect = OLRect(256, 0, 0, 400)
         }
         uiConfigBuilder.setPrivacyLayout(termsRect.width!!, termsRect.y!!, 0, termsRect.x!!,
             isUseNormalWebActivity, termsGravityWithCheckbox)
@@ -747,5 +752,12 @@ object UIHelper {
         options.inJustDecodeBounds = true
         BitmapFactory.decodeResource(context.resources, picId, options)
         return options
+    }
+
+    private fun getStatusBarHeight(context: Context): Int {
+        val res = context.resources
+        val statusBarId = res.getIdentifier("status_bar_height", "dimen", "android")
+        val statusBarHeightPx = res.getDimensionPixelSize(statusBarId)
+        return (statusBarHeightPx/res.displayMetrics.density).toInt()
     }
 }
