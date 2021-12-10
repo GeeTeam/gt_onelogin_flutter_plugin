@@ -77,7 +77,10 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
         return
       }
       val appId = get(Constant.appId) as String
-      OneLoginHelper.with().init(mContext, appId)
+      OneLoginHelper
+        .with()
+        .setLogEnable(true)
+        .init(mContext, appId)
 
       val timeout: Int = if (containsKey(Constant.timeout)) {
         get(Constant.timeout) as Int

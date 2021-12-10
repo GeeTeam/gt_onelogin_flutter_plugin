@@ -270,7 +270,7 @@ class _MyAppState extends State<MyApp> {
     //checkbox
     configure.checkedImage = "checked";
     configure.uncheckedImage = "unchecked";
-    configure.defaultCheckBoxState = true;
+    configure.defaultCheckBoxState = false;
 
     //服务条款的名称、url及连接文案
     configure.terms = [

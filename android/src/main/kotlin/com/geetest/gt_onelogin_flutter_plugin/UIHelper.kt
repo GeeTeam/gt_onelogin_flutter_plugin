@@ -107,7 +107,7 @@ object UIHelper {
             return 0
         }
         var dialogWidth = 300
-        var dialogHeight = 500
+        var dialogHeight = 340
         var dialogX = 0
         var dialogY = 0
         if (param.containsKey(Constant.dialogRect)) {

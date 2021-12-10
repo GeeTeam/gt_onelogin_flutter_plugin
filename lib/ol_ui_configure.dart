@@ -12,6 +12,8 @@ class OLUIConfigure{
   bool? isDialogStyle;
   //弹窗size，位置
   OLRect? dialogRect;
+  //Only for Android 服务条款页面是否使用弹框样式
+  bool? isWebDialogStyle;
   //弹窗圆角
   double? dialogCornersRadius;
 
@@ -163,6 +165,7 @@ class OLUIConfigure{
       _OLConstant.userinterfaceStyle:userinterfaceStyle?.index,
       _OLConstant.isDialogStyle:isDialogStyle,
       _OLConstant.dialogRect : dialogRect?.toMap(),
+      _OLConstant.isWebDialogStyle : isWebDialogStyle,
       _OLConstant.dialogCornersRadius : dialogCornersRadius,
       _OLConstant.authViewBackgroundImage : authViewBackgroundImage,
       _OLConstant.backgroundColor : backgroundColor?.hexString,

@@ -31,31 +31,134 @@ dependencies:
   
 ## 配置 / Configuration
 
-请在 [官网/Official](https://www.geetest.com) 申请验证 ID（gt）和 Key，并部署配套的后端接口。详细介绍请查阅：
+请在 [官网/Official](https://www.geetest.com) 申请 APPID 和 Key，并部署配套的后端接口。详细介绍请查阅：
 
-[部署说明](https://docs.geetest.com/sensebot/start/)/[Deploy Introduction](https://docs.geetest.com/captcha/overview/start/)
+[部署说明](https://docs.geetest.com/onelogin/overview/start)
 
 
 ## 示例 / Example
 
 ### Init
 
+**方法描述**
+
 初始化 
+
+**参数说明**
+
+参数|必须|类型|说明
+------|-----|------|---
+appId|是|String |极验后台配置唯一产品`APPID`，请在官网申请
+timeout|否|Double |超时时间，单位:`ms`，取值范围:`1000~15000`，默认`5000`
+
+**代码示例**
 
 ```dart
 GtOneloginFlutterPlugin oneLoginPlugin = GtOneloginFlutterPlugin();
-oneLoginPlugin.init("AppId");
+oneLoginPlugin.init("b41a959b5cac4dd1277183e074630945");
 ```
 
 ### requestToken
 
+**方法描述**
+
 拉起授权页
+
+**参数说明**
+参数|必须|类型|说明
+------|-----|------|---
+configure|否|OLUIConfigure |用来配置授权页面 UI 样式，详细含义见`UI配置项`章节
+
+**代码示例**
 
 ```dart
 oneLoginPlugin.requestToken();
 ```
 
-或
+### UI配置项
+
+**说明**
+UI配置项属于可选参数，当拉起授权页不传递该参数时，插件将按照默认效果展示授权页。其内部属性也是可选配置。
+
+```dart
+var configure = OLUIConfigure();
+```
+
+#### 1、设置弹窗模式
+
+**参数说明**
+
+参数                 |参数类型  |说明                                                       |默认值
+-----               |------   |-----                                                      |----
+isDialogStyle       | bool    |是否使用弹窗模式，true 为使用，false 为不使用              |false
+dialogRect          | OLRect  |描述弹窗的宽高和位置坐标`dp`，**以下单位与之保持一致** |宽300，高340，居中
+isWebDialogStyle    | bool    |服务条款页面是否使用弹窗模式(仅Android有效)|false
+dialogCornersRadius | double  |弹窗圆角(仅iOS有效)|6
+
+**OLRect属性说明**
+宽高不设置将按照默认值设置，x坐标不设置默认为水平居中，设置后表示控件左边缘距离父布局左上角原点的水平偏移量。y坐标不设置默认为竖直居中，设置后表示控件上边缘距离父布局左上角原点的垂直偏移量。
+对话框的父布局左上角位于屏幕左上角，类似授权按钮的控件父布局左上角位于顶部标题栏的左下角。本说明试用于所有OLRect属性。
+
+#### 2、设置背景
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+authViewBackgroundImage   | String|设置背景图片。Android放在 `drawable` 文件下，iOS放在 `asserts` 文件下**以下图片路径与之保持一致**|-
+backgroundColor   | Color |设置背景颜色(仅iOS有效)|-
+
+#### 2、状态栏与系统虚拟按键
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+statusBarBgColor   | Color|自定义状态栏背景颜色|0
+statusBarStyle   | OLStatusBarStyle |设置状态栏内容的样式|内容为白色
+systemNavBarBgColor   | Color |自定义系统导航栏背景颜色(即虚拟按键，仅Android有效)|0
+
+#### 3、标题栏
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+navigationBarColor   | Color|自定义标题栏颜色|0xFF3973FF
+authNavHeight   | double|标题栏高度|49
+navHidden   | bool|标题栏是否隐藏|false
+navText   | String|标题栏文本|一键登录
+navTextColor   | Color|字体颜色|0xFF000000
+navTextSize   | int|字体大小,单位为`sp`，**以下设置字体大小的单位与之保持一致**|17
+navBackImage   | String|标题栏返回按钮图片|-
+navBackImageRect   | OLRect|标题栏返回按钮的宽高和位置坐标|宽高24，距离左侧12，垂直居中
+navBackImageHidden   | bool|标题栏返回按钮是否隐藏|false
+
+#### 4、logo
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+logoImage   | String|logo 图片|-
+logoImageRect   | OLRect|logo的宽高和位置坐标|宽71，高71，水平居中，y轴偏移125
+logoImageHidden   | bool|logo是否隐藏|false
+logoCornerRadius   | double|logo圆角|0
+
+
+#### 5、号码
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+numberColor   | Color|号码栏字体颜色|0xFF3D424C
+numberSize    | int|号码栏字体大小|24
+numberRect    | OLRect|号码栏的宽高和位置坐标|宽高包裹内容，水平居中，y轴偏移200
+
+#### 6、切换账号
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+switchButtonText   | String|切换账号文本|切换账号
+numberSize    | int|切换账号字体大小|24
+numberRect    | OLRect|切换账号的宽高和位置坐标|宽度80，默认只能显示4个字，如要增加请设置合适的宽度，高度25，水平居中，垂直偏移249
 
 ```dart
 var configure = OLUIConfigure();

@@ -13,7 +13,7 @@ class GtOneloginFlutterPlugin {
 
   /// ------------核心接口-----------
   //  初始化
-  init(String appId, [double? timeout]) {
+  init(String appId, [int? timeout]) {
     Map<String, dynamic> map = <String, dynamic>{};
     map[_OLConstant.appId] = appId;
     if (timeout != null) {
@@ -73,8 +73,6 @@ class GtOneloginFlutterPlugin {
   EventHandler<void>? _onAuthButtonClick;
   //点击切换账号
   EventHandler<void>? _onSwitchButtonClick;
-  //点击服务条款
-  EventHandler<OLTermsPrivacyItem>? _onTermItemClick;
   //点击服务条款的选择框
   EventHandler<bool>? _onTermCheckBoxClick;
 
