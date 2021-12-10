@@ -23,8 +23,8 @@ class GtOneloginFlutterPlugin {
   }
 
   //拉起授权页
-  Future<Map<String, dynamic>> requestToken([OLUIConfigure? configure]) async {
-    Map map = await _channel.invokeMethod(_OLConstant.requestToken,configure?.toMap());
+  Future<Map<String, dynamic>> requestToken([OLUIConfiguration? configuration]) async {
+    Map map = await _channel.invokeMethod(_OLConstant.requestToken,configuration?.toMap());
     return LinkedHashMap.from(map);
   }
 
@@ -90,8 +90,6 @@ class GtOneloginFlutterPlugin {
     _channel.setMethodCallHandler(_handler);
   }
   Future<dynamic> _handler(MethodCall call) async {
-    debugPrint("${flutterLog + "receive native method : " + call.method +
-        " args: "} ${call.arguments}");
     switch (call.method) {
       case _OLConstant.onBackButtonClick:
         return _onBackButtonClick?.call(null);

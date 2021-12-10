@@ -60,7 +60,7 @@ extension SwiftGtOneloginFlutterPlugin{
         let vc = UIApplication.shared.keyWindow?.rootViewController
         var authModel = OLAuthViewModel()
         if let authModelDict = call.arguments as? [String:Any]  {
-            authModel = OLUIConfigure(dict: authModelDict).toAuthViewModel()
+            authModel = OLUIConfiguration(dict: authModelDict).toAuthViewModel()
         }
         uiConfigureEvent(authModel)
         OneLoginPro.requestToken(with: vc!, viewModel: authModel) { res in
@@ -76,11 +76,6 @@ extension SwiftGtOneloginFlutterPlugin{
                         dictNew["app_id"] = appId
                         dictNew.removeValue(forKey: "appID")
                         dictNew.removeValue(forKey: "processID")
-                        result(dictNew)
-                        return
-                    }else if let status = dict["status"] as? Int, status == 500, let errorCode = dictNew["errorCode"] as? String {
-                        dictNew["error_code"] = errorCode
-                        dictNew.removeValue(forKey: "errorCode")
                         result(dictNew)
                         return
                     }

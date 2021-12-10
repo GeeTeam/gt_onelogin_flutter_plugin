@@ -1,6 +1,6 @@
 part of gt_onelogin_flutter_plugin;
 
-class OLUIConfigure{
+class OLUIConfiguration {
 
   //Only for iOS 授权页面支持的横竖屏方向
   OLIOSInterfaceOrientation? supportedinterfaceOrientations;
@@ -152,7 +152,7 @@ class OLUIConfigure{
   //隐私条款页面标题栏字体大小
   int?    navWebViewTextSize;
 
-  Map<String,dynamic> toMap(){
+  Map<String,dynamic> toMap() {
     if (terms != null && (terms?.isNotEmpty ?? false)) {
       if (terms!.length > 3) {
         debugPrint("terms 参数最多限制为3个");

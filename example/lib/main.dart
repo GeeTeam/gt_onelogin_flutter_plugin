@@ -79,6 +79,7 @@ class _MyAppState extends State<MyApp> {
                 onChanged: (isOn) {
                   setState(() {
                     _isDialog = isOn;
+                    _isCustomUI = isOn;
                   });
                 }),
             const SizedBox(
@@ -115,7 +116,7 @@ class _MyAppState extends State<MyApp> {
         }
         await verifyToken(params);
       } else {
-        var errCode = result["err_code"];
+        var errCode = result["errorCode"];
         // 获取网关token失败
         if (Platform.isIOS) { //iOS错误码
           if ("-20103" == errCode) {
@@ -163,8 +164,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  OLUIConfigure _getOLUIConfigure() {
-    var configure = OLUIConfigure();
+  OLUIConfiguration _getOLUIConfigure() {
+    var configure = OLUIConfiguration();
     var screenSize = MediaQuery.of(context).size;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 

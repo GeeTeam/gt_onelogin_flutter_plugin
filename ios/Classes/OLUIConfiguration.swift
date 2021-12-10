@@ -10,7 +10,7 @@ import OneLoginSDK
 import UIKit
 
 
-class OLUIConfigure{
+class OLUIConfiguration{
     let iosLog = "| Geetest | OneLogin iOS | "
     //Only for iOS 授权页面支持的横竖屏方向（portrait or landscape）
     var supportedinterfaceOrientations:UIInterfaceOrientationMask?
@@ -227,7 +227,7 @@ class OLUIConfigure{
     
 }
 
-extension OLUIConfigure{
+extension OLUIConfiguration{
 //    转成SDK对应model
     func toAuthViewModel() -> OLAuthViewModel{
         let authViewModel = OLAuthViewModel()
@@ -356,7 +356,7 @@ extension OLUIConfigure{
 
 
 //数据解析
-extension OLUIConfigure{
+extension OLUIConfiguration{
     func parseBool(dict:[String:Any],key:String) -> Bool?{
         return dict[key] as? Bool
     }

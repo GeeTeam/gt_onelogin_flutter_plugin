@@ -8,7 +8,7 @@ class OLRect{
 
   OLRect({this.width,this.height,this.x,this.y});
 
-  Map<String,dynamic> toMap(){
+  Map<String,dynamic> toMap() {
     return {
       _OLConstant.rectWidth:width,
       _OLConstant.rectHeight:height,

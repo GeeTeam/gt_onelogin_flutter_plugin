@@ -7,16 +7,16 @@ enum OLCarrierType {
   ct //电信
 }
 
-extension HexColor on Color{
+extension HexColor on Color {
   String get hexString => value.toRadixString(16);
 }
 
-//仅供iOSS使用
+//仅供iOS使用
 enum OLIOSInterfaceOrientation {
   portrait,
   landscape,
 }
-
+//仅供iOS使用
 enum OLIOSUserInterfaceStyle {
   unspecified, // 不指定样式，跟随系统设置进行展示
   light, //  明亮

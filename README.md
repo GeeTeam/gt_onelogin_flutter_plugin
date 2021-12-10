@@ -14,7 +14,7 @@ The official OneLoginSDK flutter plugin project for geetest. Support Flutter 2.0
 
 ```
 dependencies:
-  gt3_flutter_plugin:
+  gt_onelogin_flutter_plugin:
     git:
       url: https://github.com/GeeTeam/gt_onelogin_flutter_plugin.git
       ref: master
@@ -67,7 +67,7 @@ oneLoginPlugin.init("b41a959b5cac4dd1277183e074630945");
 **参数说明**
 参数|必须|类型|说明
 ------|-----|------|---
-configure|否|OLUIConfigure |用来配置授权页面 UI 样式，详细含义见`UI配置项`章节
+configuration|否|OLUIConfigure |用来配置授权页面 UI 样式，详细含义见`UI配置项`章节
 
 **代码示例**
 
