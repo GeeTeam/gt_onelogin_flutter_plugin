@@ -95,12 +95,7 @@ extension SwiftGtOneloginFlutterPlugin{
               self?.channel.invokeMethod(OLConstant.onAuthButtonClick, arguments: nil)
         }
         authModel.clickCheckboxBlock = {[weak self] (isChecked) in
-            self?.channel.invokeMethod(OLConstant.onTermCheckBoxClick, arguments: isChecked as Bool, result: { err in
-                guard let error = err as? FlutterError else{
-                    return
-                }
-                debugPrint("clickCheckboxBlock error:\(error.message ?? "")")
-            })
+            self?.channel.invokeMethod(OLConstant.onTermCheckBoxClick, arguments: isChecked)
         }
         authModel.clickBackButtonBlock = { [weak self] in
             self?.channel.invokeMethod(OLConstant.onBackButtonClick, arguments: nil)
@@ -109,13 +104,7 @@ extension SwiftGtOneloginFlutterPlugin{
             self?.channel.invokeMethod(OLConstant.onSwitchButtonClick, arguments: nil)
         }
         authModel.carrierTermItemBlock = {[weak self] (termItem,_) in
-            self?.channel.invokeMethod(OLConstant.onTermItemClick, arguments: [OLConstant.termsItemTitle:termItem.termTitle,                                        OLConstant.termsItemUrl:termItem.termLink.absoluteString] as [String: String],result: { err in
-                guard let error = err as? FlutterError else{
-                    return
-                }
-                debugPrint("carrierTermItemBlock error:\(String(describing: error.message)))")
-            })
-            
+            self?.channel.invokeMethod(OLConstant.onTermItemClick, arguments: [OLConstant.termsItemTitle:termItem.termTitle,                                        OLConstant.termsItemUrl:termItem.termLink.absoluteString])
         }
     }
     

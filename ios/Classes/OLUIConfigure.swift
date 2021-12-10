@@ -349,7 +349,6 @@ extension OLUIConfigure{
             authViewModel.webNaviBgColor = webNaviBgColor
         }
         authViewModel.webNaviTitle = navWebViewAttString
-//        authViewModel.termsAlignment
         return authViewModel
     }
     

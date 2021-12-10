@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gt_onelogin_flutter_plugin/gt_onelogin_flutter_plugin.dart';
 import 'package:dio/dio.dart';
 
-const getPhoneUrl = "http://onepass.geetest.com/onelogin/result";
 const String tag = "| Geetest | Example | ";
 
 void main() {
@@ -234,9 +233,9 @@ class _MyAppState extends State<MyApp> {
     configure.sloganColor = Colors.lightGreen;
     configure.sloganSize = 12;
     configure.sloganRect = OLRect(
-      width: 100,
+      width: 200,
       height: 20,
-      x: (screenSize.width - 100) / 2,
+      x: (screenSize.width - 200) / 2,
       y: 380
     );
 
@@ -271,7 +270,7 @@ class _MyAppState extends State<MyApp> {
     configure.navWebViewTextColor = Colors.white54;
     configure.navWebViewTextSize = 20;
 
-    debugPrint("configure:${configure.toMap()}");
+    // debugPrint("configure:${configure.toMap()}");
     return configure;
   }
 

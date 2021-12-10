@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "onelogin@2x.png",
+      "filename" : "onelogin.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "onelogin@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
