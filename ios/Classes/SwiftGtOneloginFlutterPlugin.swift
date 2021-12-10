@@ -50,6 +50,9 @@ extension SwiftGtOneloginFlutterPlugin{
         OneLogin.preGetToken(completion: { _ in
             
         })
+        if let timeout = arguments[OLConstant.timeout] as? Int {
+            OneLoginPro.setRequestTimeout(TimeInterval(timeout*1000))
+        }
         result(true)
     }
     
