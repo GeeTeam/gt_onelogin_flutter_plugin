@@ -325,6 +325,5 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: Colors.white10,
         textColor: Colors.black87,
         fontSize: 16.0);
-    return;
   }
 }

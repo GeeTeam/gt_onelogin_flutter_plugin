@@ -69,10 +69,133 @@ oneLoginPlugin.init("b41a959b5cac4dd1277183e074630945");
 ------|-----|------|---
 configuration|否|OLUIConfigure |用来配置授权页面 UI 样式，详细含义见`UI配置项`章节
 
+**返回值说明**
+类型   |说明    |默认值
+------	|-----  |-----
+Map<String, dynamic> |取号结果 |-
+
+**Map 集合的字段说明**
+
+- 取号成功
+
+参数名|必须 |类型  |说明
+------|-----|------|---
+`msg`|是|String|运营商返回的状态信息
+`process_id`|是|String|流水号(`有效期10分钟`)
+`app_id`|是|String|极验后台配置唯一 id
+`operator`|是|String|客户端获取的运营商
+`clienttype`|是|String|客户端，1 表示 Android
+`sdk`|是|String|SDK 的版本号
+`status`|是|int|状态码，状态码为 200
+`token`|是|String|运营商返回的`accessToken`
+`authcode`|否|String|电信运营商返回的`authcode`
+
+- 取号失败
+
+参数名|必须|类型|说明
+------|-----|------|---
+`errorCode`|是|String|错误码
+`msg`|是|String|运营商返回的状态信息
+`process_id`|是|String|流水号(`有效期10分钟`)
+`app_id`|是|String|极验后台配置唯一 id
+`metadata` |是|JSONObject|具体的错误原因
+`operator`|是|String|客户端获取的运营商
+`clienttype`|是|String|客户端，1 表示 Android
+`sdk`|是|String|SDK 的版本号
+`status`|是|int|状态码，状态码为 500
+
 **代码示例**
 
 ```dart
-oneLoginPlugin.requestToken();
+var configure = OLUIConfigure();
+//参照`UI配置项`章节和demo示例代码在这里设置授权页的UI配置项
+oneLoginPlugin.requestToken(configure).then((result) async {
+      int status = result["status"];
+      if (status == 200) {
+        Map<String, dynamic> params = {};
+        params["process_id"] = result["process_id"];
+        params["token"] = result["token"];
+        params["id_2_sign"] = result["app_id"];
+        if (result["authcode"] != null) {
+          params["authcode"] = result["authcode"];
+        }
+        await verifyToken(params);
+      } else {
+        var errCode = result["errorCode"];
+        // 获取网关token失败
+        if (Platform.isIOS) { //iOS错误码
+          if ("-20103" == errCode) {
+            // TO-DO
+            // 重复调用 requestTokenWithViewController:viewModel:completion:
+          }
+          else if ("-20202" == errCode) {
+            // TO-DO
+            // 检测到未开启蜂窝网络
+          }
+          else if ("-20203" == errCode) {
+            // TO-DO
+            // 不支持的运营商类型
+          }
+          else if ("-20204" == errCode) {
+            // TO-DO
+            // 未获取有效的 `accessCode` 或已经失效, 请重新初始化，init(appId):
+          }
+          else {
+            // TO-DO
+            // 其他错误类型
+          }
+        } else { //安卓错误码
+          if ("-20200" == errCode) {
+            // TO-DO
+            // 网络不可用
+          } else if ("-20202" == errCode) {
+            // TO-DO
+            // 检测到未开启蜂窝网络
+          }
+          else if ("-20203" == errCode) {
+            // TO-DO
+            // 不支持的运营商类型
+          }
+          else if ("-20105" == errCode) {
+            // TO-DO
+            // 超时。网络信号较差或者配置的超时时间较短，导致预取号或者取号超时
+          } else {
+            // TO-DO
+            // 其他错误类型
+          }
+        }
+        oneLoginPlugin.dismissAuthView();
+      }
+    });
+    
+//一键登录校验token
+Future<dynamic> verifyToken(Map<String, dynamic> params) async {
+  var options = BaseOptions(
+    baseUrl: 'http://onepass.geetest.com',
+    connectTimeout: 5000,
+    receiveTimeout: 3000,
+  );
+  Dio dio = Dio(options);
+  final response =
+  await dio.post<Map<String, dynamic>>("/onelogin/result", data: params);
+  String toast = "登录失败";
+  if (response.statusCode == 200) {
+    var result = response.data;
+    debugPrint(response.data.toString());
+    if (result != null && result["status"] == 200) {
+      toast = "登录成功，手机号为:${result["result"]}";
+    }
+  }
+  oneLoginPlugin.dismissAuthView();
+  Fluttertoast.showToast(
+      msg: toast,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.white10,
+      textColor: Colors.black87,
+      fontSize: 16.0);
+}
 ```
 
 ### UI配置项
@@ -81,7 +204,7 @@ oneLoginPlugin.requestToken();
 UI配置项属于可选参数，当拉起授权页不传递该参数时，插件将按照默认效果展示授权页。其内部属性也是可选配置。
 
 ```dart
-var configure = OLUIConfigure();
+var configure = OLUIConfiguration();
 ```
 
 #### 1、设置弹窗模式
@@ -157,104 +280,73 @@ numberRect    | OLRect|号码栏的宽高和位置坐标|宽高包裹内容，�
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 switchButtonText   | String|切换账号文本|切换账号
-numberSize    | int|切换账号字体大小|24
-numberRect    | OLRect|切换账号的宽高和位置坐标|宽度80，默认只能显示4个字，如要增加请设置合适的宽度，高度25，水平居中，垂直偏移249
+switchButtonColor    | int|切换账号字体颜色|0xFF3973FF
+switchTextSize    | int|切换账号字体大小|14
+switchButtonHidden    | bool|切换账号是否隐藏|false
+switchButtonBackgroundColor    | Color|切换账号按钮背景颜色(仅iOS有效)|-
+switchButtonRect    | OLRect|切换账号的宽高和位置坐标|宽80，高25，水平居中，y轴偏移249
+switchButtonBgImage    | String|切换账号背景图片|默认无背景
 
-```dart
-var configure = OLUIConfigure();
-var screenSize = MediaQuery.of(context).size;
-configure.isDialogStyle = true;
-configure.dialogRect = OLRect(y: (screenSize.height-500)/2,x:(screenSize.width-300)/2,height: 500,width: 300);
-configure.userinterfaceStyle = OLIOSUserInterfaceStyle.dark;
-configure.dialogCornersRadius = 20;
-configure.navigationBarColor = const Color(0x8cff90ff);
-configure.logoImage = "onelogin";
-configure.navText = "一键登录";
-configure.navBackImageRect = OLRect(y: 50,x: 50,width: 20,height: 20);
-configure.switchButtonText = "自定义切换按钮文案";
-configure.switchButtonColor = Colors.brown;
-configure.authButtonRect = OLRect(width: 200);
-configure.authBtnColor = Colors.yellow;
-configure.authBtnText = "授权登录";
-configure.authBtnColor = Colors.blueAccent;
-configure.sloganText = "极验提供统一认证服务";
-configure.termsClauseColor = Colors.orange;
-configure.termTextColor = Colors.purple;
-configure.termsRect = OLRect(x: 50);
-configure.terms = [
-  OLTermsPrivacyItem("自定义服务条款1", "http://www.baidu.com"),
-  OLTermsPrivacyItem("自定义服务条款2", "https://www.geetest.com"),
-  OLTermsPrivacyItem("自定义服务条款3", "https://www.geetest.com"),
-];
-configure.auxiliaryPrivacyWords = ["条款前文案", "&", "%", "~", "条款后的文案"];
-oneLoginPlugin.requestToken(configure).then((result) async {
-      int status = result["status"];
-      if (status == 200) {
-        Map<String, dynamic> params = {};
-        params["process_id"] = result["process_id"];
-        params["token"] = result["token"];
-        params["id_2_sign"] = result["app_id"];
-        if (result["authcode"] != null) {
-          params["authcode"] = result["authcode"];
-        }
-        await verifyToken(params);
-      } else {
-        var errCode = result["err_code"];
-        // 获取网关token失败
-        if ("-20103" == errCode) {
-          // TO-DO
-          // 重复调用 requestToken:
-        }
-        else if ("-20202" == errCode) {
-          // TO-DO
-          // 检测到未开启蜂窝网络
-        }
-        else if ("-20203" == errCode) {
-          // TO-DO
-          // 不支持的运营商类型
-        }
-        else if ("-20204" == errCode) {
-          // TO-DO
-          // 未获取有效的 `accessCode` 或已经失效, 请重新初始化，init(appId):
-        }
-        else {
-          // TO-DO
-          // 其他错误类型
-        }
-        oneLoginPlugin.dismissAuthView();
-      }
-    });
-    
-//一键登录校验token
-Future<dynamic> verifyToken(Map<String, dynamic> params) async {
-  var options = BaseOptions(
-    baseUrl: 'http://onepass.geetest.com',
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
-  );
-  Dio dio = Dio(options);
-  final response =
-  await dio.post<Map<String, dynamic>>("/onelogin/result", data: params);
-  String toast = "登录失败";
-  if (response.statusCode == 200) {
-    var result = response.data;
-    debugPrint(response.data.toString());
-    if (result != null && result["status"] == 200) {
-      toast = "登录成功，手机号为:${result["result"]}";
-    }
-  }
-  oneLoginPlugin.dismissAuthView();
-  Fluttertoast.showToast(
-      msg: toast,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.white10,
-      textColor: Colors.black87,
-      fontSize: 16.0);
-  return;
-}
-```
+#### 7、登录按钮
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+authButtonImages   | List<String>|[正常状态的背景图片, 不可用状态的背景图片, 高亮状态的背景图片],iOS数组最多为3，Android最多为2|-
+authButtonRect    | OLRect|登录按钮的宽高和位置坐标|宽268，高36，水平居中，y轴偏移324
+authButtonCornerRadius    | int|登录按钮圆角(仅iOS有效)|-
+authBtnText    | String|文字设置|一键登录
+authBtnColor    | Color|文字颜色|0xFFFFFFFF
+authBtnTextSize    | int|文字大小|15
+
+#### 8、Slogan
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+sloganText   | String|Slogan文本(仅iOS有效)|-
+sloganColor    | Color|文字颜色|0xFFA8A8A8
+sloganSize    | int|字体大小|10
+sloganRect    | OLRect|Slogan 的宽高和位置坐标|宽高包裹内容，水平居中，y轴偏移382
+
+#### 9、服务条款
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+termsRect    | OLRect|服务条款的宽高和位置坐标|默认256，高度自适应，服务条款整体的高度取决于checkbox背景资源的高度以及文本的长度，水平居中，y轴偏移400
+isUseNormalWebActivity   | bool|设置是否跳转到默认的隐私条款页面(仅Android有效)|true
+termTextColor    | Color|服务条款基础文字颜色|0xFFA8A8A8
+termsClauseColor    | Color|服务条款协议文字颜色|0xFF3973FF
+termsClauseTextSize    | int|服务条款字体大小|10
+termsLineSpacingExtra   | double|服务条款文字行间距|8.0
+termsLineSpacingMultiplier   | double|服务条款文字行间距的倍数|1.0
+termsBookTitleMarkHidden   | bool|条款名称是否隐藏书名号|true
+termsUncheckedToastText   | String|未同意服务条款时的提示文字|请同意服务条款
+terms   | List<OLTermsPrivacyItem>|自定义服务条款对象数组。最多支持设置3个自定义服务条款，也可以不设置|-
+auxiliaryPrivacyWords   | List<String>|除服务条款外的其他文案，包含服务条款之前和之间已经之后的文本，数组的第一个元素表示服务条款之前的文本，如”登录即同意“，最后一个元素表示末尾的文本，其他表示服务条款之间的连接文本，如”和“、顿号|-
+
+#### 10、Checkbox
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+uncheckedImage    | String|未选中下按钮的图片地址|-
+checkedImage   | String|选中下按钮的图片地址|-
+defaultCheckBoxState    | bool|选择框是否默认勾选|false
+
+#### 11、其他
+
+**参数说明**
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+supportedinterfaceOrientations    | OLIOSInterfaceOrientation|授权页面支持的横竖屏方向(仅iOS有效)|-
+userinterfaceStyle   | OLIOSUserInterfaceStyle|授权页面界面样式(仅iOS有效)|-
+webNaviHidden    | bool|服务条款页面标题栏是否隐藏(仅iOS有效)|false
+webNaviBgColor    | Color|服务条款页面标题栏的背景颜色(仅iOS有效)|-
+navWebViewText    | bool|服务条款页面标题栏的文本|服务条款
+navWebViewTextColor    | bool|服务条款页面标题栏的字体颜色|0xFF000000
+navWebViewTextSize    | bool|服务条款页面标题栏的字体大小|fal17
 
 ### dismissAuthView
 
@@ -328,6 +420,7 @@ oneLoginPlugin.addEventListener(
     }, 
     onSwitchButtonClick: (_) {
       debugPrint(tag + "onSwitchButtonClick");
+      oneLoginPlugin.dismissAuthView();
     }, 
     onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
