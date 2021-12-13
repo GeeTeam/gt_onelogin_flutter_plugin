@@ -423,9 +423,6 @@ oneLoginPlugin.addEventListener(
     }, 
     onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
-    }, 
-    onTermItemClick: (item) {
-      debugPrint(tag + "onTermItemClick:${item.title} --  ${item.url}");
     }
 );
 ```
