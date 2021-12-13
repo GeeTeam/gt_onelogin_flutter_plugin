@@ -184,7 +184,7 @@ class OLUIConfiguration {
         }
         self.navigationBarColor = parseColor(dict: dict, key: OLConstant.navigationBarColor)
         self.navHidden = parseBool(dict: dict, key: OLConstant.navHidden)
-        self.navAttributedString = NSAttributedString.textFontColorString(color: dict[OLConstant.navTextColor] as? UIColor, font: dict[OLConstant.navTextSize] as? Int, text: (dict[OLConstant.navText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.navAttributedString = NSAttributedString.textFontColorString(color: parseColor(dict: dict, key: OLConstant.navTextColor), font: parseInt(dict: dict, key: OLConstant.navTextSize), text: (dict[OLConstant.navText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
         self.navBackImage = parseIntoAssetsImage(dict[OLConstant.navBackImage])
         self.navBackImageRect = parseRect(dict: dict, key: OLConstant.navBackImageRect)
         self.navBackImageHidden = parseBool(dict: dict, key: OLConstant.navBackImageHidden)
@@ -203,7 +203,7 @@ class OLUIConfiguration {
         self.authButtonImages = dict[OLConstant.authButtonImages] as? [String]
         self.authButtonRect = parseRect(dict: dict, key: OLConstant.authButtonRect)
         self.authButtonCornerRadius = parseDouble(dict: dict, key: OLConstant.authButtonCornerRadius)
-        self.authBtnAttString = NSAttributedString.textFontColorString(color: dict[OLConstant.authBtnColor] as? UIColor, font: dict[OLConstant.authBtnColor] as? Int, text: (dict[OLConstant.authBtnText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.authBtnAttString = NSAttributedString.textFontColorString(color: parseColor(dict: dict, key: OLConstant.authBtnColor), font: parseInt(dict: dict, key: OLConstant.authBtnTextSize), text: (dict[OLConstant.authBtnText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
         self.sloganText = parseString(dict: dict, key: OLConstant.sloganText)
         self.sloganSize = parseInt(dict: dict, key: OLConstant.sloganSize)
         self.sloganColor = parseColor(dict: dict, key: OLConstant.sloganColor)
@@ -219,7 +219,7 @@ class OLUIConfiguration {
         self.defaultCheckBoxState = parseBool(dict: dict, key: OLConstant.defaultCheckBoxState)
         self.webNaviHidden = parseBool(dict: dict, key: OLConstant.webNaviHidden)
         self.webNaviBgColor = parseColor(dict: dict, key: OLConstant.webNaviBgColor)
-        self.navWebViewAttString = NSAttributedString.textFontColorString(color: dict[OLConstant.navWebViewTextColor] as? UIColor, font: dict[OLConstant.navWebViewTextSize] as? Int, text: (dict[OLConstant.navWebViewText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.navWebViewAttString = NSAttributedString.textFontColorString(color: parseColor(dict: dict, key: OLConstant.navWebViewTextColor), font: parseInt(dict: dict, key: OLConstant.navWebViewTextSize), text: (dict[OLConstant.navWebViewText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
         
     }
     

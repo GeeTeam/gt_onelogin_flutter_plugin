@@ -186,6 +186,7 @@ class _MyAppState extends State<MyApp> {
 
     //背景
     // configure.authViewBackgroundImage = "one_login_bg_fuchsin";
+    // configure.backgroundColor = Colors.amber;
 
     //状态栏 导航栏
     configure.statusBarBgColor = Colors.transparent;
@@ -290,7 +291,7 @@ class _MyAppState extends State<MyApp> {
 
     //服务条款展示页面
     configure.navWebViewText = "自定义服务条款的标题栏文案";
-    configure.navWebViewTextColor = Colors.white54;
+    configure.navWebViewTextColor = Colors.pinkAccent;
     configure.navWebViewTextSize = 20;
 
     // debugPrint("configure:${configure.toMap()}");
