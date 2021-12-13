@@ -34,8 +34,8 @@ extension UIColor {
      
 }
 
-extension NSAttributedString{
-     public class func textFontColorString(color:UIColor?,font:Int?,text:String?,lineSpace:Double?,lineSpacingMultiplier:Double?) ->NSAttributedString?{
+extension NSAttributedString {
+     public class func textFontColorString(color:UIColor?,font:Int?,text:String?,lineSpace:Double?,lineSpacingMultiplier:Double?) ->NSAttributedString? {
          var attributes :[NSAttributedString.Key:Any] = [:]
         guard let text = text,!text.isEmpty else {
             return nil
@@ -61,7 +61,7 @@ extension NSAttributedString{
 }
 
 extension CGRect{
-    func olRect(_ isForcePortrait:Bool?) -> OLRect{
+    func olRect(_ isForcePortrait:Bool?) -> OLRect {
 //        根据当前屏幕方向设置横竖屏的坐标
         var orientation = UIApplication.shared.statusBarOrientation
         if let isForcePortrait = isForcePortrait{

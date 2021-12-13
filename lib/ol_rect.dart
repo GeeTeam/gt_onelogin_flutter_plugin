@@ -1,6 +1,6 @@
 part of gt_onelogin_flutter_plugin;
 
-class OLRect{
+class OLRect {
   double? width;
   double? height;
   double? x;

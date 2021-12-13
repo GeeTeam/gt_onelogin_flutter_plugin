@@ -10,7 +10,7 @@ import OneLoginSDK
 import UIKit
 
 
-class OLUIConfiguration{
+class OLUIConfiguration {
     let iosLog = "| Geetest | OneLogin iOS | "
     //Only for iOS 授权页面支持的横竖屏方向（portrait or landscape）
     var supportedinterfaceOrientations:UIInterfaceOrientationMask?
@@ -131,9 +131,6 @@ class OLUIConfiguration{
     var termsBookTitleMarkHidden:Bool?;
       //未同意隐私条款的提示文字
     var termsUncheckedToastText:String?;
-      //服务条款文案对齐方式
-    var termsAlignmentIOS:Int?;
-//      int? termsAlignmentAndroid;
       //隐私条款对象数组
     var terms:[OLPrivacyTermItem]?;
       //除隐私条款外的其他文案,连接字符串
@@ -145,8 +142,6 @@ class OLUIConfiguration{
     var  checkedImage:UIImage?;
       //隐私条款CheckBox：选择框是否默认勾选
     var defaultCheckBoxState:Bool?;
-      //隐私条款CheckBox size及位置
-    var checkBoxRect:OLRect?;
 
       //Only for iOS 服务条款页面导航栏是否隐藏
     var webNaviHidden:Bool?
@@ -211,13 +206,11 @@ class OLUIConfiguration{
         self.termsClauseAttributes = parseAttributes(dict: dict, colorKey: OLConstant.termsClauseColor, OLConstant.termsClauseTextSize, OLConstant.termsLineSpacingExtra, OLConstant.termsLineSpacingMultiplier)
         self.termsBookTitleMarkHidden = parseBool(dict: dict, key: OLConstant.termsBookTitleMarkHidden)
         self.termsUncheckedToastText = parseString(dict: dict, key: OLConstant.termsUncheckedToastText)
-        self.termsAlignmentIOS = parseInt(dict: dict, key: OLConstant.termsAlignmentIOS)
         self.terms = parsePrivacyTermItem(dict: dict, key: OLConstant.terms)
         self.auxiliaryPrivacyWords = dict[OLConstant.auxiliaryPrivacyWords] as? [String]
         self.uncheckedImage = parseIntoAssetsImage(dict[OLConstant.uncheckedImage])
         self.checkedImage = parseIntoAssetsImage(dict[OLConstant.checkedImage])
         self.defaultCheckBoxState = parseBool(dict: dict, key: OLConstant.defaultCheckBoxState)
-        self.checkBoxRect = parseRect(dict: dict, key: OLConstant.checkBoxRect)
         self.webNaviHidden = parseBool(dict: dict, key: OLConstant.webNaviHidden)
         self.webNaviBgColor = parseColor(dict: dict, key: OLConstant.webNaviBgColor)
         self.navWebViewAttString = NSAttributedString.textFontColorString(color: dict[OLConstant.navWebViewTextColor] as? UIColor, font: dict[OLConstant.navWebViewTextSize] as? Int, text: (dict[OLConstant.navWebViewText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
@@ -329,18 +322,12 @@ extension OLUIConfiguration{
             authViewModel.hasQuotationMarkOnCarrierProtocol = termsBookTitleMarkHidden
         }
         authViewModel.notCheckProtocolHint = termsUncheckedToastText
-        if let alignInt = termsAlignmentIOS,let align = NSTextAlignment(rawValue: alignInt) {
-            authViewModel.termsAlignment = align
-        }
         authViewModel.additionalPrivacyTerms = terms
         authViewModel.auxiliaryPrivacyWords = auxiliaryPrivacyWords
         authViewModel.uncheckedImage = uncheckedImage
         authViewModel.checkedImage = checkedImage
         if let defaultCheckBoxState = defaultCheckBoxState {
             authViewModel.defaultCheckBoxState = defaultCheckBoxState
-        }
-        if let checkBoxRect = checkBoxRect  {
-            authViewModel.checkBoxRect = checkBoxRect
         }
         if let webNaviHidden = webNaviHidden {
             authViewModel.webNaviHidden = webNaviHidden

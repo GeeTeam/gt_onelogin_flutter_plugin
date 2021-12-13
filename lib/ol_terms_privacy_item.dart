@@ -1,6 +1,6 @@
 part of gt_onelogin_flutter_plugin;
 
-class OLTermsPrivacyItem{
+class OLTermsPrivacyItem {
   String title;
   String url;
   OLTermsPrivacyItem(this.title,this.url);

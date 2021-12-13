@@ -1,7 +1,7 @@
 part of gt_onelogin_flutter_plugin;
 
 
-class _OLConstant{
+class _OLConstant {
   ///方法通道名称
   static const methodChannel = "com.geetest.one_login_plugin";
 
@@ -177,7 +177,5 @@ class _OLConstant{
   static const  navWebViewTextColor = "$methodParameters/navWebViewTextColor";
   //隐私条款页面标题栏字体大小
   static const  navWebViewTextSize = "$methodParameters/navWebViewTextSize";
-
-
 
 }
