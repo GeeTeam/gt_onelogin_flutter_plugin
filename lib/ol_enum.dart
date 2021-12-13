@@ -23,4 +23,8 @@ enum OLIOSUserInterfaceStyle {
   dark, //  暗黑 仅对 iOS 13+ 系统有效
 }
 
-enum OLStatusBarStyle { notSet, lightContent, darkContent }
+enum OLStatusBarStyle {
+  notSet,
+  lightContent, // iOS 7+, Light content, for use on dark backgrounds
+  darkContent   // iOS 13+, Dark content, for use on light backgrounds
+}

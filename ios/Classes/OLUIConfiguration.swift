@@ -172,9 +172,15 @@ class OLUIConfiguration {
         self.dialogCornersRadius = parseDouble(dict: dict, key: OLConstant.dialogCornersRadius)
         self.authViewBackgroundImage = parseIntoAssetsImage(dict[OLConstant.authViewBackgroundImage])
         self.backgroundColor = parseColor(dict: dict, key: OLConstant.backgroundColor)
-        if let statusBarStyleIndex = dict[OLConstant.statusBarStyle] as? Int,
-           let statusBarStyle = UIStatusBarStyle(rawValue: statusBarStyleIndex){
-            self.statusBarStyle = statusBarStyle
+        if let statusBarStyleIndex = dict[OLConstant.statusBarStyle] as? Int{
+            if statusBarStyleIndex < 2,let statusBarStyle = UIStatusBarStyle(rawValue: statusBarStyleIndex) {
+                self.statusBarStyle = statusBarStyle
+            }else{
+                if #available(iOS 13.0, *) {
+                    self.statusBarStyle = UIStatusBarStyle.darkContent
+                }
+            }
+            
         }
         self.navigationBarColor = parseColor(dict: dict, key: OLConstant.navigationBarColor)
         self.navHidden = parseBool(dict: dict, key: OLConstant.navHidden)
@@ -222,7 +228,7 @@ class OLUIConfiguration {
 
 extension OLUIConfiguration{
 //    转成SDK对应model
-    func toAuthViewModel() -> OLAuthViewModel{
+    func toAuthViewModel() -> OLAuthViewModel {
         let authViewModel = OLAuthViewModel()
         if let supportedInterfaceOrientations = supportedinterfaceOrientations {
             
@@ -344,29 +350,29 @@ extension OLUIConfiguration{
 
 //数据解析
 extension OLUIConfiguration{
-    func parseBool(dict:[String:Any],key:String) -> Bool?{
+    func parseBool(dict:[String:Any],key:String) -> Bool? {
         return dict[key] as? Bool
     }
     
-    func parseDouble(dict:[String:Any],key:String) -> Double?{
+    func parseDouble(dict:[String:Any],key:String) -> Double? {
         return dict[key] as? Double
     }
     
-    func parseInt(dict:[String:Any],key:String)->Int?{
+    func parseInt(dict:[String:Any],key:String)->Int? {
         return dict[key] as? Int
     }
-    func parseColor(dict:[String:Any],key:String) -> UIColor?{
+    func parseColor(dict:[String:Any],key:String) -> UIColor? {
         if let colorString = dict[key] as? String {
             return UIColor(hexString: colorString)
         }
         return nil
     }
     
-    func parseString(dict:[String:Any],key:String) -> String?{
+    func parseString(dict:[String:Any],key:String) -> String? {
         return dict[key] as? String
     }
     
-    func parseAttributes(dict:[String:Any],colorKey:String?,_ textSizeKey:String?,_ lineSpacingKey:String?,_ lineSpacingMultiplierKey:String?)-> [NSAttributedString.Key:Any]?{
+    func parseAttributes(dict:[String:Any],colorKey:String?,_ textSizeKey:String?,_ lineSpacingKey:String?,_ lineSpacingMultiplierKey:String?)-> [NSAttributedString.Key:Any]? {
         var attributes : [NSAttributedString.Key:Any] = [:]
         if let key = colorKey,let color = parseColor(dict: dict, key: key) {
             attributes[NSAttributedString.Key.foregroundColor] = color
@@ -387,7 +393,7 @@ extension OLUIConfiguration{
         return attributes.isEmpty ? nil : attributes
     }
     
-    func parseIntoAssetsImage(_ value:Any?) -> UIImage?{
+    func parseIntoAssetsImage(_ value:Any?) -> UIImage? {
         if let imageString = value as? String,!imageString.isEmpty{
             if let image =  UIImage(named: imageString) {
                 return image
@@ -399,7 +405,7 @@ extension OLUIConfiguration{
         return nil
     }
     
-    func parseRect(dict:[String:Any],key:String) -> OLRect{
+    func parseRect(dict:[String:Any],key:String) -> OLRect {
         var rect = CGRect.zero
         if let rectDict = dict[key] as? [String:Double] {
             var width:Double = 0
@@ -421,13 +427,13 @@ extension OLUIConfiguration{
             rect = CGRect(x: x, y: y, width: width, height: height)
         }
         var isForcePortrait:Bool?
-        if let supportOrientation = supportedinterfaceOrientations{
+        if let supportOrientation = supportedinterfaceOrientations {
             isForcePortrait = supportOrientation == .portrait
         }
         return rect.olRect(isForcePortrait)
     }
     
-    func parsePrivacyTermItem(dict:[String:Any],key:String) -> [OLPrivacyTermItem]?{
+    func parsePrivacyTermItem(dict:[String:Any],key:String) -> [OLPrivacyTermItem]? {
         if let privacyTerms = dict[key] as? [[String:String]],!privacyTerms.isEmpty {
             return privacyTerms.compactMap { item -> OLPrivacyTermItem? in
                 guard let title = item[OLConstant.termsItemTitle],!title.isEmpty,

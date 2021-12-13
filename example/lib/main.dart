@@ -181,7 +181,7 @@ class _MyAppState extends State<MyApp> {
         height: 400,
         width: screenSize.width);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
-    configure.userinterfaceStyle = OLIOSUserInterfaceStyle.dark;
+    configure.userinterfaceStyle = OLIOSUserInterfaceStyle.light;
     configure.dialogCornersRadius = 20;
 
     //背景
@@ -212,7 +212,7 @@ class _MyAppState extends State<MyApp> {
     configure.logoImageRect = OLRect(
       width: _isDialog ? 50 : 70,
       height: _isDialog ? 50 : 70,
-      y: _isDialog ? 28 : 125
+      y: _isDialog ? 45 : 125
     );
     configure.logoImageHidden = false;
 
@@ -220,9 +220,9 @@ class _MyAppState extends State<MyApp> {
     configure.numberColor = Colors.pinkAccent;
     configure.numberSize = 20;
     configure.numberRect = OLRect(
-      width: 100,
+      width: 200,
       height: 25,
-      y: _isDialog ? 100 : 200
+      y: _isDialog ? 110 : 200
     );
 
     //切换账号
@@ -232,7 +232,7 @@ class _MyAppState extends State<MyApp> {
     configure.switchButtonRect = OLRect(
         width: 160,
         height: 28,
-        y: _isDialog ? 138 : 250);
+        y: _isDialog ? 150 : 250);
     // configure.switchButtonBgImage = "one_login_bg_fuchsin";
     configure.switchButtonHidden = false;
 
@@ -240,11 +240,12 @@ class _MyAppState extends State<MyApp> {
     configure.authButtonImages = ["login_button_enabled","login_button_disabled","btn_blue"];
     configure.authButtonRect = OLRect(
         x: (screenSize.width - 250) / 2,
-        y: _isDialog ? 200 : 324,
+        y: _isDialog ? 220 : 324,
         width: 250,
         height: 40);
     configure.authBtnText = "授权登录";
     configure.authBtnColor = Colors.blueAccent;
+    configure.authButtonCornerRadius = 1;
 
     //slogan
     configure.sloganText = "极验提供统一认证服务"; //android 侧暂未提供修改slogan文案功能，待规划
@@ -261,7 +262,7 @@ class _MyAppState extends State<MyApp> {
     configure.termTextColor = Colors.purple;
     double termsY; //需要减去标题栏的高度、状态栏高度，还有预留的服务条款高度和底部外边距
     if (_isDialog) {
-      termsY = 400 - 40 - 50;
+      termsY = 400 - 40 - 30;
     } else {
       termsY = (screenSize.height - 40 - 50 - statusBarHeight);
     }
