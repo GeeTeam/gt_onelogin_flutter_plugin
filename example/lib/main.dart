@@ -79,7 +79,9 @@ class _MyAppState extends State<MyApp> {
                 onChanged: (isOn) {
                   setState(() {
                     _isDialog = isOn;
-                    _isCustomUI = isOn;
+                    if (isOn) {
+                      _isCustomUI = true;
+                    }
                   });
                 }),
             const SizedBox(
@@ -91,6 +93,9 @@ class _MyAppState extends State<MyApp> {
                 onChanged: (isOn) {
                   setState(() {
                     _isCustomUI = isOn;
+                    if (!isOn) {
+                      _isDialog = false;
+                    }
                   });
                 }),
           ],
@@ -191,8 +196,8 @@ class _MyAppState extends State<MyApp> {
     configure.navTextColor = Colors.black;
     configure.navigationBarColor = Colors.white;
     configure.navText = "一键登录";
-    configure.authNavHeight = 50;
-    configure.navTextSize = 25;
+    configure.authNavHeight = 44;
+    configure.navTextSize = 20;
     configure.navBackImage = "back";
     configure.navBackImageRect = OLRect(
       width: 13,
@@ -205,21 +210,19 @@ class _MyAppState extends State<MyApp> {
     //logo
     configure.logoImage = "onelogin";
     configure.logoImageRect = OLRect(
-      width: 100,
-      height: 100,
-      x: (screenSize.width - 100) / 2,
-      y: 90
+      width: _isDialog ? 50 : 70,
+      height: _isDialog ? 50 : 70,
+      y: _isDialog ? 28 : 125
     );
     configure.logoImageHidden = false;
 
     //number
     configure.numberColor = Colors.pinkAccent;
-    configure.numberSize = 16;
+    configure.numberSize = 20;
     configure.numberRect = OLRect(
       width: 100,
       height: 25,
-      x: (screenSize.width - 100) / 2,
-      y: 210
+      y: _isDialog ? 100 : 200
     );
 
     //切换账号
@@ -229,17 +232,16 @@ class _MyAppState extends State<MyApp> {
     configure.switchButtonRect = OLRect(
         width: 160,
         height: 28,
-        x: (screenSize.width - 160) / 2,
-        y: 249);
+        y: _isDialog ? 138 : 250);
     // configure.switchButtonBgImage = "one_login_bg_fuchsin";
     configure.switchButtonHidden = false;
 
     //一键登录按钮
     configure.authButtonImages = ["login_button_enabled","login_button_disabled","btn_blue"];
     configure.authButtonRect = OLRect(
-        x: (screenSize.width - 300) / 2,
-        y: 324,
-        width: 300,
+        x: (screenSize.width - 250) / 2,
+        y: _isDialog ? 200 : 324,
+        width: 250,
         height: 40);
     configure.authBtnText = "授权登录";
     configure.authBtnColor = Colors.blueAccent;
@@ -251,16 +253,20 @@ class _MyAppState extends State<MyApp> {
     configure.sloganRect = OLRect(
       width: 200,
       height: 20,
-      x: (screenSize.width - 200) / 2,
-      y: 380
+      y: _isDialog ? 270 : 382
     );
 
     //服务条款
     configure.termsClauseColor = Colors.orange;
     configure.termTextColor = Colors.purple;
+    double termsY; //需要减去标题栏的高度、状态栏高度，还有预留的服务条款高度和底部外边距
+    if (_isDialog) {
+      termsY = 400 - 40 - 50;
+    } else {
+      termsY = (screenSize.height - 40 - 50 - statusBarHeight);
+    }
     configure.termsRect = OLRect(
-        y: (screenSize.height - 90 - 50 - statusBarHeight) //需要减去标题栏的高度、状态栏高度，还有预留的服务条款高度和底部外边距
-    );
+        y: termsY);
     configure.isUseNormalWebActivity = true;
     configure.termsClauseTextSize = 10;
     configure.termsLineSpacingExtra = 8.0;
