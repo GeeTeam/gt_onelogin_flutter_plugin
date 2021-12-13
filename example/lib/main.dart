@@ -200,8 +200,8 @@ class _MyAppState extends State<MyApp> {
     configure.navTextSize = 20;
     configure.navBackImage = "back";
     configure.navBackImageRect = OLRect(
-      width: 13,
-      height: 21,
+      width: 25,
+      height: 25,
       x: 10,
     );
     configure.navBackImageHidden = false;
@@ -244,7 +244,7 @@ class _MyAppState extends State<MyApp> {
         width: 250,
         height: 40);
     configure.authBtnText = "授权登录";
-    configure.authBtnColor = Colors.blueAccent;
+    configure.authBtnColor = Colors.white;
     configure.authButtonCornerRadius = 1;
 
     //slogan
@@ -262,9 +262,9 @@ class _MyAppState extends State<MyApp> {
     configure.termTextColor = Colors.purple;
     double termsY; //需要减去标题栏的高度、状态栏高度，还有预留的服务条款高度和底部外边距
     if (_isDialog) {
-      termsY = 400 - 40 - 30;
+      termsY = 400 - 30 - 50;
     } else {
-      termsY = (screenSize.height - 40 - 50 - statusBarHeight);
+      termsY = (screenSize.height - 30 - 50 - statusBarHeight);
     }
     configure.termsRect = OLRect(
         y: termsY);

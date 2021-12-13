@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.nfc.FormatException
 import android.util.Log
-import android.view.ViewGroup
 import com.geetest.onelogin.config.OneLoginThemeConfig
 
 object UIHelper {
