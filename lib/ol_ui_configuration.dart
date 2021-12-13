@@ -113,8 +113,6 @@ class OLUIConfiguration {
   ///--------------隐私条款----------------
   //隐私条款 位置及大小
   OLRect? termsRect;
-  //Only for Android Slogan  是否跳转到默认的隐私条款页面
-  bool? isUseNormalWebActivity;
   //隐私条款基础文字颜色
   Color? termTextColor;
   //隐私条款文本：隐私条款协议文字颜色
@@ -206,7 +204,6 @@ class OLUIConfiguration {
       _OLConstant.sloganSize :sloganSize,
       _OLConstant.sloganRect :sloganRect?.toMap(),
       _OLConstant.termsRect :termsRect?.toMap(),
-      _OLConstant.isUseNormalWebActivity :isUseNormalWebActivity,
       _OLConstant.termTextColor :termTextColor?.hexString,
       _OLConstant.termsClauseColor :termsClauseColor?.hexString,
       _OLConstant.termsClauseTextSize :termsClauseTextSize,

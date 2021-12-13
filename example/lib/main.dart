@@ -269,7 +269,6 @@ class _MyAppState extends State<MyApp> {
     }
     configure.termsRect = OLRect(
         y: termsY);
-    configure.isUseNormalWebActivity = true;
     configure.termsClauseTextSize = 10;
     configure.termsLineSpacingExtra = 8.0;
     configure.termsLineSpacingMultiplier = 1.0;

@@ -489,31 +489,24 @@ object UIHelper {
     }
 
     private fun setPrivacyLayout(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
-        if (!param.containsKey(Constant.isUseNormalWebActivity)
-            && !param.containsKey(Constant.termsRect)) {
+        if (!param.containsKey(Constant.termsRect)) {
             return
         }
-        //是否跳转到默认的隐私条款页面
-        var isUseNormalWebActivity = true
-        if (param.containsKey(Constant.isUseNormalWebActivity)) {
-            isUseNormalWebActivity = param[Constant.isUseNormalWebActivity] as Boolean
-        }
+
         //隐私条款选择框和文本的对齐方式
         val termsGravityWithCheckbox = 1 //Gravity.CENTER_HORIZONTAL
 
         //隐私条款 位置及大小
         var termsRect: OLRect? = null
-        if (param.containsKey(Constant.termsRect)) {
-            val termsRectMap = param[Constant.termsRect]
-            if (termsRectMap is Map<*, *>) {
-                termsRect = convertMapToRect(termsRectMap, 256, 0, 0, 400)
-            }
+        val termsRectMap = param[Constant.termsRect]
+        if (termsRectMap is Map<*, *>) {
+            termsRect = convertMapToRect(termsRectMap, 256, 0, 0, 400)
         }
         if (termsRect == null) {
             termsRect = OLRect(256, 0, 0, 400)
         }
         uiConfigBuilder.setPrivacyLayout(termsRect.width!!, termsRect.y!!, 0, termsRect.x!!,
-            isUseNormalWebActivity, termsGravityWithCheckbox)
+            true, termsGravityWithCheckbox)
     }
 
     private fun setCheckBox(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder, context: Context) {

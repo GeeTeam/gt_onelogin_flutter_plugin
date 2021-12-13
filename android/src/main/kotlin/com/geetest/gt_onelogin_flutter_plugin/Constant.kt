@@ -125,8 +125,6 @@ class Constant {
         ///--------------隐私条款----------------
         //隐私条款 位置及大小
         const val termsRect = "$methodParameters/termsRect";
-        //Only for Android Slogan  是否跳转到默认的隐私条款页面
-        const val isUseNormalWebActivity = "$methodParameters/isUseNormalWebActivity";
         //隐私条款基础文字颜色
         const val termTextColor = "$methodParameters/termTextColor";
         //隐私条款文本：隐私条款协议文字颜色

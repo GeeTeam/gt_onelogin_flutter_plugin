@@ -315,7 +315,6 @@ sloganRect    | OLRect|Slogan 的宽高和位置坐标|宽高包裹内容，水�
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 termsRect    | OLRect|服务条款的宽高和位置坐标|默认256，高度自适应，服务条款整体的高度取决于checkbox背景资源的高度以及文本的长度，水平居中，y轴偏移400
-isUseNormalWebActivity   | bool|设置是否跳转到默认的隐私条款页面(仅Android有效)|true
 termTextColor    | Color|服务条款基础文字颜色|0xFFA8A8A8
 termsClauseColor    | Color|服务条款协议文字颜色|0xFF3973FF
 termsClauseTextSize    | int|服务条款字体大小|10

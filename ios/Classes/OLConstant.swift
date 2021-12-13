@@ -149,8 +149,6 @@ struct OLConstant {
     static let termsRect = "\(methodParameters)/termsRect";
     // Only for Android Slogan 隐私条款相对于底部 y 偏移
     static let termsaOffsetBottom = "\(methodParameters)/termsaOffsetBottom";
-    // Only for Android Slogan  是否跳转到默认的隐私条款页面
-    static let isUseNormalWebActivity = "\(methodParameters)/isUseNormalWebActivity";
     // Only for Android Slogan  隐私条款选择框和文本的对齐方式
     static let termsGravityWithCheckbox = "\(methodParameters)/termsGravityWithCheckbox";
     // 隐私条款基础文字颜色
