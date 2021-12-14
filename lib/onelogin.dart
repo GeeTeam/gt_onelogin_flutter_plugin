@@ -3,25 +3,24 @@ part of gt_onelogin_flutter_plugin;
 typedef EventHandler<T> = void Function(T);
 
 class GtOneloginFlutterPlugin {
-  final MethodChannel _channel;
+  final MethodChannel _channel = const MethodChannel(_OLConstant.methodChannel);
   static const String flutterLog = "| Geetest | Flutter | ";
 
-  GtOneloginFlutterPlugin._internal(MethodChannel channel) : _channel = channel;
-  static final GtOneloginFlutterPlugin _instance =
-      GtOneloginFlutterPlugin._internal(const MethodChannel(_OLConstant.methodChannel));
-  factory GtOneloginFlutterPlugin() => _instance;
+
+  GtOneloginFlutterPlugin(String appId, [int? timeout]) {
+    try {
+      Map<String, dynamic> map = <String, dynamic>{};
+      map[_OLConstant.appId] = appId;
+      if (timeout != null) {
+        map[_OLConstant.timeout] = timeout;
+      }
+      _channel.invokeMethod(_OLConstant.init,map);
+    }catch (e) {
+      debugPrint(flutterLog + e.toString());
+    }
+   }
 
   /// ------------核心接口-----------
-  //  初始化
-  init(String appId, [int? timeout]) {
-    Map<String, dynamic> map = <String, dynamic>{};
-    map[_OLConstant.appId] = appId;
-    if (timeout != null) {
-      map[_OLConstant.timeout] = timeout;
-    }
-    return _channel.invokeMethod(_OLConstant.init, map);
-  }
-
   //拉起授权页
   Future<Map<String, dynamic>> requestToken([OLUIConfiguration? configuration]) async {
     Map map = await _channel.invokeMethod(_OLConstant.requestToken,configuration?.toMap());
@@ -56,8 +55,8 @@ class GtOneloginFlutterPlugin {
   }
 
   //预取号拿到的token是否还在有效期
-  Future<bool> isReady() async {
-    return await _channel.invokeMethod(_OLConstant.isReady);
+    Future<bool> isAvailable() async {
+    return await _channel.invokeMethod(_OLConstant.isAvailable);
   }
 
   //Only for android ,销毁SDK

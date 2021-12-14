@@ -14,7 +14,7 @@ class _OLConstant {
   static const sdkVersion = "$methodNames/sdkVersion";
   static const carrier = "$methodNames/carrier";
   static const isProtocolCheckboxChecked = "$methodNames/isProtocolCheckboxChecked";
-  static const isReady = "$methodNames/isReady";
+  static const isAvailable = "$methodNames/isAvailable";
   static const setLogEnable = "$methodNames/setLogEnable";
   static const destroy = "$methodNames/destroy";
 

@@ -25,7 +25,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final GtOneloginFlutterPlugin oneLoginPlugin = GtOneloginFlutterPlugin();
+  GtOneloginFlutterPlugin? oneLoginPlugin;
 
   //是否是弹窗模式
   bool _isDialog = false;
@@ -40,14 +40,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   _init() {
-    oneLoginPlugin.init("b41a959b5cac4dd1277183e074630945");
-    oneLoginPlugin.addEventListener(onBackButtonClick: (_) {
+    oneLoginPlugin = GtOneloginFlutterPlugin("b41a959b5cac4dd1277183e074630945");
+    oneLoginPlugin?.addEventListener(onBackButtonClick: (_) {
       debugPrint(tag + "onBackButtonClick");
     }, onAuthButtonClick: (_) {
       debugPrint(tag + "onAuthButtonClick");
     }, onSwitchButtonClick: (_) { // 用户选择切换账号登录，收到此回调后可关闭授权页，跳转或降级走其他方式登录，或者待用户选择
       debugPrint(tag + "onSwitchButtonClick");
-      oneLoginPlugin.dismissAuthView();
+      oneLoginPlugin?.dismissAuthView();
     }, onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
     });
@@ -106,8 +106,7 @@ class _MyAppState extends State<MyApp> {
 
   //拉起授权页
   requestToken() {
-    oneLoginPlugin
-        .requestToken(_isCustomUI ? _getOLUIConfigure() : null)
+    oneLoginPlugin?.requestToken(_isCustomUI ? _getOLUIConfigure() : null)
         .then((result) async {
       debugPrint("oneLoginPlugin then $result");
       int status = result["status"];
@@ -164,7 +163,7 @@ class _MyAppState extends State<MyApp> {
             // 其他错误类型
           }
         }
-        oneLoginPlugin.dismissAuthView();
+        oneLoginPlugin?.dismissAuthView();
       }
     });
   }
@@ -315,7 +314,7 @@ class _MyAppState extends State<MyApp> {
         toast = "登录成功，手机号为:${result["result"]}";
       }
     }
-    oneLoginPlugin.dismissAuthView();
+    oneLoginPlugin?.dismissAuthView();
     Fluttertoast.showToast(
         msg: toast,
         toastLength: Toast.LENGTH_SHORT,

@@ -399,12 +399,12 @@ bool isProtocolCheckboxChecked = oneLoginPlugin.isProtocolCheckboxChecked();
 ```
 
 
-### isReady
+### isAvailable
 
 预取号拿到的token是否还在有效期
 
 ```
-bool isReady = oneLoginPlugin.isReady();
+bool isAvailable = oneLoginPlugin.isAvailable();
 ```
 
 

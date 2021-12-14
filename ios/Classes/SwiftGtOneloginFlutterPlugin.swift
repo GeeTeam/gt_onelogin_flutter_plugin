@@ -29,8 +29,8 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
           sdkVersion(call: call, result: result)
       case OLConstant.isProtocolCheckboxChecked:
           isProtocolCheckboxChecked(call: call, result: result)
-      case OLConstant.isReady:
-          isReady(call: call, result: result)
+      case OLConstant.isAvailable:
+          isAvailable(call: call, result: result)
       case  OLConstant.destroy:
           result(true)
       default:
@@ -139,7 +139,7 @@ extension SwiftGtOneloginFlutterPlugin {
         result(OneLoginPro.isProtocolCheckboxChecked)
     }
     
-    func isReady(call:FlutterMethodCall,result: @escaping FlutterResult) {
+    func isAvailable(call:FlutterMethodCall,result: @escaping FlutterResult) {
         result(OneLoginPro.isPreGetTokenResultValidate())
     }
 }

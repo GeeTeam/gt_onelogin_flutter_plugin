@@ -19,7 +19,7 @@ struct OLConstant {
     static let sdkVersion = "\(methodNames)/sdkVersion";
     static let carrier = "\(methodNames)/carrier";
     static let isProtocolCheckboxChecked = "\(methodNames)/isProtocolCheckboxChecked";
-    static let isReady = "\(methodNames)/isReady";
+    static let isAvailable = "\(methodNames)/isAvailable";
     static let setLogEnable = "\(methodNames)/setLogEnable";
     static let destroy = "\(methodNames)/destroy";
 
