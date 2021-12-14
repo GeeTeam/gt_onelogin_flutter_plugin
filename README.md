@@ -297,7 +297,7 @@ switchButtonBgImage    | String|切换账号背景图片|默认无背景
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 authButtonImages   | List<String>|[正常状态的背景图片, 不可用状态的背景图片, 高亮状态的背景图片],iOS数组最多为3，Android最多为2|-
-authButtonRect    | OLRect|Android：登录按钮的宽高和位置坐标|宽268，高36，水平居中，y轴偏移324  iOS、；按比例计算
+authButtonRect    | OLRect|Android：登录按钮的宽高和位置坐标|宽268，高36，水平居中，y轴偏移324  iOS；按比例计算
 authButtonCornerRadius    | int|登录按钮圆角(仅iOS有效)|0
 authBtnText    | String|文字设置|一键登录
 authBtnColor    | Color|文字颜色|0xFFFFFFFF
