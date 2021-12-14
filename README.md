@@ -297,7 +297,7 @@ switchButtonBgImage    | String|切换账号背景图片|默认无背景
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 authButtonImages   | List<String>|[正常状态的背景图片, 不可用状态的背景图片, 高亮状态的背景图片],iOS数组最多为3，Android最多为2|-
-authButtonRect    | OLRect|Android：登录按钮的宽高和位置坐标|宽268，高36，水平居中，y轴偏移324  iOS、；按比例计算
+authButtonRect    | OLRect|Android：登录按钮的宽高和位置坐标|宽268，高36，水平居中，y轴偏移324  iOS；按比例计算
 authButtonCornerRadius    | int|登录按钮圆角(仅iOS有效)|0
 authBtnText    | String|文字设置|一键登录
 authBtnColor    | Color|文字颜色|0xFFFFFFFF
@@ -408,7 +408,7 @@ bool isReady = oneLoginPlugin.isReady();
 ```
 
 
-###destroy
+### destroy
 
 销毁对象(仅Android有效)。当不再需要使用 OneLogin 时，调用此接口销毁 OneLogin Android SDK，避免内存泄漏问题。若销毁后需要重新使用插件，再初始化即可。
 
