@@ -49,7 +49,7 @@ dependencies:
 参数|必须|类型|说明
 ------|-----|------|---
 appId|是|String |极验后台配置唯一产品`APPID`，请在官网申请
-timeout|否|Double |超时时间，单位:`ms`，取值范围:`1000~15000`，默认`5000`
+timeout|否|int |超时时间，单位:`ms`，取值范围:`1000~15000`，安卓默认`5000`，iOS默认`8000`
 
 **代码示例**
 
@@ -65,11 +65,15 @@ oneLoginPlugin.init("b41a959b5cac4dd1277183e074630945");
 拉起授权页
 
 **参数说明**
+
 参数|必须|类型|说明
 ------|-----|------|---
-configuration|否|OLUIConfigure |用来配置授权页面 UI 样式，详细含义见`UI配置项`章节
+configuration|否|OLUIConfiguration |用来配置授权页面 UI 样式，详细含义见`UI配置项`章节
 
 **返回值说明**
+  
+具体返回值请参考官网集成文档
+
 类型   |说明    |默认值
 ------	|-----  |-----
 Map<String, dynamic> |取号结果 |-
@@ -83,31 +87,21 @@ Map<String, dynamic> |取号结果 |-
 `msg`|是|String|运营商返回的状态信息
 `process_id`|是|String|流水号(`有效期10分钟`)
 `app_id`|是|String|极验后台配置唯一 id
-`operator`|是|String|客户端获取的运营商
-`clienttype`|是|String|客户端，1 表示 Android
-`sdk`|是|String|SDK 的版本号
 `status`|是|int|状态码，状态码为 200
 `token`|是|String|运营商返回的`accessToken`
 `authcode`|否|String|电信运营商返回的`authcode`
-
 - 取号失败
 
 参数名|必须|类型|说明
 ------|-----|------|---
 `errorCode`|是|String|错误码
 `msg`|是|String|运营商返回的状态信息
-`process_id`|是|String|流水号(`有效期10分钟`)
-`app_id`|是|String|极验后台配置唯一 id
-`metadata` |是|JSONObject|具体的错误原因
-`operator`|是|String|客户端获取的运营商
-`clienttype`|是|String|客户端，1 表示 Android
-`sdk`|是|String|SDK 的版本号
 `status`|是|int|状态码，状态码为 500
 
 **代码示例**
 
 ```dart
-var configure = OLUIConfigure();
+var configure = OLUIConfiguration();
 //参照`UI配置项`章节和demo示例代码在这里设置授权页的UI配置项
 oneLoginPlugin.requestToken(configure).then((result) async {
       int status = result["status"];
@@ -225,6 +219,7 @@ dialogCornersRadius | double  |弹窗圆角(仅iOS有效)|6
 #### 2、设置背景
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 authViewBackgroundImage   | String|设置背景图片。Android放在 `drawable` 文件下，iOS放在 `asserts` 文件下**以下图片路径与之保持一致**|-
@@ -233,23 +228,25 @@ backgroundColor   | Color |设置背景颜色(仅iOS有效)|-
 #### 2、状态栏与系统虚拟按键
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
-statusBarBgColor   | Color|自定义状态栏背景颜色|0
+statusBarBgColor   | Color|自定义状态栏背景颜色(仅Android有效)|0
 statusBarStyle   | OLStatusBarStyle |设置状态栏内容的样式|内容为白色
 systemNavBarBgColor   | Color |自定义系统导航栏背景颜色(即虚拟按键，仅Android有效)|0
 
 #### 3、标题栏
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
-navigationBarColor   | Color|自定义标题栏颜色|0xFF3973FF
-authNavHeight   | double|标题栏高度|49
+navigationBarColor   | Color|自定义标题栏颜色|安卓 0xFF3973FF iOS0xFFFFFF
+authNavHeight   | double|标题栏高度(仅Android有效)|安卓49 iOS44
 navHidden   | bool|标题栏是否隐藏|false
-navText   | String|标题栏文本|一键登录
+navText   | String|标题栏文本|安卓`一键登录` iOS`空字符串`
 navTextColor   | Color|字体颜色|0xFF000000
-navTextSize   | int|字体大小,单位为`sp`，**以下设置字体大小的单位与之保持一致**|17
+navTextSize   | int|字体大小,单位为`sp`，**以下设置字体大小的单位与之保持一致**|安卓：17 iOS：15
 navBackImage   | String|标题栏返回按钮图片|-
 navBackImageRect   | OLRect|标题栏返回按钮的宽高和位置坐标|宽高24，距离左侧12，垂直居中
 navBackImageHidden   | bool|标题栏返回按钮是否隐藏|false
@@ -257,10 +254,11 @@ navBackImageHidden   | bool|标题栏返回按钮是否隐藏|false
 #### 4、logo
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 logoImage   | String|logo 图片|-
-logoImageRect   | OLRect|logo的宽高和位置坐标|宽71，高71，水平居中，y轴偏移125
+logoImageRect   | OLRect|logo的宽高和位置坐标|安卓:宽71，高71，水平居中，y轴偏移125 iOS：默认为图片大小
 logoImageHidden   | bool|logo是否隐藏|false
 logoCornerRadius   | double|logo圆角|0
 
@@ -268,33 +266,36 @@ logoCornerRadius   | double|logo圆角|0
 #### 5、号码
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
-numberColor   | Color|号码栏字体颜色|0xFF3D424C
+numberColor   | Color|号码栏字体颜色|安卓：0xFF3D424C  iOS：黑色
 numberSize    | int|号码栏字体大小|24
 numberRect    | OLRect|号码栏的宽高和位置坐标|宽高包裹内容，水平居中，y轴偏移200
 
 #### 6、切换账号
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 switchButtonText   | String|切换账号文本|切换账号
-switchButtonColor    | int|切换账号字体颜色|0xFF3973FF
-switchTextSize    | int|切换账号字体大小|14
+switchButtonColor    | int|切换账号字体颜色|安卓：0xFF3973FF iOS：蓝色
+switchTextSize    | int|切换账号字体大小|安卓：14  iOS：15
 switchButtonHidden    | bool|切换账号是否隐藏|false
 switchButtonBackgroundColor    | Color|切换账号按钮背景颜色(仅iOS有效)|-
-switchButtonRect    | OLRect|切换账号的宽高和位置坐标|宽80，高25，水平居中，y轴偏移249
+switchButtonRect    | OLRect|切换账号的宽高和位置坐标|安卓：宽80，高25，水平居中，y轴偏移249 iOS：按比例计算
 switchButtonBgImage    | String|切换账号背景图片|默认无背景
 
 #### 7、登录按钮
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 authButtonImages   | List<String>|[正常状态的背景图片, 不可用状态的背景图片, 高亮状态的背景图片],iOS数组最多为3，Android最多为2|-
-authButtonRect    | OLRect|登录按钮的宽高和位置坐标|宽268，高36，水平居中，y轴偏移324
-authButtonCornerRadius    | int|登录按钮圆角(仅iOS有效)|-
+authButtonRect    | OLRect|安卓：登录按钮的宽高和位置坐标|宽268，高36，水平居中，y轴偏移324  iOS、；按比例计算
+authButtonCornerRadius    | int|登录按钮圆角(仅iOS有效)|0
 authBtnText    | String|文字设置|一键登录
 authBtnColor    | Color|文字颜色|0xFFFFFFFF
 authBtnTextSize    | int|文字大小|15
@@ -302,22 +303,24 @@ authBtnTextSize    | int|文字大小|15
 #### 8、Slogan
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 sloganText   | String|Slogan文本(仅iOS有效)|-
-sloganColor    | Color|文字颜色|0xFFA8A8A8
-sloganSize    | int|字体大小|10
-sloganRect    | OLRect|Slogan 的宽高和位置坐标|宽高包裹内容，水平居中，y轴偏移382
+sloganColor    | Color|文字颜色|安卓：0xFFA8A8A8   iOS:灰色
+sloganSize    | int|字体大小|安卓：10  iOS：12
+sloganRect    | OLRect|Slogan 的宽高和位置坐标|安卓：宽高包裹内容，水平居中，y轴偏移382  iOS：按比例计算
 
 #### 9、服务条款
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 termsRect    | OLRect|服务条款的宽高和位置坐标|默认256，高度自适应，服务条款整体的高度取决于checkbox背景资源的高度以及文本的长度，水平居中，y轴偏移400
-termTextColor    | Color|服务条款基础文字颜色|0xFFA8A8A8
-termsClauseColor    | Color|服务条款协议文字颜色|0xFF3973FF
-termsClauseTextSize    | int|服务条款字体大小|10
+termTextColor    | Color|服务条款基础文字颜色|安卓：0xFFA8A8A8 iOS：灰色
+termsClauseColor    | Color|服务条款协议文字颜色|安卓：0xFF3973FF  iOS：蓝色
+termsClauseTextSize    | int|服务条款字体大小|安卓:10 iOS：12
 termsLineSpacingExtra   | double|服务条款文字行间距|8.0
 termsLineSpacingMultiplier   | double|服务条款文字行间距的倍数|1.0
 termsBookTitleMarkHidden   | bool|条款名称是否隐藏书名号|true
@@ -328,6 +331,7 @@ auxiliaryPrivacyWords   | List<String>|除服务条款外的其他文案，包�
 #### 10、Checkbox
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 uncheckedImage    | String|未选中下按钮的图片地址|-
@@ -337,13 +341,14 @@ defaultCheckBoxState    | bool|选择框是否默认勾选|false
 #### 11、其他
 
 **参数说明**
+
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
 supportedinterfaceOrientations    | OLIOSInterfaceOrientation|授权页面支持的横竖屏方向(仅iOS有效)|-
 userinterfaceStyle   | OLIOSUserInterfaceStyle|授权页面界面样式(仅iOS有效)|-
 webNaviHidden    | bool|服务条款页面标题栏是否隐藏(仅iOS有效)|false
-webNaviBgColor    | Color|服务条款页面标题栏的背景颜色(仅iOS有效)|-
-navWebViewText    | bool|服务条款页面标题栏的文本|服务条款
+webNaviBgColor    | Color|服务条款页面标题栏的背景颜色(仅iOS有效)|白色
+navWebViewText    | bool|服务条款页面标题栏的文本|与协议名称保持一致，粗体
 navWebViewTextColor    | bool|服务条款页面标题栏的字体颜色|0xFF000000
 navWebViewTextSize    | bool|服务条款页面标题栏的字体大小|fal17
 
