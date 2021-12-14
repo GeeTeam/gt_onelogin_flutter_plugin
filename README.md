@@ -408,7 +408,7 @@ bool isReady = oneLoginPlugin.isReady();
 ```
 
 
-###destroy
+### destroy
 
 销毁对象(仅Android有效)。当不再需要使用 OneLogin 时，调用此接口销毁 OneLogin Android SDK，避免内存泄漏问题。若销毁后需要重新使用插件，再初始化即可。
 
