@@ -38,11 +38,8 @@ dependencies:
 
 ## 示例 / Example
 
-### Init
+### 创建 GtOneloginFlutterPlugin 实例
 
-**方法描述**
-
-初始化 
 
 **参数说明**
 
@@ -409,7 +406,7 @@ bool isAvailable = oneLoginPlugin.isAvailable();
 
 ### destroy
 
-销毁对象(仅Android有效)。当不再需要使用 OneLogin 时，调用此接口销毁 OneLogin Android SDK，避免内存泄漏问题。若销毁后需要重新使用插件，再初始化即可。
+销毁对象(仅Android有效)。当不再需要使用 OneLogin 时，调用此接口销毁 OneLogin Android SDK，避免内存泄漏问题。若销毁后需要重新使用插件，再创建一个 GtOneloginFlutterPlugin 实例即可。
 
 ```dart
 oneLoginPlugin.destroy();

@@ -44,7 +44,7 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       Constant.dismissAuthView -> {
         OneLoginHelper.with().dismissAuthActivity()
       }
-      Constant.isReady -> {
+      Constant.isAvailable -> {
         result.success(OneLoginHelper.with().isPreGetTokenResultValidate)
       }
       Constant.setLogEnable -> {

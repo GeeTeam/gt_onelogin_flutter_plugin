@@ -14,7 +14,7 @@ class Constant {
         const val sdkVersion = "$methodNames/sdkVersion"
         const val carrier = "$methodNames/carrier"
         const val isProtocolCheckboxChecked = "$methodNames/isProtocolCheckboxChecked"
-        const val isReady = "$methodNames/isReady"
+        const val isAvailable = "$methodNames/isAvailable"
         const val setLogEnable = "$methodNames/setLogEnable"
         const val destroy = "$methodNames/destroy"
 
