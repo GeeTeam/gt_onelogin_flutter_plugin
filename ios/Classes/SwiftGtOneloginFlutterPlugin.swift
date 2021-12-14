@@ -101,9 +101,6 @@ extension SwiftGtOneloginFlutterPlugin {
         authModel.clickSwitchButtonBlock = {[weak self] in
             self?.channel.invokeMethod(OLConstant.onSwitchButtonClick, arguments: nil)
         }
-        authModel.carrierTermItemBlock = {[weak self] (termItem,_) in
-            self?.channel.invokeMethod(OLConstant.onTermItemClick, arguments: [OLConstant.termsItemTitle:termItem.termTitle,                                        OLConstant.termsItemUrl:termItem.termLink.absoluteString])
-        }
     }
     
     func dismissAuthView(call:FlutterMethodCall,result: @escaping FlutterResult) {
