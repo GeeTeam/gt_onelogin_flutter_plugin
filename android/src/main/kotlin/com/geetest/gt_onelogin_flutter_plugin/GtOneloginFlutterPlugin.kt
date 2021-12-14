@@ -82,7 +82,7 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       val timeout: Int = if (containsKey(Constant.timeout)) {
         get(Constant.timeout) as Int
       } else {
-        5000
+        8000
       }
       OneLoginHelper.with().register("", timeout)
     }

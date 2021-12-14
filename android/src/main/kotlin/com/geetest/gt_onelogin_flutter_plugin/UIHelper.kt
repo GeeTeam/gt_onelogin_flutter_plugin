@@ -536,8 +536,7 @@ object UIHelper {
         val options = getPictureSize(checkedImage, context)
         val checkBoxWidthDp = (options.outWidth/context.resources.displayMetrics.density).toInt()
         val checkBoxHeightDp = (options.outHeight/context.resources.displayMetrics.density).toInt()
-        Log.i(tag, "checkbox pic width:${options.outWidth} height:${options.outHeight}")
-        Log.i(tag, "checkbox pic checkBoxWidthDp:$checkBoxWidthDp checkBoxHeightDp:$checkBoxHeightDp")
+        Log.i(tag, "checkbox pic width:${options.outWidth} height:${options.outHeight}\ncheckBoxWidthDp:$checkBoxWidthDp checkBoxHeightDp:$checkBoxHeightDp")
 
         uiConfigBuilder.setPrivacyCheckBox(uncheckedImage, checkedImage, defaultCheckBoxState, checkBoxWidthDp, checkBoxHeightDp)
     }

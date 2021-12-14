@@ -144,7 +144,7 @@ class _MyAppState extends State<MyApp> {
             // TO-DO
             // 其他错误类型
           }
-        } else { //安卓错误码
+        } else { //Android错误码
           if ("-20200" == errCode) {
             // TO-DO
             // 网络不可用
