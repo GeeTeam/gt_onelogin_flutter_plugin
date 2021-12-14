@@ -54,8 +54,7 @@ timeout|否|int |超时时间，单位:`ms`，取值范围:`1000~15000`，默认
 **代码示例**
 
 ```dart
-GtOneloginFlutterPlugin oneLoginPlugin = GtOneloginFlutterPlugin();
-oneLoginPlugin.init("b41a959b5cac4dd1277183e074630945");
+GtOneloginFlutterPlugin oneLoginPlugin = GtOneloginFlutterPlugin("b41a959b5cac4dd1277183e074630945");
 ```
 
 ### requestToken
