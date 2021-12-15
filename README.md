@@ -1,6 +1,6 @@
 # gt_onelogin_flutter_plugin
 
-The official OneLoginSDK flutter plugin project for geetest. Support Flutter 2.0.
+The official flutter plugin project for geetest OneLoginSDK. Support Flutter 2.0.
 极验 OneLoginSDK Flutter 官方插件。支持 Flutter 2.0。
 
 [官网/Official](https://www.geetest.com)
