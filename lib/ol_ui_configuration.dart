@@ -1,7 +1,6 @@
 part of gt_onelogin_flutter_plugin;
 
 class OLUIConfiguration {
-
   //Only for iOS 授权页面支持的横竖屏方向
   OLIOSInterfaceOrientation? supportedinterfaceOrientations;
   //Only for iOS 授权页面界面样式
@@ -32,6 +31,7 @@ class OLUIConfiguration {
   ///--------------系统虚拟按键----------------
   //Only for Android
   Color? systemNavBarBgColor;
+
   ///--------------标题栏----------------
   //标题栏：颜色
   Color? navigationBarColor;
@@ -42,9 +42,9 @@ class OLUIConfiguration {
   //标题栏：文本
   String? navText;
   //标题栏：字体颜色
-  Color?  navTextColor;
+  Color? navTextColor;
   //标题栏：字体大小
-  int?    navTextSize;
+  int? navTextSize;
   //返回按钮图片
   String? navBackImage;
   //返回按钮图片 size 位置
@@ -146,11 +146,11 @@ class OLUIConfiguration {
   //隐私条款页面标题栏文字
   String? navWebViewText;
   //隐私条款页面标题栏字体颜色
-  Color?  navWebViewTextColor;
+  Color? navWebViewTextColor;
   //隐私条款页面标题栏字体大小
-  int?    navWebViewTextSize;
+  int? navWebViewTextSize;
 
-  Map<String,dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     if (terms != null && (terms?.isNotEmpty ?? false)) {
       if (terms!.length > 3) {
         debugPrint("terms 参数最多限制为3个");
@@ -159,75 +159,70 @@ class OLUIConfiguration {
     }
 
     return {
-      _OLConstant.supportedinterfaceOrientations:supportedinterfaceOrientations?.index,
-      _OLConstant.userinterfaceStyle:userinterfaceStyle?.index,
-      _OLConstant.isDialogStyle:isDialogStyle,
-      _OLConstant.dialogRect : dialogRect?.toMap(),
-      _OLConstant.isWebDialogStyle : isWebDialogStyle,
-      _OLConstant.dialogCornersRadius : dialogCornersRadius,
-      _OLConstant.authViewBackgroundImage : authViewBackgroundImage,
-      _OLConstant.backgroundColor : backgroundColor?.hexString,
-      _OLConstant.statusBarBgColor : statusBarBgColor?.hexString,
-      _OLConstant.statusBarStyle : statusBarStyle?.index,
+      _OLConstant.supportedinterfaceOrientations:
+          supportedinterfaceOrientations?.index,
+      _OLConstant.userinterfaceStyle: userinterfaceStyle?.index,
+      _OLConstant.isDialogStyle: isDialogStyle,
+      _OLConstant.dialogRect: dialogRect?.toMap(),
+      _OLConstant.isWebDialogStyle: isWebDialogStyle,
+      _OLConstant.dialogCornersRadius: dialogCornersRadius,
+      _OLConstant.authViewBackgroundImage: authViewBackgroundImage,
+      _OLConstant.backgroundColor: backgroundColor?.hexString,
+      _OLConstant.statusBarBgColor: statusBarBgColor?.hexString,
+      _OLConstant.statusBarStyle: statusBarStyle?.index,
       _OLConstant.systemNavBarBgColor: systemNavBarBgColor?.hexString,
-      _OLConstant.navigationBarColor : navigationBarColor?.hexString,
-      _OLConstant.authNavHeight : authNavHeight,
-      _OLConstant.navHidden : navHidden,
-      _OLConstant.navText : navText,
-      _OLConstant.navTextColor :navTextColor?.hexString,
-      _OLConstant.navTextSize :navTextSize,
-      _OLConstant.navBackImage :navBackImage,
-      _OLConstant.navBackImageRect :navBackImageRect?.toMap(),
-      _OLConstant.navBackImageHidden :navBackImageHidden,
-      _OLConstant.logoImage :logoImage,
-      _OLConstant.logoImageRect :logoImageRect?.toMap(),
-      _OLConstant.logoImageHidden :logoImageHidden,
-      _OLConstant.logoCornerRadius :logoCornerRadius,
-      _OLConstant.numberColor :numberColor?.hexString,
-      _OLConstant.numberSize :numberSize,
-      _OLConstant.numberRect :numberRect?.toMap(),
-      _OLConstant.switchButtonText :switchButtonText,
-      _OLConstant.switchButtonColor :switchButtonColor?.hexString,
-      _OLConstant.switchTextSize :switchTextSize,
-      _OLConstant.switchButtonHidden :switchButtonHidden,
-      _OLConstant.switchButtonBackgroundColor :switchButtonBackgroundColor?.hexString,
-      _OLConstant.switchButtonRect :switchButtonRect?.toMap(),
-      _OLConstant.switchButtonBgImage :switchButtonBgImage,
-      _OLConstant.authButtonImages :authButtonImages,
-      _OLConstant.authButtonRect :authButtonRect?.toMap(),
-      _OLConstant.authButtonCornerRadius :authButtonCornerRadius,
-      _OLConstant.authBtnText :authBtnText,
-      _OLConstant.authBtnColor :authBtnColor?.hexString,
-      _OLConstant.authBtnTextSize :authBtnTextSize,
-      _OLConstant.sloganText :sloganText,
-      _OLConstant.sloganColor :sloganColor?.hexString,
-      _OLConstant.sloganSize :sloganSize,
-      _OLConstant.sloganRect :sloganRect?.toMap(),
-      _OLConstant.termsRect :termsRect?.toMap(),
-      _OLConstant.termTextColor :termTextColor?.hexString,
-      _OLConstant.termsClauseColor :termsClauseColor?.hexString,
-      _OLConstant.termsClauseTextSize :termsClauseTextSize,
-      _OLConstant.termsLineSpacingExtra :termsLineSpacingExtra,
-      _OLConstant.termsLineSpacingMultiplier :termsLineSpacingMultiplier,
-      _OLConstant.termsBookTitleMarkHidden :termsBookTitleMarkHidden,
-      _OLConstant.termsUncheckedToastText :termsUncheckedToastText,
-      _OLConstant.terms :terms?.map((e) => e.toMap()).toList(),
-      _OLConstant.auxiliaryPrivacyWords :auxiliaryPrivacyWords,
-      _OLConstant.uncheckedImage :uncheckedImage,
-      _OLConstant.checkedImage :checkedImage,
-      _OLConstant.defaultCheckBoxState :defaultCheckBoxState,
-      _OLConstant.webNaviHidden :webNaviHidden,
-      _OLConstant.webNaviBgColor :webNaviBgColor?.hexString,
-      _OLConstant.navWebViewText :navWebViewText,
-      _OLConstant.navWebViewTextColor :navWebViewTextColor?.hexString,
-      _OLConstant.navWebViewTextSize :navWebViewTextSize,
+      _OLConstant.navigationBarColor: navigationBarColor?.hexString,
+      _OLConstant.authNavHeight: authNavHeight,
+      _OLConstant.navHidden: navHidden,
+      _OLConstant.navText: navText,
+      _OLConstant.navTextColor: navTextColor?.hexString,
+      _OLConstant.navTextSize: navTextSize,
+      _OLConstant.navBackImage: navBackImage,
+      _OLConstant.navBackImageRect: navBackImageRect?.toMap(),
+      _OLConstant.navBackImageHidden: navBackImageHidden,
+      _OLConstant.logoImage: logoImage,
+      _OLConstant.logoImageRect: logoImageRect?.toMap(),
+      _OLConstant.logoImageHidden: logoImageHidden,
+      _OLConstant.logoCornerRadius: logoCornerRadius,
+      _OLConstant.numberColor: numberColor?.hexString,
+      _OLConstant.numberSize: numberSize,
+      _OLConstant.numberRect: numberRect?.toMap(),
+      _OLConstant.switchButtonText: switchButtonText,
+      _OLConstant.switchButtonColor: switchButtonColor?.hexString,
+      _OLConstant.switchTextSize: switchTextSize,
+      _OLConstant.switchButtonHidden: switchButtonHidden,
+      _OLConstant.switchButtonBackgroundColor:
+          switchButtonBackgroundColor?.hexString,
+      _OLConstant.switchButtonRect: switchButtonRect?.toMap(),
+      _OLConstant.switchButtonBgImage: switchButtonBgImage,
+      _OLConstant.authButtonImages: authButtonImages,
+      _OLConstant.authButtonRect: authButtonRect?.toMap(),
+      _OLConstant.authButtonCornerRadius: authButtonCornerRadius,
+      _OLConstant.authBtnText: authBtnText,
+      _OLConstant.authBtnColor: authBtnColor?.hexString,
+      _OLConstant.authBtnTextSize: authBtnTextSize,
+      _OLConstant.sloganText: sloganText,
+      _OLConstant.sloganColor: sloganColor?.hexString,
+      _OLConstant.sloganSize: sloganSize,
+      _OLConstant.sloganRect: sloganRect?.toMap(),
+      _OLConstant.termsRect: termsRect?.toMap(),
+      _OLConstant.termTextColor: termTextColor?.hexString,
+      _OLConstant.termsClauseColor: termsClauseColor?.hexString,
+      _OLConstant.termsClauseTextSize: termsClauseTextSize,
+      _OLConstant.termsLineSpacingExtra: termsLineSpacingExtra,
+      _OLConstant.termsLineSpacingMultiplier: termsLineSpacingMultiplier,
+      _OLConstant.termsBookTitleMarkHidden: termsBookTitleMarkHidden,
+      _OLConstant.termsUncheckedToastText: termsUncheckedToastText,
+      _OLConstant.terms: terms?.map((e) => e.toMap()).toList(),
+      _OLConstant.auxiliaryPrivacyWords: auxiliaryPrivacyWords,
+      _OLConstant.uncheckedImage: uncheckedImage,
+      _OLConstant.checkedImage: checkedImage,
+      _OLConstant.defaultCheckBoxState: defaultCheckBoxState,
+      _OLConstant.webNaviHidden: webNaviHidden,
+      _OLConstant.webNaviBgColor: webNaviBgColor?.hexString,
+      _OLConstant.navWebViewText: navWebViewText,
+      _OLConstant.navWebViewTextColor: navWebViewTextColor?.hexString,
+      _OLConstant.navWebViewTextSize: navWebViewTextSize,
     }..removeWhere((key, value) => value == null);
   }
-
-
-
-
-
-
-
 }

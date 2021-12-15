@@ -6,14 +6,14 @@ class OLRect {
   double? x;
   double? y;
 
-  OLRect({this.width,this.height,this.x,this.y});
+  OLRect({this.width, this.height, this.x, this.y});
 
-  Map<String,dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      _OLConstant.rectWidth:width,
-      _OLConstant.rectHeight:height,
-      _OLConstant.rectX:x,
-      _OLConstant.rectY:y
+      _OLConstant.rectWidth: width,
+      _OLConstant.rectHeight: height,
+      _OLConstant.rectX: x,
+      _OLConstant.rectY: y
     }..removeWhere((key, value) => value == null);
   }
 }

@@ -40,12 +40,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   _init() {
-    oneLoginPlugin = GtOneloginFlutterPlugin("b41a959b5cac4dd1277183e074630945");
+    oneLoginPlugin =
+        GtOneloginFlutterPlugin("b41a959b5cac4dd1277183e074630945");
     oneLoginPlugin?.addEventListener(onBackButtonClick: (_) {
       debugPrint(tag + "onBackButtonClick");
     }, onAuthButtonClick: (_) {
       debugPrint(tag + "onAuthButtonClick");
-    }, onSwitchButtonClick: (_) { // 用户选择切换账号登录，收到此回调后可关闭授权页，跳转或降级走其他方式登录，或者待用户选择
+    }, onSwitchButtonClick: (_) {
+      // 用户选择切换账号登录，收到此回调后可关闭授权页，跳转或降级走其他方式登录，或者待用户选择
       debugPrint(tag + "onSwitchButtonClick");
       oneLoginPlugin?.dismissAuthView();
     }, onTermCheckBoxClick: (isChecked) {
@@ -67,9 +69,10 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () {
                   requestToken();
                 },
-                child: const Text("OneLogin start",style: TextStyle(
-                    fontSize: 20
-                ),)),
+                child: const Text(
+                  "OneLogin start",
+                  style: TextStyle(fontSize: 20),
+                )),
             const SizedBox(
               height: 50,
             ),
@@ -106,7 +109,8 @@ class _MyAppState extends State<MyApp> {
 
   //拉起授权页
   requestToken() {
-    oneLoginPlugin?.requestToken(_isCustomUI ? _getOLUIConfigure() : null)
+    oneLoginPlugin
+        ?.requestToken(_isCustomUI ? _getOLUIConfigure() : null)
         .then((result) async {
       debugPrint("oneLoginPlugin then $result");
       int status = result["status"];
@@ -122,40 +126,36 @@ class _MyAppState extends State<MyApp> {
       } else {
         var errCode = result["errorCode"];
         // 获取网关token失败
-        if (Platform.isIOS) { //iOS错误码
+        if (Platform.isIOS) {
+          //iOS错误码
           if ("-20103" == errCode) {
             // TO-DO
             // 重复调用 requestTokenWithViewController:viewModel:completion:
-          }
-          else if ("-20202" == errCode) {
+          } else if ("-20202" == errCode) {
             // TO-DO
             // 检测到未开启蜂窝网络
-          }
-          else if ("-20203" == errCode) {
+          } else if ("-20203" == errCode) {
             // TO-DO
             // 不支持的运营商类型
-          }
-          else if ("-20204" == errCode) {
+          } else if ("-20204" == errCode) {
             // TO-DO
             // 未获取有效的 `accessCode` 或已经失效, 请重新初始化，init(appId):
-          }
-          else {
+          } else {
             // TO-DO
             // 其他错误类型
           }
-        } else { //Android错误码
+        } else {
+          //Android错误码
           if ("-20200" == errCode) {
             // TO-DO
             // 网络不可用
           } else if ("-20202" == errCode) {
             // TO-DO
             // 检测到未开启蜂窝网络
-          }
-          else if ("-20203" == errCode) {
+          } else if ("-20203" == errCode) {
             // TO-DO
             // 不支持的运营商类型
-          }
-          else if ("-20105" == errCode) {
+          } else if ("-20105" == errCode) {
             // TO-DO
             // 超时。网络信号较差或者配置的超时时间较短，导致预取号或者取号超时
           } else {
@@ -176,9 +176,7 @@ class _MyAppState extends State<MyApp> {
     //弹窗样式
     configure.isDialogStyle = _isDialog;
     configure.dialogRect = OLRect(
-        y: screenSize.height - 400,
-        height: 400,
-        width: screenSize.width);
+        y: screenSize.height - 400, height: 400, width: screenSize.width);
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.light;
     configure.dialogCornersRadius = 20;
@@ -210,34 +208,32 @@ class _MyAppState extends State<MyApp> {
     //logo
     configure.logoImage = "onelogin";
     configure.logoImageRect = OLRect(
-      width: _isDialog ? 50 : 70,
-      height: _isDialog ? 50 : 70,
-      y: _isDialog ? 45 : 125
-    );
+        width: _isDialog ? 50 : 70,
+        height: _isDialog ? 50 : 70,
+        y: _isDialog ? 45 : 125);
     configure.logoImageHidden = false;
 
     //number
     configure.numberColor = Colors.pinkAccent;
     configure.numberSize = 20;
-    configure.numberRect = OLRect(
-      width: 200,
-      height: 25,
-      y: _isDialog ? 110 : 200
-    );
+    configure.numberRect =
+        OLRect(width: 200, height: 25, y: _isDialog ? 110 : 200);
 
     //切换账号
     configure.switchButtonText = "自定义切换按钮文案";
     configure.switchButtonColor = Colors.black54;
     configure.switchTextSize = 16;
-    configure.switchButtonRect = OLRect(
-        width: 160,
-        height: 28,
-        y: _isDialog ? 150 : 250);
+    configure.switchButtonRect =
+        OLRect(width: 160, height: 28, y: _isDialog ? 150 : 250);
     // configure.switchButtonBgImage = "one_login_bg_fuchsin";
     configure.switchButtonHidden = false;
 
     //一键登录按钮
-    configure.authButtonImages = ["login_button_enabled","login_button_disabled","btn_blue"];
+    configure.authButtonImages = [
+      "login_button_enabled",
+      "login_button_disabled",
+      "btn_blue"
+    ];
     configure.authButtonRect = OLRect(
         x: (screenSize.width - 250) / 2,
         y: _isDialog ? 220 : 324,
@@ -251,11 +247,8 @@ class _MyAppState extends State<MyApp> {
     configure.sloganText = "极验提供统一认证服务"; //android 侧暂未提供修改slogan文案功能，待规划
     configure.sloganColor = Colors.lightGreen;
     configure.sloganSize = 12;
-    configure.sloganRect = OLRect(
-      width: 200,
-      height: 20,
-      y: _isDialog ? 270 : 382
-    );
+    configure.sloganRect =
+        OLRect(width: 200, height: 20, y: _isDialog ? 270 : 382);
 
     //服务条款
     configure.termsClauseColor = Colors.orange;
@@ -266,8 +259,7 @@ class _MyAppState extends State<MyApp> {
     } else {
       termsY = (screenSize.height - 30 - 50 - statusBarHeight);
     }
-    configure.termsRect = OLRect(
-        y: termsY);
+    configure.termsRect = OLRect(y: termsY);
     configure.termsClauseTextSize = 10;
     configure.termsLineSpacingExtra = 8.0;
     configure.termsLineSpacingMultiplier = 1.0;

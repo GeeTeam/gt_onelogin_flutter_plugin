@@ -6,7 +6,6 @@ class GtOneloginFlutterPlugin {
   final MethodChannel _channel = const MethodChannel(_OLConstant.methodChannel);
   static const String flutterLog = "| Geetest | Flutter | ";
 
-
   GtOneloginFlutterPlugin(String appId, [int? timeout]) {
     try {
       Map<String, dynamic> map = <String, dynamic>{};
@@ -14,16 +13,18 @@ class GtOneloginFlutterPlugin {
       if (timeout != null) {
         map[_OLConstant.timeout] = timeout;
       }
-      _channel.invokeMethod(_OLConstant.init,map);
-    }catch (e) {
+      _channel.invokeMethod(_OLConstant.init, map);
+    } catch (e) {
       debugPrint(flutterLog + e.toString());
     }
-   }
+  }
 
   /// ------------核心接口-----------
   //拉起授权页
-  Future<Map<String, dynamic>> requestToken([OLUIConfiguration? configuration]) async {
-    Map map = await _channel.invokeMethod(_OLConstant.requestToken,configuration?.toMap());
+  Future<Map<String, dynamic>> requestToken(
+      [OLUIConfiguration? configuration]) async {
+    Map map = await _channel.invokeMethod(
+        _OLConstant.requestToken, configuration?.toMap());
     return LinkedHashMap.from(map);
   }
 
@@ -55,7 +56,7 @@ class GtOneloginFlutterPlugin {
   }
 
   //预取号拿到的token是否还在有效期
-    Future<bool> isAvailable() async {
+  Future<bool> isAvailable() async {
     return await _channel.invokeMethod(_OLConstant.isAvailable);
   }
 
@@ -88,6 +89,7 @@ class GtOneloginFlutterPlugin {
 
     _channel.setMethodCallHandler(_handler);
   }
+
   Future<dynamic> _handler(MethodCall call) async {
     switch (call.method) {
       case _OLConstant.onBackButtonClick:
