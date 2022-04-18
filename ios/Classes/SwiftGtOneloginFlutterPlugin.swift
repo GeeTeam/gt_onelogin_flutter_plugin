@@ -31,8 +31,14 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
           isProtocolCheckboxChecked(call: call, result: result)
       case OLConstant.isAvailable:
           isAvailable(call: call, result: result)
-      case  OLConstant.destroy:
+      case OLConstant.destroy:
           result(true)
+      case OLConstant.renewPreGetToken:
+          renewPreGetToken(call: call, result: result)
+      case OLConstant.setProtocolCheckState:
+          setProtocolCheckState(call: call, result: result)
+      case OLConstant.deletePreResultCache:
+          deletePreResultCache(call: call, result: result)
       default:
           result(FlutterMethodNotImplemented)
       }
@@ -41,22 +47,23 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
 
 //核心接口
 extension SwiftGtOneloginFlutterPlugin {
-    func setup(call:FlutterMethodCall,result: @escaping FlutterResult) {
+    func setup(call:FlutterMethodCall, result: @escaping FlutterResult) {
         guard let arguments = call.arguments as? [String:Any],let appId = arguments[OLConstant.appId] as? String,!appId.isEmpty  else {
             result(FlutterError(code: call.method, message: (iosLog+"appId 参数必传"), details: nil))
             return
         }
+        OneLoginPro.getPreGetTokenResult { [weak self] preGetTokenResult in
+            self?.channel.invokeMethod(OLConstant.onPreGetTokenResult, arguments: preGetTokenResult)
+        }
         OneLoginPro.register(withAppID: appId)
-        OneLogin.preGetToken(completion: { _ in
-            
-        })
+
         if let timeout = arguments[OLConstant.timeout] as? Int {
             OneLoginPro.setRequestTimeout(TimeInterval(timeout*1000))
         }
         result(true)
     }
     
-    func requestToken(call:FlutterMethodCall,result: @escaping FlutterResult) {
+    func requestToken(call:FlutterMethodCall, result: @escaping FlutterResult) {
         let vc = UIApplication.shared.keyWindow?.rootViewController
         var authModel = OLAuthViewModel()
         if let authModelDict = call.arguments as? [String:Any]  {
@@ -103,7 +110,7 @@ extension SwiftGtOneloginFlutterPlugin {
         }
     }
     
-    func dismissAuthView(call:FlutterMethodCall,result: @escaping FlutterResult) {
+    func dismissAuthView(call:FlutterMethodCall, result: @escaping FlutterResult) {
         OneLoginPro.dismissAuthViewController {
             result(true)
         }
@@ -113,7 +120,7 @@ extension SwiftGtOneloginFlutterPlugin {
 
 //配置接口
 extension SwiftGtOneloginFlutterPlugin {
-    func setLogEnable(call:FlutterMethodCall,result: @escaping FlutterResult) {
+    func setLogEnable(call:FlutterMethodCall, result: @escaping FlutterResult) {
         guard let isEnable = call.arguments as? Bool else{
             result(FlutterError(code: call.method, message: "参数必传", details: nil))
             return
@@ -123,7 +130,7 @@ extension SwiftGtOneloginFlutterPlugin {
         result(true)
     }
     
-    func getCurrentCarrier(call:FlutterMethodCall,result: @escaping FlutterResult) {
+    func getCurrentCarrier(call:FlutterMethodCall, result: @escaping FlutterResult) {
         guard let info = OneLoginPro.currentNetworkInfo(),let carrierName = info.carrierName,let carrierType = OLCarrierType.init(rawValue: carrierName) else{
             result(OLCarrierType.unknow.intValue)
             return
@@ -131,15 +138,34 @@ extension SwiftGtOneloginFlutterPlugin {
         result(carrierType.intValue)
     }
     
-    func sdkVersion(call:FlutterMethodCall,result: @escaping FlutterResult) {
-        result(OneLoginPro.sdkVersion)
+    func sdkVersion(call:FlutterMethodCall, result: @escaping FlutterResult) {
+        result(OneLoginPro.sdkVersion())
     }
     
-    func isProtocolCheckboxChecked(call:FlutterMethodCall,result: @escaping FlutterResult) {
-        result(OneLoginPro.isProtocolCheckboxChecked)
+    func isProtocolCheckboxChecked(call:FlutterMethodCall, result: @escaping FlutterResult) {
+        result(OneLoginPro.isProtocolCheckboxChecked())
     }
     
-    func isAvailable(call:FlutterMethodCall,result: @escaping FlutterResult) {
+    func setProtocolCheckState(call:FlutterMethodCall, result: @escaping FlutterResult) {
+        guard let isChecked = call.arguments as? Bool else{
+            result(FlutterError(code: call.method, message: "参数必传", details: nil))
+            return
+        }
+        OneLoginPro.setProtocolCheckState(isChecked)
+        result(true)
+    }
+    
+    func isAvailable(call:FlutterMethodCall, result: @escaping FlutterResult) {
         result(OneLoginPro.isPreGetTokenResultValidate())
+    }
+    
+    func renewPreGetToken(call:FlutterMethodCall, result: @escaping FlutterResult) {
+        OneLoginPro.renewPreGetToken()
+        result(true)
+    }
+    
+    func deletePreResultCache(call:FlutterMethodCall, result: @escaping FlutterResult) {
+        OneLoginPro.deletePreResultCache()
+        result(true)
     }
 }

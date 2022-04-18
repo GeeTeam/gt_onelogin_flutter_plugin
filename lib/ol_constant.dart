@@ -17,6 +17,11 @@ class _OLConstant {
   static const isAvailable = "$methodNames/isAvailable";
   static const setLogEnable = "$methodNames/setLogEnable";
   static const destroy = "$methodNames/destroy";
+  static const renewPreGetToken = "$methodNames/renewPreGetToken";
+  static const deletePreResultCache = "$methodNames/deletePreResultCache";
+  static const setProtocolCheckState =
+      "$methodNames/setProtocolCheckState";
+
 
   ///native事件回调flutter方法名称
   static const onBackButtonClick = "$methodNames/onBackButtonClick";
@@ -24,6 +29,8 @@ class _OLConstant {
   static const onSwitchButtonClick = "$methodNames/onSwitchButtonClick";
   static const onTermCheckBoxClick =
       "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
+  static const onPreGetTokenResult =
+      "$methodNames/onPreGetTokenResult"; //获取预取号的结果
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";
@@ -55,6 +62,10 @@ class _OLConstant {
   //服务条款页面是否使用弹窗样式
   static const isWebDialogStyle = "$methodParameters/isWebDialogStyle";
 
+  ///--------------多语言----------------
+  static const languageType =
+      "$methodParameters/languageType";
+
   ///--------------背景----------------
   //设置背景图片
   static const authViewBackgroundImage =
@@ -73,6 +84,8 @@ class _OLConstant {
   static const systemNavBarBgColor = "$methodParameters/systemNavBarBgColor";
 
   ///--------------标题栏----------------
+  // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
+  static const navTextMargin = "$methodParameters/navTextMargin";
   //标题栏：颜色
   static const navigationBarColor = "$methodParameters/navigationBarColor";
   //Only for Android 标题栏：高度

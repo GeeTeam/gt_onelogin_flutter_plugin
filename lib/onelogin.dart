@@ -55,6 +55,11 @@ class GtOneloginFlutterPlugin {
     return await _channel.invokeMethod(_OLConstant.isProtocolCheckboxChecked);
   }
 
+  //设置隐私条款勾选框状态
+  Future<void> setProtocolCheckState(bool isChecked) async {
+    await _channel.invokeMethod(_OLConstant.setProtocolCheckState, isChecked);
+  }
+
   //预取号拿到的token是否还在有效期
   Future<bool> isAvailable() async {
     return await _channel.invokeMethod(_OLConstant.isAvailable);
@@ -64,6 +69,17 @@ class GtOneloginFlutterPlugin {
   destroy() {
     return _channel.invokeMethod(_OLConstant.destroy);
   }
+
+  //异步重新预取号
+  renewPreGetToken() {
+    _channel.invokeMethod(_OLConstant.renewPreGetToken);
+  }
+
+  //删除预取号的缓存
+  deletePreResultCache() {
+    _channel.invokeMethod(_OLConstant.deletePreResultCache);
+  }
+
 
   /// -------------add listener------------------
 
@@ -75,17 +91,22 @@ class GtOneloginFlutterPlugin {
   EventHandler<void>? _onSwitchButtonClick;
   //点击服务条款的选择框
   EventHandler<bool>? _onTermCheckBoxClick;
+  //获取预取号结果
+  EventHandler<Map<String,dynamic>>? _onPreGetTokenResult;
 
   addEventListener(
-      {EventHandler<void>? onBackButtonClick,
-      EventHandler<void>? onAuthButtonClick,
-      EventHandler<void>? onSwitchButtonClick,
-      EventHandler<bool>? onTermCheckBoxClick}) {
+      {
+        EventHandler<void>? onBackButtonClick,
+        EventHandler<void>? onAuthButtonClick,
+        EventHandler<void>? onSwitchButtonClick,
+        EventHandler<bool>? onTermCheckBoxClick,
+        EventHandler<Map<String,dynamic>>? onPreGetTokenResult}) {
     debugPrint(flutterLog + "addEventListener");
     _onBackButtonClick = onBackButtonClick;
     _onAuthButtonClick = onAuthButtonClick;
     _onSwitchButtonClick = onSwitchButtonClick;
     _onTermCheckBoxClick = onTermCheckBoxClick;
+    _onPreGetTokenResult = onPreGetTokenResult;
 
     _channel.setMethodCallHandler(_handler);
   }
@@ -100,6 +121,8 @@ class GtOneloginFlutterPlugin {
         return _onSwitchButtonClick?.call(null);
       case _OLConstant.onTermCheckBoxClick:
         return _onTermCheckBoxClick?.call(call.arguments as bool);
+      case _OLConstant.onPreGetTokenResult:
+        return _onPreGetTokenResult?.call(LinkedHashMap.from(call.arguments));
       default:
         return null;
     }

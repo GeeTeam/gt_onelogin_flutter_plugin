@@ -11,6 +11,12 @@ extension HexColor on Color {
   String get hexString => value.toRadixString(16);
 }
 
+enum OLLanguageType {
+  simplifiedChinese,  // 简体中文,默认
+  traditionalChinese, // 繁体中文
+  english             // 英文
+}
+
 //仅供iOS使用
 enum OLIOSInterfaceOrientation {
   portrait,
@@ -22,7 +28,7 @@ enum OLIOSUserInterfaceStyle {
   light, //  明亮
   dark, //  暗黑 仅对 iOS 13+ 系统有效
 }
-
+//仅供iOS使用
 enum OLStatusBarStyle {
   notSet,
   lightContent, // iOS 7+, Light content, for use on dark backgrounds

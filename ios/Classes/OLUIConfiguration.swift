@@ -26,6 +26,9 @@ class OLUIConfiguration {
       //弹窗圆角
     var dialogCornersRadius:Double?
 
+      ///--------------多语言配置----------------
+    var languageType: Int?
+    
       ///--------------背景----------------
       //设置背景图片
     var authViewBackgroundImage:UIImage?
@@ -37,6 +40,8 @@ class OLUIConfiguration {
     var statusBarStyle:UIStatusBarStyle?
 
       ///--------------标题栏，虚拟按键----------------
+      // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
+    var navTextMargin: Double?
       //标题栏：颜色
     var navigationBarColor:UIColor?
       //标题栏：隐藏
@@ -170,6 +175,7 @@ class OLUIConfiguration {
         self.dialogRect = parseRect(dict: dict, key: OLConstant.dialogRect)
         self.dialogCornersRadius = dict[OLConstant.dialogCornersRadius] as? Double
         self.dialogCornersRadius = parseDouble(dict: dict, key: OLConstant.dialogCornersRadius)
+        self.languageType = parseInt(dict: dict, key: OLConstant.languageType)
         self.authViewBackgroundImage = parseIntoAssetsImage(dict[OLConstant.authViewBackgroundImage])
         self.backgroundColor = parseColor(dict: dict, key: OLConstant.backgroundColor)
         if let statusBarStyleIndex = dict[OLConstant.statusBarStyle] as? Int{
@@ -182,6 +188,7 @@ class OLUIConfiguration {
             }
             
         }
+        self.navTextMargin = parseDouble(dict: dict, key: OLConstant.navTextMargin)
         self.navigationBarColor = parseColor(dict: dict, key: OLConstant.navigationBarColor)
         self.navHidden = parseBool(dict: dict, key: OLConstant.navHidden)
         self.navAttributedString = NSAttributedString.textFontColorString(color: parseColor(dict: dict, key: OLConstant.navTextColor), font: parseInt(dict: dict, key: OLConstant.navTextSize), text: (dict[OLConstant.navText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
@@ -249,10 +256,16 @@ extension OLUIConfiguration{
         if let dialogCornersRadius = dialogCornersRadius{
             authViewModel.popupCornerRadius = dialogCornersRadius
         }
+        if let languageType = languageType, languageType > 0, languageType < 3 {
+            authViewModel.languageType = OLLanguageType.init(rawValue: languageType)!
+        }
         authViewModel.backgroundImage = authViewBackgroundImage
         authViewModel.backgroundColor = backgroundColor
         if let statusBarStyle = statusBarStyle {
             authViewModel.statusBarStyle = statusBarStyle
+        }
+        if let navTextMargin = navTextMargin {
+            authViewModel.navTextPadding = navTextMargin
         }
         authViewModel.naviBgColor = navigationBarColor
         if let navHidden = navHidden {

@@ -22,6 +22,10 @@ struct OLConstant {
     static let isAvailable = "\(methodNames)/isAvailable";
     static let setLogEnable = "\(methodNames)/setLogEnable";
     static let destroy = "\(methodNames)/destroy";
+    static let renewPreGetToken = "\(methodNames)/renewPreGetToken";
+    static let deletePreResultCache = "\(methodNames)/deletePreResultCache";
+    static let setProtocolCheckState =
+          "\(methodNames)/setProtocolCheckState";
 
 
     ///native事件回调flutter方法名称
@@ -30,7 +34,8 @@ struct OLConstant {
     static let onSwitchButtonClick = "\(methodNames)/onSwitchButtonClick";
     static let onTermItemClick = "\(methodNames)/onTermItemClick"; //点击服务条款
     static let onTermCheckBoxClick = "\(methodNames)/onTermCheckBoxClick"; //点击服务条款的选择框
-
+    static let onPreGetTokenResult =
+        "\(methodNames)/onPreGetTokenResult"; //获取预取号的结果
 
     ///方法参数
     static let methodParameters = "\(methodChannel)/methodParameters";
@@ -58,6 +63,11 @@ struct OLConstant {
     static let dialogRect = "\(methodParameters)/dialogRect";
     // 弹窗圆角
     static let dialogCornersRadius = "\(methodParameters)/dialogCornersRadius";
+    
+    ///--------------多语言----------------
+    static let languageType =
+          "\(methodParameters)/languageType";
+    
     ///--------------背景----------------
     // 设置背景图片
     static let authViewBackgroundImage = "\(methodParameters)/authViewBackgroundImage";
@@ -69,6 +79,8 @@ struct OLConstant {
     // 状态栏样式
     static let statusBarStyle = "\(methodParameters)/statusBarStyle";
     ///--------------标题栏，虚拟按键----------------
+    // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
+    static let navTextMargin = "\(methodParameters)/navTextMargin";
     // 标题栏：颜色
     static let navigationBarColor = "\(methodParameters)/navigationBarColor";
     // Only for Android 标题栏：高度

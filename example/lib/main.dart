@@ -33,12 +33,6 @@ class _MyAppState extends State<MyApp> {
   //是否自定义授权页面UI
   bool _isCustomUI = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
-
   _init() {
     oneLoginPlugin =
         GtOneloginFlutterPlugin("b41a959b5cac4dd1277183e074630945");
@@ -52,6 +46,8 @@ class _MyAppState extends State<MyApp> {
       oneLoginPlugin?.dismissAuthView();
     }, onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
+    }, onPreGetTokenResult: (preGetTokenResult) {
+      debugPrint(tag + "预取号结果:$preGetTokenResult");
     });
   }
 
@@ -66,11 +62,17 @@ class _MyAppState extends State<MyApp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
+                onPressed: _init,
+                child: const Text(
+                  "SDK 初始化",
+                  style: TextStyle(fontSize: 20),
+                )),
+            TextButton(
                 onPressed: () {
                   requestToken();
                 },
                 child: const Text(
-                  "OneLogin start",
+                  "拉起授权页",
                   style: TextStyle(fontSize: 20),
                 )),
             const SizedBox(
@@ -101,6 +103,13 @@ class _MyAppState extends State<MyApp> {
                     }
                   });
                 }),
+            TextButton(onPressed: () async {
+              var sdkVersion = await oneLoginPlugin?.sdkVersion();
+              Fluttertoast.showToast(msg: "current version：$sdkVersion");
+            }, child: const Text(
+              "sdk 版本号",
+              style: TextStyle(fontSize: 20),
+            ))
           ],
         ),
       ),
@@ -184,6 +193,8 @@ class _MyAppState extends State<MyApp> {
     //背景
     // configure.authViewBackgroundImage = "one_login_bg_fuchsin";
     // configure.backgroundColor = Colors.amber;
+
+    configure.languageType = OLLanguageType.english;
 
     //状态栏 导航栏
     configure.statusBarBgColor = Colors.transparent;

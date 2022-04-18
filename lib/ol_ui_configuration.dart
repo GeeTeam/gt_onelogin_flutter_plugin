@@ -16,6 +16,9 @@ class OLUIConfiguration {
   //弹窗圆角
   double? dialogCornersRadius;
 
+  ///--------------多语言配置----------------
+  OLLanguageType? languageType;
+
   ///--------------背景----------------
   //设置背景图片
   String? authViewBackgroundImage;
@@ -33,6 +36,8 @@ class OLUIConfiguration {
   Color? systemNavBarBgColor;
 
   ///--------------标题栏----------------
+  // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
+  double? navTextMargin ;
   //标题栏：颜色
   Color? navigationBarColor;
   //Only for Android 标题栏：高度
@@ -166,11 +171,13 @@ class OLUIConfiguration {
       _OLConstant.dialogRect: dialogRect?.toMap(),
       _OLConstant.isWebDialogStyle: isWebDialogStyle,
       _OLConstant.dialogCornersRadius: dialogCornersRadius,
+      _OLConstant.languageType: languageType?.index ?? 0,
       _OLConstant.authViewBackgroundImage: authViewBackgroundImage,
       _OLConstant.backgroundColor: backgroundColor?.hexString,
       _OLConstant.statusBarBgColor: statusBarBgColor?.hexString,
       _OLConstant.statusBarStyle: statusBarStyle?.index,
       _OLConstant.systemNavBarBgColor: systemNavBarBgColor?.hexString,
+      _OLConstant.navTextMargin: navTextMargin,
       _OLConstant.navigationBarColor: navigationBarColor?.hexString,
       _OLConstant.authNavHeight: authNavHeight,
       _OLConstant.navHidden: navHidden,
