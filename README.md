@@ -344,7 +344,7 @@ defaultCheckBoxState    | bool|选择框是否默认勾选|false
 
 参数            |参数类型|说明|默认值
 -----           |------ |-----|----
-languageType | OLLanguageType | 多语言配置，支持中文简体，中文繁体，英文 | `simplifiedChinese`，默认中午简体
+languageType | OLLanguageType | 多语言配置，支持中文简体，中文繁体，英文 | `simplifiedChinese`，默认中文简体
 
 #### 13、其他
 
