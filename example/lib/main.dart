@@ -46,8 +46,6 @@ class _MyAppState extends State<MyApp> {
       oneLoginPlugin?.dismissAuthView();
     }, onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
-    }, onPreGetTokenResult: (preGetTokenResult) {
-      debugPrint(tag + "预取号结果:$preGetTokenResult");
     });
   }
 

@@ -34,8 +34,6 @@ struct OLConstant {
     static let onSwitchButtonClick = "\(methodNames)/onSwitchButtonClick";
     static let onTermItemClick = "\(methodNames)/onTermItemClick"; //点击服务条款
     static let onTermCheckBoxClick = "\(methodNames)/onTermCheckBoxClick"; //点击服务条款的选择框
-    static let onPreGetTokenResult =
-        "\(methodNames)/onPreGetTokenResult"; //获取预取号的结果
 
     ///方法参数
     static let methodParameters = "\(methodChannel)/methodParameters";
@@ -199,5 +197,7 @@ struct OLConstant {
     static let navWebViewTextColor = "\(methodParameters)/navWebViewTextColor";
     // 隐私条款页面标题栏字体大小
     static let navWebViewTextSize = "\(methodParameters)/navWebViewTextSize";
+    //隐私条款抖动动画样式
+    static let protocolShakeStyle = "\(methodParameters)/protocolShakeStyle";
 
 }

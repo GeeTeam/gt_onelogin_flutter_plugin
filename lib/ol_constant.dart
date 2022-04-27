@@ -29,8 +29,6 @@ class _OLConstant {
   static const onSwitchButtonClick = "$methodNames/onSwitchButtonClick";
   static const onTermCheckBoxClick =
       "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
-  static const onPreGetTokenResult =
-      "$methodNames/onPreGetTokenResult"; //获取预取号的结果
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";

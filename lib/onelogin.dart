@@ -91,8 +91,6 @@ class GtOneloginFlutterPlugin {
   EventHandler<void>? _onSwitchButtonClick;
   //点击服务条款的选择框
   EventHandler<bool>? _onTermCheckBoxClick;
-  //获取预取号结果
-  EventHandler<Map<String,dynamic>>? _onPreGetTokenResult;
 
   addEventListener(
       {
@@ -106,7 +104,6 @@ class GtOneloginFlutterPlugin {
     _onAuthButtonClick = onAuthButtonClick;
     _onSwitchButtonClick = onSwitchButtonClick;
     _onTermCheckBoxClick = onTermCheckBoxClick;
-    _onPreGetTokenResult = onPreGetTokenResult;
 
     _channel.setMethodCallHandler(_handler);
   }
@@ -121,8 +118,6 @@ class GtOneloginFlutterPlugin {
         return _onSwitchButtonClick?.call(null);
       case _OLConstant.onTermCheckBoxClick:
         return _onTermCheckBoxClick?.call(call.arguments as bool);
-      case _OLConstant.onPreGetTokenResult:
-        return _onPreGetTokenResult?.call(LinkedHashMap.from(call.arguments));
       default:
         return null;
     }

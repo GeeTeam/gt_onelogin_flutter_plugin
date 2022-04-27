@@ -52,9 +52,6 @@ extension SwiftGtOneloginFlutterPlugin {
             result(FlutterError(code: call.method, message: (iosLog+"appId 参数必传"), details: nil))
             return
         }
-        OneLoginPro.getPreGetTokenResult { [weak self] preGetTokenResult in
-            self?.channel.invokeMethod(OLConstant.onPreGetTokenResult, arguments: preGetTokenResult)
-        }
         OneLoginPro.register(withAppID: appId)
 
         if let timeout = arguments[OLConstant.timeout] as? Int {

@@ -158,7 +158,8 @@ class OLUIConfiguration {
 //    var navWebViewTextColor:UIColor?;
 //      //隐私条款页面标题栏字体大小
 //    var navWebViewTextSize:Int?;
-    var navWebViewAttString : NSAttributedString?
+    var navWebViewAttString: NSAttributedString?
+    var protocolShakeStyle: Int?
 
     init(dict:[String:Any]) {
         if let orientationsIndex = dict[OLConstant.supportedinterfaceOrientations] as? UInt,(orientationsIndex == 0 || orientationsIndex == 1) {
@@ -227,7 +228,7 @@ class OLUIConfiguration {
         self.webNaviHidden = parseBool(dict: dict, key: OLConstant.webNaviHidden)
         self.webNaviBgColor = parseColor(dict: dict, key: OLConstant.webNaviBgColor)
         self.navWebViewAttString = NSAttributedString.textFontColorString(color: parseColor(dict: dict, key: OLConstant.navWebViewTextColor), font: parseInt(dict: dict, key: OLConstant.navWebViewTextSize), text: (dict[OLConstant.navWebViewText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
-        
+        self.protocolShakeStyle = parseInt(dict: dict, key: OLConstant.protocolShakeStyle)
     }
     
     
@@ -355,6 +356,9 @@ extension OLUIConfiguration{
             authViewModel.webNaviBgColor = webNaviBgColor
         }
         authViewModel.webNaviTitle = navWebViewAttString
+        if let protocolShakeStyle = protocolShakeStyle, protocolShakeStyle > 0, protocolShakeStyle < 3 {
+            authViewModel.shakeStyle = OLNotCheckProtocolShakeStyle.init(rawValue: protocolShakeStyle)!
+        }
         return authViewModel
     }
     
