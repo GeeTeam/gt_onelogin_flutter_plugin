@@ -224,7 +224,7 @@ dialogCornersRadius | double  |弹窗圆角(仅iOS有效)|6
 authViewBackgroundImage   | String|设置背景图片。Android放在 `drawable` 文件下，iOS放在 `asserts` 文件下**以下图片路径与之保持一致**|-
 backgroundColor   | Color |设置背景颜色(仅iOS有效)|-
 
-#### 2、状态栏与系统虚拟按键
+#### 3、状态栏与系统虚拟按键
 
 **参数说明**
 
@@ -234,7 +234,7 @@ statusBarBgColor   | Color|自定义状态栏背景颜色(仅Android有效)|0
 statusBarStyle   | OLStatusBarStyle |设置状态栏内容的样式|内容为白色
 systemNavBarBgColor   | Color |自定义系统导航栏背景颜色(即虚拟按键，仅Android有效)|0
 
-#### 3、标题栏
+#### 4、标题栏
 
 **参数说明**
 
@@ -250,7 +250,7 @@ navBackImage   | String|标题栏返回按钮图片|-
 navBackImageRect   | OLRect|标题栏返回按钮的宽高和位置坐标|宽高24，距离左侧12，垂直居中
 navBackImageHidden   | bool|标题栏返回按钮是否隐藏|false
 
-#### 4、logo
+#### 5、logo
 
 **参数说明**
 
@@ -262,7 +262,7 @@ logoImageHidden   | bool|logo是否隐藏|false
 logoCornerRadius   | double|logo圆角|0
 
 
-#### 5、号码
+#### 6、号码
 
 **参数说明**
 
@@ -272,7 +272,7 @@ numberColor   | Color|号码栏字体颜色|Android：0xFF3D424C  iOS：黑色
 numberSize    | int|号码栏字体大小|24
 numberRect    | OLRect|号码栏的宽高和位置坐标|宽高包裹内容，水平居中，y轴偏移200
 
-#### 6、切换账号
+#### 7、切换账号
 
 **参数说明**
 
@@ -286,7 +286,7 @@ switchButtonBackgroundColor    | Color|切换账号按钮背景颜色(仅iOS有�
 switchButtonRect    | OLRect|切换账号的宽高和位置坐标|Android：宽80，高25，水平居中，y轴偏移249 iOS：按比例计算
 switchButtonBgImage    | String|切换账号背景图片|默认无背景
 
-#### 7、登录按钮
+#### 8、登录按钮
 
 **参数说明**
 
@@ -299,7 +299,7 @@ authBtnText    | String|文字设置|一键登录
 authBtnColor    | Color|文字颜色|0xFFFFFFFF
 authBtnTextSize    | int|文字大小|15
 
-#### 8、Slogan
+#### 9、Slogan
 
 **参数说明**
 
@@ -310,7 +310,7 @@ sloganColor    | Color|文字颜色|Android：0xFFA8A8A8   iOS:灰色
 sloganSize    | int|字体大小|Android：10  iOS：12
 sloganRect    | OLRect|Slogan 的宽高和位置坐标|Android：宽高包裹内容，水平居中，y轴偏移382  iOS：按比例计算
 
-#### 9、服务条款
+#### 10、服务条款
 
 **参数说明**
 
@@ -326,8 +326,9 @@ termsBookTitleMarkHidden   | bool|条款名称是否隐藏书名号|true
 termsUncheckedToastText   | String|未同意服务条款时的提示文字|请同意服务条款
 terms   | List<OLTermsPrivacyItem>|自定义服务条款对象数组。最多支持设置3个自定义服务条款，也可以不设置|-
 auxiliaryPrivacyWords   | List<String>|除服务条款外的其他文案，包含服务条款之前和之间以及之后的文本，数组的第一个元素表示服务条款之前的文本，如”登录即同意“，最后一个元素表示末尾的文本，其他表示服务条款之间的连接文本，如”和“、顿号|-
+protocolShakeStyle | ProtocolShakeStyle | 未勾选授权页面隐私协议前勾选框时，点击授权页面登录按钮时勾选框与协议的抖动样式,默认不抖动 |`none`，默认不抖动
 
-#### 10、Checkbox
+#### 11、Checkbox
 
 **参数说明**
 
@@ -337,7 +338,14 @@ uncheckedImage    | String|未选中下按钮的图片地址|-
 checkedImage   | String|选中下按钮的图片地址|-
 defaultCheckBoxState    | bool|选择框是否默认勾选|false
 
-#### 11、其他
+#### 12、多语言配置
+**参数说明**
+
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+languageType | OLLanguageType | 多语言配置，支持中文简体，中文繁体，英文 | `simplifiedChinese`，默认中午简体
+
+#### 13、其他
 
 **参数说明**
 
@@ -410,6 +418,20 @@ bool isAvailable = oneLoginPlugin.isAvailable();
 
 ```dart
 oneLoginPlugin.destroy();
+```
+
+### renewPreGetToken
+重新预取号，可在退出登录时调用此方法，加快下次拉起授权页的速度
+
+```dart
+oneLoginPlugin.renewPreGetToken();
+```
+
+### deletePreResultCache
+删除预取号缓存
+
+```dart
+oneLoginPlugin.deletePreResultCache();
 ```
 
 
