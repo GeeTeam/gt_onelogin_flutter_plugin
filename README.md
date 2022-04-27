@@ -249,6 +249,7 @@ navTextSize   | int|字体大小,单位为`sp`，**以下设置字体大小的�
 navBackImage   | String|标题栏返回按钮图片|-
 navBackImageRect   | OLRect|标题栏返回按钮的宽高和位置坐标|宽高24，距离左侧12，垂直居中
 navBackImageHidden   | bool|标题栏返回按钮是否隐藏|false
+navTextMargin | double | 导航栏标题距离屏幕左边的间距，隐私条款导航栏保持一致 | 36
 
 #### 5、logo
 
@@ -432,6 +433,13 @@ oneLoginPlugin.renewPreGetToken();
 
 ```dart
 oneLoginPlugin.deletePreResultCache();
+```
+
+### setProtocolCheckState
+设置隐私条款勾选框状态
+
+```dart
+oneLoginPlugin.setProtocolCheckState(true);
 ```
 
 
