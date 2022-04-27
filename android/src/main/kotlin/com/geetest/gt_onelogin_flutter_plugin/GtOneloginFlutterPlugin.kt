@@ -2,7 +2,7 @@ package com.geetest.gt_onelogin_flutter_plugin
 
 import android.content.Context
 import android.util.Log
-import androidx.annotation.NonNull
+import com.geetest.common.support.NonNull
 import com.geetest.onelogin.OneLoginHelper
 import com.geetest.onelogin.listener.AbstractOneLoginListener
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -58,6 +58,18 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       }
       Constant.destroy -> {
         OneLoginHelper.with().cancel()
+      }
+      Constant.renewPreGetToken -> {
+        OneLoginHelper.with().register("")
+      }
+      Constant.deletePreResultCache -> {
+        OneLoginHelper.with().deletePreResultCache()
+      }
+      Constant.setProtocolCheckState -> {
+        val arguments = call.arguments
+        if (arguments is Boolean) {
+          OneLoginHelper.with().setProtocolCheckState(arguments)
+        }
       }
       else -> {
         result.notImplemented()

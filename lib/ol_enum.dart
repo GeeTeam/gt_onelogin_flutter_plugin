@@ -34,3 +34,9 @@ enum OLStatusBarStyle {
   lightContent, // iOS 7+, Light content, for use on dark backgrounds
   darkContent // iOS 13+, Dark content, for use on light backgrounds
 }
+
+enum ProtocolShakeStyle {
+  none, // 不抖动
+  shakeHorizontal, // 水平抖动
+  shakeVertical, // 竖直抖动
+}

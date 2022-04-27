@@ -4,7 +4,9 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.nfc.FormatException
 import android.util.Log
+import com.geetest.onelogin.config.OLLanguageType
 import com.geetest.onelogin.config.OneLoginThemeConfig
+import com.geetest.onelogin.config.ProtocolShakeStyle
 
 object UIHelper {
     private const val tag = "| Geetest | Android | "
@@ -28,6 +30,16 @@ object UIHelper {
             screenWidth
         } else {
             dialogWidth
+        }
+
+        //多语言
+        if (param.containsKey(Constant.languageType)) {
+            val language = when (param[Constant.languageType] as Int) {
+                OLLanguageType.SIMPLIFIED_CHINESE.ordinal -> OLLanguageType.SIMPLIFIED_CHINESE
+                OLLanguageType.TRADITIONAL_CHINESE.ordinal -> OLLanguageType.TRADITIONAL_CHINESE
+                else -> OLLanguageType.ENGLISH
+            }
+            uiConfigBuilder.setLanguageType(language)
         }
 
         //背景
@@ -91,6 +103,16 @@ object UIHelper {
 
         //服务条款的内容
         setPrivacyClauseText(param, uiConfigBuilder)
+
+        //服务条款抖动动画样式
+        if (param.containsKey(Constant.protocolShakeStyle)) {
+            val shakeStyle = when (param[Constant.protocolShakeStyle] as Int) {
+                ProtocolShakeStyle.NONE.ordinal -> ProtocolShakeStyle.NONE
+                ProtocolShakeStyle.SHAKE_HORIZONTAL.ordinal -> ProtocolShakeStyle.SHAKE_HORIZONTAL
+                else -> ProtocolShakeStyle.SHAKE_VERTICAL
+            }
+            uiConfigBuilder.setProtocolShakeStyle(shakeStyle)
+        }
 
         return  uiConfigBuilder.build()
     }
@@ -240,6 +262,15 @@ object UIHelper {
     }
 
     private fun setAuthNavTextView(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (!param.containsKey(Constant.navText)
+            && !param.containsKey(Constant.navTextColor)
+            && !param.containsKey(Constant.navTextSize)
+            && !param.containsKey(Constant.navWebViewText)
+            && !param.containsKey(Constant.navWebViewTextColor)
+            && !param.containsKey(Constant.navWebViewTextSize)
+            && !param.containsKey(Constant.navTextMargin)) {
+            return
+        }
         //标题栏：文本
         var navText = "一键登录"
         if (param.containsKey(Constant.navText)) {
@@ -258,7 +289,7 @@ object UIHelper {
         //标题栏：服务条款页面的标题栏是否使用自定义的文本 true即使用navWebViewText，false为使用服务条款对应的名称 注：运营商条款固定使用条款的名称作为标题
         var navWebTextNormal = false
         //隐私条款页面标题栏文字
-        var navWebViewText = "服务条款"
+        var navWebViewText = "" // 默认为空，有自定义的用自定义标题，没有的用条款的名称
         if (param.containsKey(Constant.navWebViewText)) {
             navWebTextNormal = true
             navWebViewText = param[Constant.navWebViewText] as String
@@ -273,7 +304,13 @@ object UIHelper {
         if (param.containsKey(Constant.navWebViewTextSize)) {
             navWebViewTextSize = param[Constant.navWebViewTextSize] as Int
         }
-        uiConfigBuilder.setAuthNavTextView(navText, navTextColor, navTextSize, navWebTextNormal, navWebViewText, navWebViewTextColor, navWebViewTextSize)
+        //标题栏标题文本的左右边距
+        var navTextMargin = 36
+        if (param.containsKey(Constant.navTextMargin)) {
+            navTextMargin = (param[Constant.navTextMargin] as Double).toInt()
+        }
+        uiConfigBuilder.setAuthNavTextView(navText, navTextColor, navTextSize, navWebTextNormal,
+            navWebViewText, navWebViewTextColor, navWebViewTextSize, navTextMargin)
     }
 
     private fun setLogo(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder,
@@ -459,6 +496,11 @@ object UIHelper {
     }
 
     private fun setSlogan(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
+        if (param.containsKey(Constant.sloganText)) {
+            val sloganText = param[Constant.sloganText] as String
+            uiConfigBuilder.setSloganText(sloganText)
+        }
+
         if (!param.containsKey(Constant.sloganColor)
             && !param.containsKey(Constant.sloganSize)
             && !param.containsKey(Constant.sloganRect)) {

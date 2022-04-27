@@ -202,6 +202,7 @@ class _MyAppState extends State<MyApp> {
     configure.statusBarStyle = OLStatusBarStyle.darkContent;
 
     //标题栏
+    configure.navTextMargin = 70;
     configure.navTextColor = Colors.black;
     configure.navigationBarColor = Colors.white;
     configure.navText = "一键登录";
@@ -255,7 +256,7 @@ class _MyAppState extends State<MyApp> {
     configure.authButtonCornerRadius = 1;
 
     //slogan
-    configure.sloganText = "极验提供统一认证服务"; //android 侧暂未提供修改slogan文案功能，待规划
+    configure.sloganText = "运营商提供统一认证服务";
     configure.sloganColor = Colors.lightGreen;
     configure.sloganSize = 12;
     configure.sloganRect =
@@ -266,9 +267,9 @@ class _MyAppState extends State<MyApp> {
     configure.termTextColor = Colors.purple;
     double termsY; //需要减去标题栏的高度、状态栏高度，还有预留的服务条款高度和底部外边距
     if (_isDialog) {
-      termsY = 400 - 30 - 50;
+      termsY = 400 - 30 - 70;
     } else {
-      termsY = (screenSize.height - 30 - 50 - statusBarHeight);
+      termsY = (screenSize.height - 30 - 70 - statusBarHeight);
     }
     configure.termsRect = OLRect(y: termsY);
     configure.termsClauseTextSize = 10;
@@ -294,6 +295,9 @@ class _MyAppState extends State<MyApp> {
     configure.navWebViewText = "自定义服务条款的标题栏文案";
     configure.navWebViewTextColor = Colors.pinkAccent;
     configure.navWebViewTextSize = 20;
+
+    // 服务条款抖动动画
+    configure.protocolShakeStyle = ProtocolShakeStyle.shakeHorizontal;
 
     // debugPrint("configure:${configure.toMap()}");
     return configure;

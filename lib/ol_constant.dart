@@ -156,7 +156,7 @@ class _OLConstant {
   static const authBtnTextSize = "$methodParameters/authBtnTextSize";
 
   ///--------------SLogan----------------
-  // Only for iOS slogan 文案
+  // slogan 文案
   static const sloganText = "$methodParameters/sloganText";
   // slogan文字颜色
   static const sloganColor = "$methodParameters/sloganColor";
@@ -209,4 +209,6 @@ class _OLConstant {
   static const navWebViewTextColor = "$methodParameters/navWebViewTextColor";
   //隐私条款页面标题栏字体大小
   static const navWebViewTextSize = "$methodParameters/navWebViewTextSize";
+  //隐私条款抖动动画样式
+  static const protocolShakeStyle = "$methodParameters/protocolShakeStyle";
 }

@@ -106,7 +106,6 @@ class OLUIConfiguration {
   int? authBtnTextSize;
 
   ///--------------SLogan----------------
-  // Only for iOS slogan 文案
   String? sloganText;
   // slogan文字颜色
   Color? sloganColor;
@@ -154,6 +153,9 @@ class OLUIConfiguration {
   Color? navWebViewTextColor;
   //隐私条款页面标题栏字体大小
   int? navWebViewTextSize;
+
+  // 隐私条款抖动动画样式
+  ProtocolShakeStyle? protocolShakeStyle;
 
   Map<String, dynamic> toMap() {
     if (terms != null && (terms?.isNotEmpty ?? false)) {
@@ -230,6 +232,7 @@ class OLUIConfiguration {
       _OLConstant.navWebViewText: navWebViewText,
       _OLConstant.navWebViewTextColor: navWebViewTextColor?.hexString,
       _OLConstant.navWebViewTextSize: navWebViewTextSize,
+      _OLConstant.protocolShakeStyle: protocolShakeStyle?.index ?? 0,
     }..removeWhere((key, value) => value == null);
   }
 }

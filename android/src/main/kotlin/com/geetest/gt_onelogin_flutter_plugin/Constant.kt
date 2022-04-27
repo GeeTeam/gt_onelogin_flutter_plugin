@@ -17,6 +17,9 @@ class Constant {
         const val isAvailable = "$methodNames/isAvailable"
         const val setLogEnable = "$methodNames/setLogEnable"
         const val destroy = "$methodNames/destroy"
+        const val renewPreGetToken = "$methodNames/renewPreGetToken";
+        const val deletePreResultCache = "$methodNames/deletePreResultCache";
+        const val setProtocolCheckState = "$methodNames/setProtocolCheckState";
 
         ///native事件回调flutter方法名称
         const val onBackButtonClick = "$methodNames/onBackButtonClick"
@@ -45,6 +48,10 @@ class Constant {
         const val dialogRect = "$methodParameters/dialogRect"
         //服务条款页面是否使用弹窗样式
         const val isWebDialogStyle = "$methodParameters/isWebDialogStyle"
+
+        ///--------------多语言配置----------------
+        const val languageType = "$methodParameters/languageType"
+
         ///--------------背景----------------
         //设置背景图片
         const val authViewBackgroundImage = "$methodParameters/authViewBackgroundImage"
@@ -57,6 +64,8 @@ class Constant {
         //Only for Android
         const val systemNavBarBgColor = "$methodParameters/systemNavBarBgColor"
         ///--------------标题栏----------------
+        // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
+        const val navTextMargin = "$methodParameters/navTextMargin"
         //标题栏：颜色
         const val navigationBarColor = "$methodParameters/navigationBarColor"
         //Only for Android 标题栏：高度
@@ -115,6 +124,8 @@ class Constant {
         //授权按钮字体大小
         const val  authBtnTextSize = "$methodParameters/authBtnTextSize"
         ///--------------SLogan----------------
+        // slogan 文案
+        const val sloganText = "$methodParameters/sloganText";
         // slogan文字颜色
         const val sloganColor = "$methodParameters/sloganColor"
 
@@ -157,5 +168,7 @@ class Constant {
         const val  navWebViewTextColor = "$methodParameters/navWebViewTextColor"
         //隐私条款页面标题栏字体大小
         const val  navWebViewTextSize = "$methodParameters/navWebViewTextSize"
+        //隐私条款抖动动画样式
+        const val protocolShakeStyle = "$methodParameters/protocolShakeStyle"
     }
 }
