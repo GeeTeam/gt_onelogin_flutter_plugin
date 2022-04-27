@@ -101,13 +101,15 @@ class _MyAppState extends State<MyApp> {
                     }
                   });
                 }),
-            TextButton(onPressed: () async {
-              var sdkVersion = await oneLoginPlugin?.sdkVersion();
-              Fluttertoast.showToast(msg: "current version：$sdkVersion");
-            }, child: const Text(
-              "sdk 版本号",
-              style: TextStyle(fontSize: 20),
-            ))
+            TextButton(
+                onPressed: () async {
+                  var sdkVersion = await oneLoginPlugin?.sdkVersion();
+                  Fluttertoast.showToast(msg: "current version：$sdkVersion");
+                },
+                child: const Text(
+                  "sdk 版本号",
+                  style: TextStyle(fontSize: 20),
+                ))
           ],
         ),
       ),

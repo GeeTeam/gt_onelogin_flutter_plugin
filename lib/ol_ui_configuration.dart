@@ -37,7 +37,7 @@ class OLUIConfiguration {
 
   ///--------------标题栏----------------
   // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
-  double? navTextMargin ;
+  double? navTextMargin;
   //标题栏：颜色
   Color? navigationBarColor;
   //Only for Android 标题栏：高度

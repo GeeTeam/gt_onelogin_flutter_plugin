@@ -12,9 +12,9 @@ extension HexColor on Color {
 }
 
 enum OLLanguageType {
-  simplifiedChinese,  // 简体中文,默认
+  simplifiedChinese, // 简体中文,默认
   traditionalChinese, // 繁体中文
-  english             // 英文
+  english // 英文
 }
 
 //仅供iOS使用

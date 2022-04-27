@@ -19,9 +19,7 @@ class _OLConstant {
   static const destroy = "$methodNames/destroy";
   static const renewPreGetToken = "$methodNames/renewPreGetToken";
   static const deletePreResultCache = "$methodNames/deletePreResultCache";
-  static const setProtocolCheckState =
-      "$methodNames/setProtocolCheckState";
-
+  static const setProtocolCheckState = "$methodNames/setProtocolCheckState";
 
   ///native事件回调flutter方法名称
   static const onBackButtonClick = "$methodNames/onBackButtonClick";
@@ -61,8 +59,7 @@ class _OLConstant {
   static const isWebDialogStyle = "$methodParameters/isWebDialogStyle";
 
   ///--------------多语言----------------
-  static const languageType =
-      "$methodParameters/languageType";
+  static const languageType = "$methodParameters/languageType";
 
   ///--------------背景----------------
   //设置背景图片

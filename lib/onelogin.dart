@@ -80,7 +80,6 @@ class GtOneloginFlutterPlugin {
     _channel.invokeMethod(_OLConstant.deletePreResultCache);
   }
 
-
   /// -------------add listener------------------
 
   //点击返回按钮
@@ -93,12 +92,11 @@ class GtOneloginFlutterPlugin {
   EventHandler<bool>? _onTermCheckBoxClick;
 
   addEventListener(
-      {
-        EventHandler<void>? onBackButtonClick,
-        EventHandler<void>? onAuthButtonClick,
-        EventHandler<void>? onSwitchButtonClick,
-        EventHandler<bool>? onTermCheckBoxClick,
-        EventHandler<Map<String,dynamic>>? onPreGetTokenResult}) {
+      {EventHandler<void>? onBackButtonClick,
+      EventHandler<void>? onAuthButtonClick,
+      EventHandler<void>? onSwitchButtonClick,
+      EventHandler<bool>? onTermCheckBoxClick,
+      EventHandler<Map<String, dynamic>>? onPreGetTokenResult}) {
     debugPrint(flutterLog + "addEventListener");
     _onBackButtonClick = onBackButtonClick;
     _onAuthButtonClick = onAuthButtonClick;
