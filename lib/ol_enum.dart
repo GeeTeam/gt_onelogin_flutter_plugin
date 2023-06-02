@@ -1,5 +1,12 @@
 part of gt_onelogin_flutter_plugin;
 
+enum OLNetworkInfo {
+  none, //网络类型未知
+  cellular,//仅移动蜂窝数据网络
+  wifi,//仅 WIFI 网络
+  cellularAndWifi //移动蜂窝数据网络及 WIFI 网络
+}
+
 enum OLCarrierType {
   unknow,
   cm, // 移动,

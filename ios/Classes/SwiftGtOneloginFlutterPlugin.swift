@@ -39,6 +39,11 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
           setProtocolCheckState(call: call, result: result)
       case OLConstant.deletePreResultCache:
           deletePreResultCache(call: call, result: result)
+      case OLConstant.networkInfo:
+          getCurrentNetworkInfo(call: call, result: result)
+      case OLConstant.startRequestToken:
+          startRequestToken(call: call, result: result)
+          
       default:
           result(FlutterMethodNotImplemented)
       }
@@ -63,10 +68,16 @@ extension SwiftGtOneloginFlutterPlugin {
     func requestToken(call:FlutterMethodCall, result: @escaping FlutterResult) {
         let vc = UIApplication.shared.keyWindow?.rootViewController
         var authModel = OLAuthViewModel()
+        var isCustomDisabledAuthAction = false
         if let authModelDict = call.arguments as? [String:Any]  {
-            authModel = OLUIConfiguration(dict: authModelDict).toAuthViewModel()
+            let configuration = OLUIConfiguration(dict: authModelDict)
+            if let isCustomDisabled = configuration.isCustomDisabledAuthAction {
+                isCustomDisabledAuthAction = isCustomDisabled
+            }
+            
+            authModel = configuration.toAuthViewModel()
         }
-        uiConfigureEvent(authModel)
+        uiConfigureEvent(authModel, isCustomDisabledAuthAction)
         OneLoginPro.requestToken(with: vc!, viewModel: authModel) { res in
             guard let dict = res as? [String:Any],!dict.isEmpty,let status = dict["status"] as? Int,status == 500,let errorCode = dict["errorCode"] as? String,errorCode == "-20302" || errorCode == "-20303" else{
                 
@@ -92,7 +103,7 @@ extension SwiftGtOneloginFlutterPlugin {
         }
     }
     
-    func uiConfigureEvent(_ authModel:OLAuthViewModel) {
+    func uiConfigureEvent(_ authModel:OLAuthViewModel,_ isCustomDisabledAuthAction: Bool) {
         authModel.clickAuthButtonBlock = {[weak self] in
               self?.channel.invokeMethod(OLConstant.onAuthButtonClick, arguments: nil)
         }
@@ -105,6 +116,16 @@ extension SwiftGtOneloginFlutterPlugin {
         authModel.clickSwitchButtonBlock = {[weak self] in
             self?.channel.invokeMethod(OLConstant.onSwitchButtonClick, arguments: nil)
         }
+        authModel.clickAuthDialogDisagreeBtnBlock = {[weak self] in
+            self?.channel.invokeMethod(OLConstant.onAuthDialogDisagreeBtnClick, arguments: nil)
+        }
+        authModel.customDisabledAuthActionBlock = {[weak self] in
+            if isCustomDisabledAuthAction {
+                self?.channel.invokeMethod(OLConstant.onCustomDisabledAuthAction, arguments: nil)
+            }
+            return isCustomDisabledAuthAction
+        }
+        
     }
     
     func dismissAuthView(call:FlutterMethodCall, result: @escaping FlutterResult) {
@@ -124,15 +145,16 @@ extension SwiftGtOneloginFlutterPlugin {
         }
         OneLoginPro.setLogEnabled(isEnable)
         OneLoginPro.setCMLogEnabled(isEnable)
-        result(true)
+        result(nil)
     }
     
     func getCurrentCarrier(call:FlutterMethodCall, result: @escaping FlutterResult) {
         guard let info = OneLoginPro.currentNetworkInfo(),let carrierName = info.carrierName,let carrierType = OLCarrierType.init(rawValue: carrierName) else{
-            result(OLCarrierType.unknow.intValue)
+            
+            result(OLCarrierType.unknow.intValue())
             return
         }
-        result(carrierType.intValue)
+        result(carrierType.intValue())
     }
     
     func sdkVersion(call:FlutterMethodCall, result: @escaping FlutterResult) {
@@ -149,7 +171,7 @@ extension SwiftGtOneloginFlutterPlugin {
             return
         }
         OneLoginPro.setProtocolCheckState(isChecked)
-        result(true)
+        result(nil)
     }
     
     func isAvailable(call:FlutterMethodCall, result: @escaping FlutterResult) {
@@ -158,11 +180,24 @@ extension SwiftGtOneloginFlutterPlugin {
     
     func renewPreGetToken(call:FlutterMethodCall, result: @escaping FlutterResult) {
         OneLoginPro.renewPreGetToken()
-        result(true)
+        result(nil)
     }
     
     func deletePreResultCache(call:FlutterMethodCall, result: @escaping FlutterResult) {
         OneLoginPro.deletePreResultCache()
-        result(true)
+        result(nil)
+    }
+    
+    func getCurrentNetworkInfo(call:FlutterMethodCall, result: @escaping FlutterResult) {
+        guard let networkType = OneLoginPro.currentNetworkInfo()?.networkType else{
+            result(OLNetworkType.none.rawValue)
+            return
+        }
+        result(networkType.rawValue)
+    }
+    
+    func startRequestToken(call:FlutterMethodCall, result: @escaping FlutterResult) {
+        OneLoginPro.startRequestToken()
+        result(nil)
     }
 }

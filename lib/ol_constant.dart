@@ -12,6 +12,7 @@ class _OLConstant {
   static const dismissAuthView = "$methodNames/dismissAuthView";
   static const sdkVersion = "$methodNames/sdkVersion";
   static const carrier = "$methodNames/carrier";
+
   static const isProtocolCheckboxChecked =
       "$methodNames/isProtocolCheckboxChecked";
   static const isAvailable = "$methodNames/isAvailable";
@@ -20,6 +21,8 @@ class _OLConstant {
   static const renewPreGetToken = "$methodNames/renewPreGetToken";
   static const deletePreResultCache = "$methodNames/deletePreResultCache";
   static const setProtocolCheckState = "$methodNames/setProtocolCheckState";
+  static const networkInfo = "$methodNames/networkInfo";
+  static const startRequestToken = "$methodNames/startRequestToken";
 
   ///native事件回调flutter方法名称
   static const onBackButtonClick = "$methodNames/onBackButtonClick";
@@ -27,6 +30,8 @@ class _OLConstant {
   static const onSwitchButtonClick = "$methodNames/onSwitchButtonClick";
   static const onTermCheckBoxClick =
       "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
+  static const onAuthDialogDisagreeBtnClick = "$methodNames/onAuthDialogDisagreeBtnClick";
+  static const onCustomDisabledAuthAction = "$methodNames/onCustomDisabledAuthAction";
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";
@@ -193,6 +198,8 @@ class _OLConstant {
   static const checkedImage = "$methodParameters/checkedImage";
   //隐私条款CheckBox：选择框是否默认勾选
   static const defaultCheckBoxState = "$methodParameters/defaultCheckBoxState";
+  //隐私条款勾选框大小及位置
+  static const checkBoxRect = "$methodParameters/checkBoxRect";
 
   //Only for iOS 服务条款页面导航栏是否隐藏
   static const webNaviHidden = "$methodParameters/webNaviHidden";
@@ -206,4 +213,24 @@ class _OLConstant {
   static const navWebViewTextSize = "$methodParameters/navWebViewTextSize";
   //隐私条款抖动动画样式
   static const protocolShakeStyle = "$methodParameters/protocolShakeStyle";
+
+  static const willAuthDialogDisplay = "$methodParameters/willAuthDialogDisplay";
+  static const canCloseAuthDialogFromTapGesture = "$methodParameters/canCloseAuthDialogFromTapGesture";
+  static const authDialogRect = "$methodParameters/authDialogRect";
+  static const isAuthDialogBottom = "$methodParameters/isAuthDialogBottom";
+  static const authDialogBgColor = "$methodParameters/authDialogBgColor";
+  static const authDialogTitleText = "$methodParameters/authDialogTitleText";
+  static const authDialogTitleColor = "$methodParameters/authDialogTitleColor";
+  static const authDialogTitleSize = "$methodParameters/authDialogTitleSize";
+  static const authDialogContentFontSize = "$methodParameters/authDialogContentFontSize";
+  static const authDialogDisagreeBtnText = "$methodParameters/authDialogDisagreeBtnText";
+  static const authDialogDisagreeBtnFontSize = "$methodParameters/authDialogDisagreeBtnFontSize";
+  static const authDialogDisagreeBtnColor = "$methodParameters/authDialogDisagreeBtnColor";
+  static const authDialogDisagreeBtnImages = "$methodParameters/authDialogDisagreeBtnImages";
+  static const authDialogAgreeBtnText = "$methodParameters/authDialogAgreeBtnText";
+  static const authDialogAgreeBtnFontSize = "$methodParameters/authDialogAgreeBtnFontSize";
+  static const authDialogAgreeBtnColor = "$methodParameters/authDialogAgreeBtnColor";
+  static const authDialogAgreeBtnImages = "$methodParameters/authDialogAgreeBtnImages";
+  static const authDialogCornerRadius = "$methodParameters/authDialogCornerRadius";
+  static const isCustomDisabledAuthAction = "$methodParameters/isCustomDisabledAuthAction";
 }

@@ -26,7 +26,8 @@ struct OLConstant {
     static let deletePreResultCache = "\(methodNames)/deletePreResultCache";
     static let setProtocolCheckState =
           "\(methodNames)/setProtocolCheckState";
-
+    static let networkInfo = "\(methodNames)/networkInfo";
+    static let startRequestToken = "\(methodNames)/startRequestToken";
 
     ///native事件回调flutter方法名称
     static let onBackButtonClick = "\(methodNames)/onBackButtonClick";
@@ -34,6 +35,10 @@ struct OLConstant {
     static let onSwitchButtonClick = "\(methodNames)/onSwitchButtonClick";
     static let onTermItemClick = "\(methodNames)/onTermItemClick"; //点击服务条款
     static let onTermCheckBoxClick = "\(methodNames)/onTermCheckBoxClick"; //点击服务条款的选择框
+
+    static let onAuthDialogDisagreeBtnClick = "\(methodNames)/onAuthDialogDisagreeBtnClick";
+
+    static let onCustomDisabledAuthAction = "\(methodNames)/onCustomDisabledAuthAction"; //自定义授权弹窗
 
     ///方法参数
     static let methodParameters = "\(methodChannel)/methodParameters";
@@ -186,6 +191,8 @@ struct OLConstant {
     static let checkedImage = "\(methodParameters)/checkedImage";
     // 隐私条款CheckBox：选择框是否默认勾选
     static let defaultCheckBoxState = "\(methodParameters)/defaultCheckBoxState";
+    //隐私条款勾选框大小及位置
+    static let checkBoxRect = "\(methodParameters)/checkBoxRect";
 
     // Only for iOS 服务条款页面导航栏是否隐藏
     static let webNaviHidden = "\(methodParameters)/webNaviHidden";
@@ -199,5 +206,25 @@ struct OLConstant {
     static let navWebViewTextSize = "\(methodParameters)/navWebViewTextSize";
     //隐私条款抖动动画样式
     static let protocolShakeStyle = "\(methodParameters)/protocolShakeStyle";
+    
+    static let willAuthDialogDisplay = "\(methodParameters)/willAuthDialogDisplay";
+    static let canCloseAuthDialogFromTapGesture = "\(methodParameters)/canCloseAuthDialogFromTapGesture";
+    static let authDialogRect = "\(methodParameters)/authDialogRect";
+    static let isAuthDialogBottom = "\(methodParameters)/isAuthDialogBottom";
+    static let authDialogBgColor = "\(methodParameters)/authDialogBgColor";
+    static let authDialogTitleText = "\(methodParameters)/authDialogTitleText";
+    static let authDialogTitleColor = "\(methodParameters)/authDialogTitleColor";
+    static let authDialogTitleSize = "\(methodParameters)/authDialogTitleSize";
+    static let authDialogContentFontSize = "\(methodParameters)/authDialogContentFontSize";
+    static let authDialogDisagreeBtnText = "\(methodParameters)/authDialogDisagreeBtnText";
+    static let authDialogDisagreeBtnFontSize = "\(methodParameters)/authDialogDisagreeBtnFontSize";
+    static let authDialogDisagreeBtnColor = "\(methodParameters)/authDialogDisagreeBtnColor";
+    static let authDialogDisagreeBtnImages = "\(methodParameters)/authDialogDisagreeBtnImages";
+    static let authDialogAgreeBtnText = "\(methodParameters)/authDialogAgreeBtnText";
+    static let authDialogAgreeBtnFontSize = "\(methodParameters)/authDialogAgreeBtnFontSize";
+    static let authDialogAgreeBtnColor = "\(methodParameters)/authDialogAgreeBtnColor";
+    static let authDialogAgreeBtnImages = "\(methodParameters)/authDialogAgreeBtnImages";
+    static let authDialogCornerRadius = "\(methodParameters)/authDialogCornerRadius";
+    static let isCustomDisabledAuthAction = "\(methodParameters)/isCustomDisabledAuthAction";
 
 }

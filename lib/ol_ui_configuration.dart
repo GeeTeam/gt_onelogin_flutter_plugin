@@ -142,7 +142,10 @@ class OLUIConfiguration {
   String? checkedImage;
   //隐私条款CheckBox：选择框是否默认勾选
   bool? defaultCheckBoxState;
+  //隐私条款勾选框大小及位置，请不要设置勾选框的横向偏移，整体隐私条款的横向偏移，请通过 termsRect 设置
+  OLRect? checkBoxRect;
 
+  ///--------------服务条款----------------
   //Only for iOS 服务条款页面导航栏是否隐藏
   bool? webNaviHidden;
   //Only for iOS 服务条款页面导航的背景颜色
@@ -156,6 +159,46 @@ class OLUIConfiguration {
 
   // 隐私条款抖动动画样式
   ProtocolShakeStyle? protocolShakeStyle;
+
+  ///--------------授权弹窗----------------
+  //未勾选同意协议时是否弹出授权弹窗
+  bool? willAuthDialogDisplay;
+  //点击授权弹窗外是否关闭授权弹窗
+  bool? canCloseAuthDialogFromTapGesture;
+  //授权弹窗宽、高、起始点位置
+  OLRect? authDialogRect;
+  //授权弹窗是否显示在屏幕下方
+  bool? isAuthDialogBottom;
+  //授权弹窗背景颜色
+  Color? authDialogBgColor;
+  //授权弹窗标题文字
+  String? authDialogTitleText;
+  //授权弹窗标题颜色
+  Color? authDialogTitleColor;
+  //授权弹窗字体大小
+  int? authDialogTitleSize;
+  //授权弹窗富文本字体大小
+  int? authDialogContentFontSize;
+  //授权弹窗不同意按钮文字
+  String? authDialogDisagreeBtnText;
+  //授权弹窗不同意按钮字体大小
+  int? authDialogDisagreeBtnFontSize;
+  //授权弹窗不同意按钮文字颜色
+  Color? authDialogDisagreeBtnColor;
+  //授权弹窗不同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为灰色, 高亮状态为深灰色。
+  List<String>? authDialogDisagreeBtnImages;
+  //授权弹窗同意按钮文字
+  String? authDialogAgreeBtnText;
+  //授权弹窗同意按钮字体大小
+  int? authDialogAgreeBtnFontSize;
+  //授权弹窗同意按钮文字颜色
+  Color? authDialogAgreeBtnColor;
+  //授权弹窗同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为蓝色纯色, 高亮状态为灰蓝色。
+  List<String>? authDialogAgreeBtnImages;
+  //授权弹窗圆角，默认为10。
+  double? authDialogCornerRadius;
+  //是否自定义授权弹窗，默认否，要自定义授权弹窗，请设置此属性为true,并实现插件 onCustomDisabledAuthAction 回调
+  bool? isCustomDisabledAuthAction;
 
   Map<String, dynamic> toMap() {
     if (terms != null && (terms?.isNotEmpty ?? false)) {
@@ -233,6 +276,26 @@ class OLUIConfiguration {
       _OLConstant.navWebViewTextColor: navWebViewTextColor?.hexString,
       _OLConstant.navWebViewTextSize: navWebViewTextSize,
       _OLConstant.protocolShakeStyle: protocolShakeStyle?.index ?? 0,
+      _OLConstant.checkBoxRect: checkBoxRect?.toMap(),
+      _OLConstant.willAuthDialogDisplay: willAuthDialogDisplay,
+      _OLConstant.canCloseAuthDialogFromTapGesture: canCloseAuthDialogFromTapGesture,
+      _OLConstant.authDialogRect: authDialogRect?.toMap(),
+      _OLConstant.isAuthDialogBottom: isAuthDialogBottom,
+      _OLConstant.authDialogBgColor: authDialogBgColor?.hexString,
+      _OLConstant.authDialogTitleText: authDialogTitleText,
+      _OLConstant.authDialogTitleColor: authDialogTitleColor?.hexString,
+      _OLConstant.authDialogTitleSize: authDialogTitleSize,
+      _OLConstant.authDialogContentFontSize: authDialogContentFontSize,
+      _OLConstant.authDialogDisagreeBtnText: authDialogDisagreeBtnText,
+      _OLConstant.authDialogDisagreeBtnFontSize: authDialogDisagreeBtnFontSize,
+      _OLConstant.authDialogDisagreeBtnColor: authDialogDisagreeBtnColor?.hexString,
+      _OLConstant.authDialogDisagreeBtnImages: authDialogDisagreeBtnImages,
+      _OLConstant.authDialogAgreeBtnText: authDialogAgreeBtnText,
+      _OLConstant.authDialogAgreeBtnFontSize: authDialogAgreeBtnFontSize,
+      _OLConstant.authDialogAgreeBtnColor: authDialogAgreeBtnColor?.hexString,
+      _OLConstant.authDialogAgreeBtnImages: authDialogAgreeBtnImages,
+      _OLConstant.authDialogCornerRadius: authDialogCornerRadius,
+      _OLConstant.isCustomDisabledAuthAction: isCustomDisabledAuthAction,
     }..removeWhere((key, value) => value == null);
   }
 }

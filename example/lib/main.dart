@@ -46,7 +46,13 @@ class _MyAppState extends State<MyApp> {
       oneLoginPlugin?.dismissAuthView();
     }, onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
+    },onCustomDisabledAuthAction: (_) {
+      debugPrint(tag + "自定义授权弹窗");
+      oneLoginPlugin?.startRequestToken();
+    },onAuthDialogDisagreeBtnClick: (_){
+      debugPrint(tag + "点击了授权弹窗不同意按钮");
     });
+    oneLoginPlugin?.setLogEnable(true);
   }
 
   @override
@@ -109,7 +115,21 @@ class _MyAppState extends State<MyApp> {
                 child: const Text(
                   "sdk 版本号",
                   style: TextStyle(fontSize: 20),
-                ))
+                )),
+            TextButton(onPressed: () async {
+              var networkInfo = await oneLoginPlugin?.getCurrentNetworkInfo();
+              Fluttertoast.showToast(msg: "current NetworkInfo：$networkInfo");
+            }, child: const Text(
+              "当前网络",
+              style: TextStyle(fontSize: 20),
+            )),
+            TextButton(onPressed: () async {
+              var carrier = await oneLoginPlugin?.getCurrentCarrier();
+              Fluttertoast.showToast(msg: "current NetworkInfo：$carrier");
+            }, child: const Text(
+              "当前运营商",
+              style: TextStyle(fontSize: 20),
+            )),
           ],
         ),
       ),
@@ -189,12 +209,23 @@ class _MyAppState extends State<MyApp> {
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.light;
     configure.dialogCornersRadius = 20;
+    configure.isCustomDisabledAuthAction = true;
+    // configure.willAuthDialogDisplay = true;
+    // configure.authDialogTitleText = "测试标题";
 
+    configure.authDialogAgreeBtnImages= [
+      "login_button_enabled",
+      "login_button_disabled",
+    ];
+    // configure.protocolShakeStyle = ProtocolShakeStyle.shakeHorizontal;
+    configure.checkBoxRect = OLRect(width: 50,height: 50);
+
+    // configure.authDialogRect = OLRect(x: 200,y: 100,width: 300,height: 300);
     //背景
     // configure.authViewBackgroundImage = "one_login_bg_fuchsin";
     // configure.backgroundColor = Colors.amber;
 
-    configure.languageType = OLLanguageType.english;
+    // configure.languageType = OLLanguageType.english;
 
     //状态栏 导航栏
     configure.statusBarBgColor = Colors.transparent;
@@ -271,7 +302,7 @@ class _MyAppState extends State<MyApp> {
     } else {
       termsY = (screenSize.height - 30 - 70 - statusBarHeight);
     }
-    configure.termsRect = OLRect(y: termsY);
+    // configure.termsRect = OLRect(y: termsY);
     configure.termsClauseTextSize = 10;
     configure.termsLineSpacingExtra = 8.0;
     configure.termsLineSpacingMultiplier = 1.0;
@@ -279,8 +310,8 @@ class _MyAppState extends State<MyApp> {
     configure.termsUncheckedToastText = "请查看服务条款并同意后再登录~";
 
     //checkbox
-    configure.checkedImage = "checked";
-    configure.uncheckedImage = "unchecked";
+    // configure.checkedImage = "checked";
+    // configure.uncheckedImage = "unchecked";
     configure.defaultCheckBoxState = false;
 
     //服务条款的名称、url及连接文案

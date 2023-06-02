@@ -147,6 +147,8 @@ class OLUIConfiguration {
     var  checkedImage:UIImage?;
       //隐私条款CheckBox：选择框是否默认勾选
     var defaultCheckBoxState:Bool?;
+    //隐私条款勾选框大小及位置，请不要设置勾选框的横向偏移，整体隐私条款的横向偏移，请通过 termsRect 设置
+    var checkBoxRect:OLRect?;
 
       //Only for iOS 服务条款页面导航栏是否隐藏
     var webNaviHidden:Bool?
@@ -160,6 +162,46 @@ class OLUIConfiguration {
 //    var navWebViewTextSize:Int?;
     var navWebViewAttString: NSAttributedString?
     var protocolShakeStyle: Int?
+    
+    ///--------------授权弹窗----------------
+    //未勾选同意协议时是否弹出授权弹窗
+    var willAuthDialogDisplay:Bool?;
+    //点击授权弹窗外是否关闭授权弹窗
+    var canCloseAuthDialogFromTapGesture:Bool?;
+    //授权弹窗宽、高、起始点位置
+    var authDialogRect:OLRect?;
+    //授权弹窗是否显示在屏幕下方
+    var isAuthDialogBottom:Bool?;
+    //授权弹窗背景颜色
+    var authDialogBgColor:UIColor?;
+    //授权弹窗标题文字
+    var authDialogTitleText:String?;
+    //授权弹窗标题颜色
+    var authDialogTitleColor:UIColor?;
+    //授权弹窗字体大小
+    var authDialogTitleSize:Int?;
+    //授权弹窗富文本字体大小
+    var authDialogContentFontSize:Int?;
+    //授权弹窗不同意按钮文字
+    var authDialogDisagreeBtnText:String?;
+    //授权弹窗不同意按钮字体大小
+    var authDialogDisagreeBtnFontSize:Int?;
+    //授权弹窗不同意按钮文字颜色
+    var authDialogDisagreeBtnColor:UIColor?;
+    //授权弹窗不同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为灰色, 高亮状态为深灰色。
+    var authDialogDisagreeBtnImages:[String]?;
+    //授权弹窗同意按钮文字
+    var authDialogAgreeBtnText:String?;
+    //授权弹窗同意按钮字体大小
+    var authDialogAgreeBtnFontSize:Int?;
+    //授权弹窗同意按钮文字颜色
+    var authDialogAgreeBtnColor:UIColor?;
+    //授权弹窗同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为蓝色纯色, 高亮状态为灰蓝色。
+    var authDialogAgreeBtnImages:[String]?;
+    //授权弹窗圆角，默认为10。
+    var authDialogCornerRadius:Double?;
+    // 是否自定义授权弹窗
+    var isCustomDisabledAuthAction:Bool?;
 
     init(dict:[String:Any]) {
         if let orientationsIndex = dict[OLConstant.supportedinterfaceOrientations] as? UInt,(orientationsIndex == 0 || orientationsIndex == 1) {
@@ -229,6 +271,28 @@ class OLUIConfiguration {
         self.webNaviBgColor = parseColor(dict: dict, key: OLConstant.webNaviBgColor)
         self.navWebViewAttString = NSAttributedString.textFontColorString(color: parseColor(dict: dict, key: OLConstant.navWebViewTextColor), font: parseInt(dict: dict, key: OLConstant.navWebViewTextSize), text: (dict[OLConstant.navWebViewText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
         self.protocolShakeStyle = parseInt(dict: dict, key: OLConstant.protocolShakeStyle)
+
+        self.checkBoxRect = parseRect(dict: dict, key: OLConstant.checkBoxRect)
+        self.willAuthDialogDisplay = parseBool(dict: dict, key: OLConstant.willAuthDialogDisplay)
+        self.canCloseAuthDialogFromTapGesture = parseBool(dict: dict, key: OLConstant.canCloseAuthDialogFromTapGesture)
+        self.authDialogRect = parseRect(dict: dict, key: OLConstant.authDialogRect)
+        self.isAuthDialogBottom = parseBool(dict: dict, key: OLConstant.isAuthDialogBottom)
+        self.authDialogBgColor = parseColor(dict: dict, key: OLConstant.authDialogBgColor)
+        self.authDialogTitleText = parseString(dict: dict, key: OLConstant.authDialogTitleText)
+        self.authDialogTitleColor = parseColor(dict: dict, key: OLConstant.authDialogTitleColor)
+        self.authDialogTitleSize = parseInt(dict: dict, key: OLConstant.authDialogTitleSize)
+        self.authDialogContentFontSize = parseInt(dict: dict, key: OLConstant.authDialogContentFontSize)
+        self.authDialogDisagreeBtnText = parseString(dict: dict, key: OLConstant.authDialogDisagreeBtnText)
+        self.authDialogDisagreeBtnFontSize = parseInt(dict: dict, key: OLConstant.authDialogDisagreeBtnFontSize)
+        self.authDialogDisagreeBtnColor = parseColor(dict: dict, key: OLConstant.authDialogDisagreeBtnColor)
+        self.authDialogDisagreeBtnImages = dict[OLConstant.authDialogDisagreeBtnImages] as? [String]
+        self.authDialogAgreeBtnText = parseString(dict: dict, key: OLConstant.authDialogAgreeBtnText)
+        self.authDialogAgreeBtnFontSize = parseInt(dict: dict, key: OLConstant.authDialogAgreeBtnFontSize)
+        self.authDialogAgreeBtnColor = parseColor(dict: dict, key: OLConstant.authDialogAgreeBtnColor)
+        self.authDialogAgreeBtnImages = dict[OLConstant.authDialogAgreeBtnImages] as? [String]
+        self.authDialogCornerRadius = parseDouble(dict: dict, key: OLConstant.authDialogCornerRadius)
+        self.isCustomDisabledAuthAction = parseBool(dict: dict, key: OLConstant.isCustomDisabledAuthAction)
+        
     }
     
     
@@ -266,7 +330,7 @@ extension OLUIConfiguration{
             authViewModel.statusBarStyle = statusBarStyle
         }
         if let navTextMargin = navTextMargin {
-            authViewModel.navTextPadding = navTextMargin
+            authViewModel.navTextMargin = navTextMargin
         }
         authViewModel.naviBgColor = navigationBarColor
         if let navHidden = navHidden {
@@ -359,6 +423,62 @@ extension OLUIConfiguration{
         if let protocolShakeStyle = protocolShakeStyle, protocolShakeStyle > 0, protocolShakeStyle < 3 {
             authViewModel.shakeStyle = OLNotCheckProtocolShakeStyle.init(rawValue: protocolShakeStyle)!
         }
+
+        if let checkBoxRect = checkBoxRect {
+            authViewModel.checkBoxRect = checkBoxRect
+        }
+        
+        if let willAuthDialogDisplay = willAuthDialogDisplay  {
+            authViewModel.willAuthDialogDisplay = willAuthDialogDisplay
+        }
+        if let canCloseAuthDialogFromTapGesture = canCloseAuthDialogFromTapGesture  {
+            authViewModel.canCloseAuthDialogFromTapGesture = canCloseAuthDialogFromTapGesture
+        }
+        if let authDialogRect = authDialogRect {
+            authViewModel.authDialogRect = authDialogRect
+        }
+        if let isAuthDialogBottom = isAuthDialogBottom {
+            authViewModel.isAuthDialogBottom = isAuthDialogBottom
+        }
+        authViewModel.authDialogBgColor = authDialogBgColor
+        authViewModel.authDialogTitleText = authDialogTitleText
+        authViewModel.authDialogTitleColor = authDialogTitleColor
+        if let authDialogTitleSize = authDialogTitleSize {
+            authViewModel.authDialogTitleFont = UIFont.systemFont(ofSize: CGFloat(authDialogTitleSize))
+        }
+        if let authDialogContentFontSize = authDialogContentFontSize {
+            authViewModel.authDialogContentFont = UIFont.systemFont(ofSize:CGFloat(authDialogContentFontSize))
+        }
+        authViewModel.authDialogDisagreeBtnText = authDialogDisagreeBtnText
+        if let authDialogDisagreeBtnFontSize = authDialogDisagreeBtnFontSize {
+            authViewModel.authDialogDisagreeBtnFont = UIFont.systemFont(ofSize:CGFloat(authDialogDisagreeBtnFontSize))
+        }
+        authViewModel.authDialogDisagreeBtnColor = authDialogDisagreeBtnColor
+        if let imagesString = authDialogDisagreeBtnImages,!imagesString.isEmpty {
+            let images = imagesString.compactMap({ [weak self](string) in
+                return self?.parseIntoAssetsImage(string)
+            })
+            if !images.isEmpty,images.count < 3  {
+                authViewModel.authDialogDisagreeBtnImages = images
+            }
+        }
+        authViewModel.authDialogAgreeBtnText = authDialogAgreeBtnText
+        if let authDialogAgreeBtnFontSize = authDialogAgreeBtnFontSize {
+            authViewModel.authDialogAgreeBtnFont = UIFont.systemFont(ofSize:CGFloat(authDialogAgreeBtnFontSize))
+        }
+        authViewModel.authDialogAgreeBtnColor = authDialogAgreeBtnColor
+        if let imagesString = authDialogAgreeBtnImages,!imagesString.isEmpty {
+            let images = imagesString.compactMap({ [weak self](string) in
+                return self?.parseIntoAssetsImage(string)
+            })
+            if !images.isEmpty,images.count < 3  {
+                authViewModel.authDialogAgreeBtnImages = images
+            }
+        }
+        if let authDialogCornerRadius = authDialogCornerRadius {
+            authViewModel.authDialogCornerRadius = authDialogCornerRadius
+        }
+        
         return authViewModel
     }
     

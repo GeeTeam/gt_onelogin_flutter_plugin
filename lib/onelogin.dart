@@ -50,6 +50,17 @@ class GtOneloginFlutterPlugin {
     return OLCarrierType.values[carrier];
   }
 
+  //获取当前网络类型
+  Future<OLNetworkInfo> getCurrentNetworkInfo() async {
+    int networkInfo = await _channel.invokeMethod(_OLConstant.networkInfo);
+    return OLNetworkInfo.values[networkInfo];
+  }
+
+  //开始取号
+  startRequestToken() {
+    _channel.invokeListMethod(_OLConstant.startRequestToken);
+  }
+
   //隐私条款是否勾选
   Future<bool> isProtocolCheckboxChecked() async {
     return await _channel.invokeMethod(_OLConstant.isProtocolCheckboxChecked);
@@ -90,18 +101,27 @@ class GtOneloginFlutterPlugin {
   EventHandler<void>? _onSwitchButtonClick;
   //点击服务条款的选择框
   EventHandler<bool>? _onTermCheckBoxClick;
+  //点击授权弹窗不同意按钮
+  EventHandler<void>? _onAuthDialogDisagreeBtnClick;
+  //自定义授权弹窗,要实现自定义授权弹窗，除实现此回调外，还需设置 OLUIConfiguration 的 isCustomDisabledAuthAction 属性为 true
+  EventHandler<void>? _onCustomDisabledAuthAction;
 
   addEventListener(
-      {EventHandler<void>? onBackButtonClick,
-      EventHandler<void>? onAuthButtonClick,
-      EventHandler<void>? onSwitchButtonClick,
-      EventHandler<bool>? onTermCheckBoxClick,
-      EventHandler<Map<String, dynamic>>? onPreGetTokenResult}) {
+      {
+        EventHandler<void>? onBackButtonClick,
+        EventHandler<void>? onAuthButtonClick,
+        EventHandler<void>? onSwitchButtonClick,
+        EventHandler<bool>? onTermCheckBoxClick,
+        EventHandler<void>? onAuthDialogDisagreeBtnClick,
+        EventHandler<void>? onCustomDisabledAuthAction,
+      }) {
     debugPrint(flutterLog + "addEventListener");
     _onBackButtonClick = onBackButtonClick;
     _onAuthButtonClick = onAuthButtonClick;
     _onSwitchButtonClick = onSwitchButtonClick;
     _onTermCheckBoxClick = onTermCheckBoxClick;
+    _onAuthDialogDisagreeBtnClick = onAuthDialogDisagreeBtnClick;
+    _onCustomDisabledAuthAction = onCustomDisabledAuthAction;
 
     _channel.setMethodCallHandler(_handler);
   }
@@ -116,6 +136,10 @@ class GtOneloginFlutterPlugin {
         return _onSwitchButtonClick?.call(null);
       case _OLConstant.onTermCheckBoxClick:
         return _onTermCheckBoxClick?.call(call.arguments as bool);
+      case _OLConstant.onAuthDialogDisagreeBtnClick:
+        return _onAuthDialogDisagreeBtnClick?.call(null);
+      case _OLConstant.onCustomDisabledAuthAction:
+        return _onCustomDisabledAuthAction?.call(null);
       default:
         return null;
     }
