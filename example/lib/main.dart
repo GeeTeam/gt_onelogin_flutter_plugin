@@ -209,16 +209,20 @@ class _MyAppState extends State<MyApp> {
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.light;
     configure.dialogCornersRadius = 20;
-    configure.isCustomDisabledAuthAction = true;
-    // configure.willAuthDialogDisplay = true;
-    // configure.authDialogTitleText = "测试标题";
-
+    // configure.isCustomDisabledAuthAction = true;
+    configure.willAuthDialogDisplay = true;
+    configure.authDialogTitleText = "测试标题";
+    configure.authDialogTitleColor = Colors.black;
+    //Only for iOS
     configure.authDialogAgreeBtnImages= [
       "login_button_enabled",
       "login_button_disabled",
     ];
+    //Only for Android
+    // configure.authDialogAgreeBtnBg = "gt_test_bg_btn";
+    // configure.authDialogDisagreeBtnBg = "gt_test_bg_btn";
     // configure.protocolShakeStyle = ProtocolShakeStyle.shakeHorizontal;
-    configure.checkBoxRect = OLRect(width: 50,height: 50);
+    // configure.checkBoxRect = OLRect(width: 50,height: 50);
 
     // configure.authDialogRect = OLRect(x: 200,y: 100,width: 300,height: 300);
     //背景
@@ -229,7 +233,7 @@ class _MyAppState extends State<MyApp> {
 
     //状态栏 导航栏
     configure.statusBarBgColor = Colors.transparent;
-    configure.systemNavBarBgColor = Colors.transparent;
+    configure.bgLayoutInStatusBar = true;
     configure.statusBarStyle = OLStatusBarStyle.darkContent;
 
     //标题栏

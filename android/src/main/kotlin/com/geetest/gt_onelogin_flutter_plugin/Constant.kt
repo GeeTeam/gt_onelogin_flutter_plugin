@@ -13,6 +13,7 @@ class Constant {
         const val dismissAuthView = "$methodNames/dismissAuthView"
         const val sdkVersion = "$methodNames/sdkVersion"
         const val carrier = "$methodNames/carrier"
+        const val networkInfo = "$methodNames/networkInfo"
         const val isProtocolCheckboxChecked = "$methodNames/isProtocolCheckboxChecked"
         const val isAvailable = "$methodNames/isAvailable"
         const val setLogEnable = "$methodNames/setLogEnable"
@@ -20,12 +21,14 @@ class Constant {
         const val renewPreGetToken = "$methodNames/renewPreGetToken";
         const val deletePreResultCache = "$methodNames/deletePreResultCache";
         const val setProtocolCheckState = "$methodNames/setProtocolCheckState";
+        const val startRequestToken = "$methodNames/startRequestToken";
 
         ///native事件回调flutter方法名称
         const val onBackButtonClick = "$methodNames/onBackButtonClick"
         const val onAuthButtonClick = "$methodNames/onAuthButtonClick"
         const val onSwitchButtonClick = "$methodNames/onSwitchButtonClick"
         const val onTermCheckBoxClick = "$methodNames/onTermCheckBoxClick" //点击服务条款的选择框
+        const val onCustomDisabledAuthAction = "$methodNames/onCustomDisabledAuthAction"//自定义授权弹窗,要实现自定义授权弹窗
 
         ///方法参数
         private const val methodParameters = "$methodChannel/methodParameters"
@@ -60,9 +63,9 @@ class Constant {
         const val statusBarBgColor = "$methodParameters/statusBarBgColor"
         //状态栏样式
         const val statusBarStyle = "$methodParameters/statusBarStyle"
-        ///--------------系统虚拟按键----------------
+//        ///--------------背景侵入状态栏区域----------------
         //Only for Android
-        const val systemNavBarBgColor = "$methodParameters/systemNavBarBgColor"
+        const val bgLayoutInStatusBar = "$methodParameters/bgLayoutInStatusBar"
         ///--------------标题栏----------------
         // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
         const val navTextMargin = "$methodParameters/navTextMargin"
@@ -125,7 +128,7 @@ class Constant {
         const val  authBtnTextSize = "$methodParameters/authBtnTextSize"
         ///--------------SLogan----------------
         // slogan 文案
-        const val sloganText = "$methodParameters/sloganText";
+        const val sloganText = "$methodParameters/sloganText"
         // slogan文字颜色
         const val sloganColor = "$methodParameters/sloganColor"
 
@@ -170,5 +173,44 @@ class Constant {
         const val  navWebViewTextSize = "$methodParameters/navWebViewTextSize"
         //隐私条款抖动动画样式
         const val protocolShakeStyle = "$methodParameters/protocolShakeStyle"
+        //是否自定义授权弹窗
+        const val isCustomDisabledAuthAction  = "$methodParameters/isCustomDisabledAuthAction"
+
+        ///--------------未勾选同意协议时授权弹窗----------------
+        //未勾选同意协议时是否弹出授权弹窗
+        const val willAuthDialogDisplay = "$methodParameters/willAuthDialogDisplay"
+        //点击授权弹窗外是否关闭授权弹窗
+        const val canCloseAuthDialogFromTapGesture = "$methodParameters/canCloseAuthDialogFromTapGesture"
+        //授权弹窗宽、高、起始点位置
+        const val authDialogRect = "$methodParameters/authDialogRect"
+        //授权弹窗是否显示在屏幕下方
+        const val isAuthDialogBottom = "$methodParameters/isAuthDialogBottom"
+        //授权弹窗背景颜色
+        const val authDialogBg = "$methodParameters/authDialogBg"
+        //授权弹窗标题文字
+        const val authDialogTitleText = "$methodParameters/authDialogTitleText"
+        //授权弹窗标题颜色
+        const val authDialogTitleColor = "$methodParameters/authDialogTitleColor"
+        //授权弹窗字体大小
+        const val authDialogTitleSize = "$methodParameters/authDialogTitleSize"
+        //授权弹窗富文本字体大小
+        const val authDialogContentFontSize = "$methodParameters/authDialogContentFontSize"
+        //授权弹窗不同意按钮文字
+        const val authDialogDisagreeBtnText = "$methodParameters/authDialogDisagreeBtnText"
+        //授权弹窗不同意按钮字体大小
+        const val authDialogDisagreeBtnFontSize = "$methodParameters/authDialogDisagreeBtnFontSize"
+        //授权弹窗不同意按钮文字颜色
+        const val authDialogDisagreeBtnColor = "$methodParameters/authDialogDisagreeBtnColor"
+        //授权弹窗不同意按钮的背景图片
+        const val authDialogDisagreeBtnBg = "$methodParameters/authDialogDisagreeBtnBg"
+        //授权弹窗同意按钮文字
+        const val authDialogAgreeBtnText = "$methodParameters/authDialogAgreeBtnText"
+        //授权弹窗同意按钮字体大小
+        const val authDialogAgreeBtnFontSize = "$methodParameters/authDialogAgreeBtnFontSize"
+        //授权弹窗同意按钮文字颜色
+        const val authDialogAgreeBtnColor = "$methodParameters/authDialogAgreeBtnColor"
+        //授权弹窗同意按钮的背景图片
+        const val authDialogAgreeBtnBg = "$methodParameters/authDialogAgreeBtnBg"
+
     }
 }

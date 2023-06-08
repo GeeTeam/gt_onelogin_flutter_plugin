@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.geetest.common.support.NonNull
 import com.geetest.onelogin.OneLoginHelper
+import com.geetest.onelogin.config.OneLoginThemeConfig
 import com.geetest.onelogin.listener.AbstractOneLoginListener
+import com.geetest.onelogin.listener.OneLoginAuthCallback
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -22,6 +24,7 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var channel: MethodChannel
   private lateinit var mContext: Context
   private val tag = "| Geetest | Android | "
+  private var startRequestToken: OneLoginAuthCallback? = null
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, Constant.methodChannel)
@@ -41,6 +44,9 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       Constant.requestToken -> {
         requestToken(call.arguments, result)
       }
+      Constant.startRequestToken -> {
+        startRequestToken?.onOLAuthCallback(true)
+      }
       Constant.dismissAuthView -> {
         OneLoginHelper.with().dismissAuthActivity()
       }
@@ -52,6 +58,9 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       }
       Constant.carrier -> {
         getCarrier(result)
+      }
+      Constant.networkInfo -> {
+        getCurrentNetworkInfo(result)
       }
       Constant.isProtocolCheckboxChecked -> {
         result.success(OneLoginHelper.with().isPrivacyChecked)
@@ -100,8 +109,27 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
+  //设置未勾选同意协议时的回调（供自定义弹窗使用）
+  private fun setOneLoginAuthListener(uiConfigBuilder: OneLoginThemeConfig.Builder) {
+    uiConfigBuilder.setOneLoginAuthListener { _, oneLoginAuthCallback ->
+      startRequestToken = oneLoginAuthCallback
+      Log.i(tag, "onCustomDisabledAuthAction")
+      channel.invokeMethod(Constant.onCustomDisabledAuthAction, null)
+    }
+  }
+
   private fun requestToken(uiConfig: Any?, result: Result) {
-    val oneLoginUIConfig = UIHelper.generateUIConfig(uiConfig, mContext)
+    val uiConfigBuilder = OneLoginThemeConfig.Builder()
+    if (uiConfig is Map<*, *>) {
+      if (uiConfig.containsKey(Constant.isCustomDisabledAuthAction)) {
+        val isCustomDisabledAuthAction = uiConfig[Constant.isCustomDisabledAuthAction] as Boolean
+        if (isCustomDisabledAuthAction) {
+          Log.i(tag, "setOneLoginAuthListener>>>")
+          setOneLoginAuthListener(uiConfigBuilder)
+        }
+      }
+    }
+    val oneLoginUIConfig = UIHelper.generateUIConfig(uiConfig, uiConfigBuilder, mContext)
     OneLoginHelper.with().requestToken(oneLoginUIConfig, object : AbstractOneLoginListener() {
       override fun onResult(p0: JSONObject?) {
         requireNotNull(p0) {
@@ -173,4 +201,15 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
+  /**
+   * 获取网络类型
+   */
+  private fun getCurrentNetworkInfo(result: Result) {
+      val netInfo = try {
+          OneLoginHelper.with().getCurrentNetworkInfo(mContext)?.getString("networkType")?.toInt()
+      } catch (e : Exception) {
+          0
+      }
+      result.success(netInfo)
+  }
 }

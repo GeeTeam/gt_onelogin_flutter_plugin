@@ -31,9 +31,9 @@ class OLUIConfiguration {
   //状态栏样式
   OLStatusBarStyle? statusBarStyle;
 
-  ///--------------系统虚拟按键----------------
+  ///--------------背景侵入状态栏区域----------------
   //Only for Android
-  Color? systemNavBarBgColor;
+  bool? bgLayoutInStatusBar;
 
   ///--------------标题栏----------------
   // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
@@ -185,16 +185,20 @@ class OLUIConfiguration {
   int? authDialogDisagreeBtnFontSize;
   //授权弹窗不同意按钮文字颜色
   Color? authDialogDisagreeBtnColor;
-  //授权弹窗不同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为灰色, 高亮状态为深灰色。
+  //Only for iOS 授权弹窗不同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为灰色, 高亮状态为深灰色。
   List<String>? authDialogDisagreeBtnImages;
+  //Only for Android 授权弹窗不同意按钮的背景图片
+  String? authDialogDisagreeBtnBg;
   //授权弹窗同意按钮文字
   String? authDialogAgreeBtnText;
   //授权弹窗同意按钮字体大小
   int? authDialogAgreeBtnFontSize;
   //授权弹窗同意按钮文字颜色
   Color? authDialogAgreeBtnColor;
-  //授权弹窗同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为蓝色纯色, 高亮状态为灰蓝色。
+  //Only for iOS 授权弹窗同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为蓝色纯色, 高亮状态为灰蓝色。
   List<String>? authDialogAgreeBtnImages;
+  //Only for Android 授权弹窗同意按钮的背景图片
+  String? authDialogAgreeBtnBg;
   //授权弹窗圆角，默认为10。
   double? authDialogCornerRadius;
   //是否自定义授权弹窗，默认否，要自定义授权弹窗，请设置此属性为true,并实现插件 onCustomDisabledAuthAction 回调
@@ -221,7 +225,7 @@ class OLUIConfiguration {
       _OLConstant.backgroundColor: backgroundColor?.hexString,
       _OLConstant.statusBarBgColor: statusBarBgColor?.hexString,
       _OLConstant.statusBarStyle: statusBarStyle?.index,
-      _OLConstant.systemNavBarBgColor: systemNavBarBgColor?.hexString,
+      _OLConstant.bgLayoutInStatusBar:bgLayoutInStatusBar,
       _OLConstant.navTextMargin: navTextMargin,
       _OLConstant.navigationBarColor: navigationBarColor?.hexString,
       _OLConstant.authNavHeight: authNavHeight,
@@ -290,10 +294,12 @@ class OLUIConfiguration {
       _OLConstant.authDialogDisagreeBtnFontSize: authDialogDisagreeBtnFontSize,
       _OLConstant.authDialogDisagreeBtnColor: authDialogDisagreeBtnColor?.hexString,
       _OLConstant.authDialogDisagreeBtnImages: authDialogDisagreeBtnImages,
+      _OLConstant.authDialogDisagreeBtnBg: authDialogDisagreeBtnBg,
       _OLConstant.authDialogAgreeBtnText: authDialogAgreeBtnText,
       _OLConstant.authDialogAgreeBtnFontSize: authDialogAgreeBtnFontSize,
       _OLConstant.authDialogAgreeBtnColor: authDialogAgreeBtnColor?.hexString,
       _OLConstant.authDialogAgreeBtnImages: authDialogAgreeBtnImages,
+      _OLConstant.authDialogAgreeBtnBg: authDialogAgreeBtnBg,
       _OLConstant.authDialogCornerRadius: authDialogCornerRadius,
       _OLConstant.isCustomDisabledAuthAction: isCustomDisabledAuthAction,
     }..removeWhere((key, value) => value == null);

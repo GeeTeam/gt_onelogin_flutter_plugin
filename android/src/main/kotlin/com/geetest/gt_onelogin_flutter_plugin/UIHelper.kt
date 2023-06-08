@@ -7,18 +7,17 @@ import android.util.Log
 import com.geetest.onelogin.config.OLLanguageType
 import com.geetest.onelogin.config.OneLoginThemeConfig
 import com.geetest.onelogin.config.ProtocolShakeStyle
+import com.geetest.onelogin.config.UserInterfaceStyle
 
 object UIHelper {
     private const val tag = "| Geetest | Android | "
 
-    fun generateUIConfig(param: Any?, context: Context) : OneLoginThemeConfig {
+    fun generateUIConfig(param: Any?, uiConfigBuilder: OneLoginThemeConfig.Builder, context: Context) : OneLoginThemeConfig {
         Log.i(tag, "generateUIConfig enter ${param?.toString()}")
         if (param !is Map<*, *>) {
             Log.i(tag, "uiConfig is null")
             return OneLoginThemeConfig.Builder().build()
         }
-        val uiConfigBuilder = OneLoginThemeConfig.Builder()
-
         val displayMetrics = context.resources.displayMetrics
         val screenWidth = (displayMetrics.widthPixels/displayMetrics.density).toInt()
         val screenHeight = (displayMetrics.heightPixels/displayMetrics.density).toInt()
@@ -89,6 +88,21 @@ object UIHelper {
         //服务条款文本内部的间距
         setPrivacyLineSpacing(param, uiConfigBuilder)
 
+        //设置未勾选同意协议时授权弹窗
+        setAuthDialogStyle(param, uiConfigBuilder, screenWidth, screenHeight, statusBarHeight)
+
+        //设置未勾选同意协议时授权弹窗标题
+        setAuthDialogTitle(param,uiConfigBuilder)
+
+        //设置未勾选同意协议时授权弹窗富文本字体大小
+        setAuthDialogContentFontSize(param,uiConfigBuilder)
+
+        //设置未勾选同意协议时授权弹窗不同意按钮
+        setAuthDialogDisagreeBtn(param,uiConfigBuilder)
+
+        //设置未勾选同意协议时授权弹窗同意按钮
+        setAuthDialogAgreeBtn(param,uiConfigBuilder)
+
         //隐私条款文本：隐私条款名称是否显示书名号
         if (param.containsKey(Constant.termsBookTitleMarkHidden)) {
             val termsBookTitleMarkHidden = param[Constant.termsBookTitleMarkHidden] as Boolean
@@ -113,13 +127,14 @@ object UIHelper {
             }
             uiConfigBuilder.setProtocolShakeStyle(shakeStyle)
         }
-
         return  uiConfigBuilder.build()
     }
 
     //设置授权页对话框模式
-    private fun setDialogStyle(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder,
-                               screenWidth: Int, screenHeight: Int, statusBarHeight: Int): Int {
+    private fun setDialogStyle(
+        param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder,
+        screenWidth: Int, screenHeight: Int, statusBarHeight: Int,
+    ): Int {
         if (!param.containsKey(Constant.isDialogStyle)) {
             return 0
         }
@@ -162,9 +177,156 @@ object UIHelper {
         return dialogWidth
     }
 
+    //设置未勾选同意协议时授权弹窗
+    private fun setAuthDialogStyle(
+        param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder,
+        screenWidth: Int, screenHeight: Int, statusBarHeight: Int){
+        if (!param.containsKey(Constant.willAuthDialogDisplay)) {
+            return
+        }
+        val willAuthDialogDisplay = param[Constant.willAuthDialogDisplay] as Boolean
+        if (!willAuthDialogDisplay) {
+            return
+        }
+        var authDialogWidth = -2
+        var authDialogHeight = -2
+        var authDialogX = 0
+        var authDialogY = 0
+        var authDialogBg = "gt_one_login_dialog_bg";
+        if (param.containsKey(Constant.authDialogBg)) {
+            authDialogBg = param[Constant.authDialogBg] as String
+        }
+        if (param.containsKey(Constant.authDialogRect)) {
+            val authDialogRectMap = param[Constant.authDialogRect]
+            if (authDialogRectMap is Map<*, *>) {
+                val authDialogRect = convertMapToRect(authDialogRectMap)
+                authDialogRect.width?.let {
+                    authDialogWidth = it
+                }
+                authDialogRect.height?.let {
+                    authDialogHeight = it
+                }
+                authDialogRect.x?.let {
+                    //客户设置了距离屏幕左侧的margin，转换为对话框中心点距离屏幕中心点的x偏移量
+                    authDialogX = it - (screenWidth - authDialogWidth)/2
+                }
+                authDialogRect.y?.let {
+                    //flutter中设置的y轴偏移量为对话框上边缘距离屏幕顶部的距离
+                    //native中获取的屏幕高不包含状态栏高度
+                    //对话框中心点距离屏幕中心点的距离 = flutter设置的y偏移 + 对话框高度的一半 - 屏幕高度的一半
+                    authDialogY = it + authDialogHeight/2 - (screenHeight + statusBarHeight)/2
+                }
+            }
+        }
+        var isAuthDialogBottom = false;
+        if (param.containsKey(Constant.isAuthDialogBottom)) {
+            isAuthDialogBottom = param[Constant.isAuthDialogBottom] as Boolean
+        }
+        var canCloseAuthDialogFromTapGesture = false
+        if (param.containsKey(Constant.canCloseAuthDialogFromTapGesture)) {
+            canCloseAuthDialogFromTapGesture = param[Constant.canCloseAuthDialogFromTapGesture] as Boolean
+        }
+        uiConfigBuilder.setAuthDialogTheme(authDialogBg, authDialogWidth, authDialogHeight,
+            authDialogX, authDialogY, isAuthDialogBottom, canCloseAuthDialogFromTapGesture,
+            true)
+    }
+
+    //设置未勾选同意协议时授权弹窗标题
+    private fun setAuthDialogTitle(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder){
+        if (!param.containsKey(Constant.authDialogTitleText)
+            && !param.containsKey(Constant.authDialogTitleColor)
+            && !param.containsKey(Constant.authDialogTitleSize)) {
+            return
+        }
+        var authDialogTitleText = ""
+        if(param.containsKey(Constant.authDialogTitleText)){
+            authDialogTitleText = param[Constant.authDialogTitleText] as String
+        }
+        var authDialogTitleColor = 0xFFFFFFFF.toInt();
+        if(param.containsKey(Constant.authDialogTitleColor)){
+            authDialogTitleColor = hexStrToInt(param[Constant.authDialogTitleColor] as String)
+        }
+        var authDialogTitleSize = 17;
+        if(param.containsKey(Constant.authDialogTitleSize)){
+            authDialogTitleSize = param[Constant.authDialogTitleSize] as Int
+        }
+        uiConfigBuilder.setAuthDialogTitle(authDialogTitleText, authDialogTitleColor,
+            authDialogTitleSize, null)
+    }
+
+    //设置未勾选同意协议时授权弹窗富文本字体大小
+    private fun setAuthDialogContentFontSize(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder){
+        if (!param.containsKey(Constant.authDialogTitleSize)) {
+            return
+        }
+        var authDialogContentFontSize = 12;
+        if(param.containsKey(Constant.authDialogContentFontSize)){
+            authDialogContentFontSize = param[Constant.authDialogContentFontSize] as Int
+        }
+        uiConfigBuilder.setAuthDialogContent(authDialogContentFontSize,  null)
+    }
+
+    //设置未勾选同意协议时授权弹窗不同意按钮
+    private fun setAuthDialogDisagreeBtn(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder){
+        if (!param.containsKey(Constant.authDialogDisagreeBtnBg)
+            && !param.containsKey(Constant.authDialogDisagreeBtnText)
+            && !param.containsKey(Constant.authDialogDisagreeBtnColor)
+            && !param.containsKey(Constant.authDialogDisagreeBtnFontSize)) {
+            return
+        }
+        var authDialogDisagreeBtnBg = "gt_one_login_auth_dialog_disagree_btn";
+        if(param.containsKey(Constant.authDialogDisagreeBtnBg)){
+            authDialogDisagreeBtnBg = param[Constant.authDialogDisagreeBtnBg] as String
+        }
+        var authDialogDisagreeBtnText = ""
+        if(param.containsKey(Constant.authDialogDisagreeBtnText)){
+            authDialogDisagreeBtnText = param[Constant.authDialogDisagreeBtnText] as String
+        }
+        var authDialogDisagreeBtnFontSize = 14;
+        if(param.containsKey(Constant.authDialogDisagreeBtnFontSize)){
+            authDialogDisagreeBtnFontSize = param[Constant.authDialogDisagreeBtnFontSize] as Int
+        }
+        var authDialogDisagreeBtnColor = 0xFFFFFFFF.toInt();
+        if(param.containsKey(Constant.authDialogDisagreeBtnColor)){
+            authDialogDisagreeBtnColor = hexStrToInt(param[Constant.authDialogDisagreeBtnColor] as String)
+        }
+        uiConfigBuilder.setAuthDialogDisagreeBtn(authDialogDisagreeBtnBg,
+            authDialogDisagreeBtnText, authDialogDisagreeBtnColor, authDialogDisagreeBtnFontSize,
+            null)
+    }
+
+    //设置未勾选同意协议时授权弹窗同意按钮
+    private fun setAuthDialogAgreeBtn(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder){
+        if (!param.containsKey(Constant.authDialogAgreeBtnBg)
+            && !param.containsKey(Constant.authDialogAgreeBtnText)
+            && !param.containsKey(Constant.authDialogAgreeBtnColor)
+            && !param.containsKey(Constant.authDialogAgreeBtnFontSize)) {
+            return
+        }
+        var authDialogAgreeBtnBg = "gt_one_login_btn";
+        if(param.containsKey(Constant.authDialogAgreeBtnBg)){
+            authDialogAgreeBtnBg = param[Constant.authDialogAgreeBtnBg] as String
+        }
+        var authDialogAgreeBtnText = ""
+        if(param.containsKey(Constant.authDialogAgreeBtnText)){
+            authDialogAgreeBtnText = param[Constant.authDialogAgreeBtnText] as String
+        }
+        var authDialogAgreeBtnFontSize = 14;
+        if(param.containsKey(Constant.authDialogAgreeBtnFontSize)){
+            authDialogAgreeBtnFontSize = param[Constant.authDialogAgreeBtnFontSize] as Int
+        }
+        var authDialogAgreeBtnColor = 0xFFFFFFFF.toInt();
+        if(param.containsKey(Constant.authDialogAgreeBtnColor)){
+            authDialogAgreeBtnColor = hexStrToInt(param[Constant.authDialogAgreeBtnColor] as String)
+        }
+        uiConfigBuilder.setAuthDialogAgreeBtn(authDialogAgreeBtnBg,
+            authDialogAgreeBtnText, authDialogAgreeBtnColor, authDialogAgreeBtnFontSize,
+            null)
+    }
+
     private fun setSystemBar(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder) {
         if (!param.containsKey(Constant.statusBarBgColor)
-            && !param.containsKey(Constant.systemNavBarBgColor)
+            && !param.containsKey(Constant.bgLayoutInStatusBar)
             && !param.containsKey(Constant.statusBarStyle)) {
             return
         }
@@ -173,17 +335,24 @@ object UIHelper {
         if (param.containsKey(Constant.statusBarBgColor)) {
             statusBarBgColor = hexStrToInt(param[Constant.statusBarBgColor] as String)
         }
-        //导航栏
-        var systemNavBarBgColor = 0
-        if (param.containsKey(Constant.systemNavBarBgColor)) {
-            systemNavBarBgColor = hexStrToInt(param[Constant.systemNavBarBgColor] as String)
+//        //背景侵入状态栏区域
+        var bgLayoutInStatusBar = false
+        if (param.containsKey(Constant.bgLayoutInStatusBar)) {
+            bgLayoutInStatusBar = param[Constant.bgLayoutInStatusBar] as Boolean
         }
-        //状态栏是否为亮色：true:内容为黑色 false：内容为白色
-        var lightColor = false
+        // 状态栏字体颜色：黑白或者根据深色模式自动切换 亮色为黑
+        var statusBarStyle = UserInterfaceStyle.UNSPECIFIED
         if (param.containsKey(Constant.statusBarStyle)) {
-            lightColor = (param[Constant.statusBarStyle] as Int) == 2 //暗色内容枚举对应的序号为2
+            statusBarStyle = when (param[Constant.statusBarStyle] as Int) {
+                0 -> UserInterfaceStyle.UNSPECIFIED
+                1 -> UserInterfaceStyle.LIGHT
+                2 -> UserInterfaceStyle.DARK
+                else -> {
+                    UserInterfaceStyle.UNSPECIFIED
+                }
+            }
         }
-        uiConfigBuilder.setStatusBar(statusBarBgColor, systemNavBarBgColor, lightColor)
+        uiConfigBuilder.setStatusBar(statusBarBgColor, statusBarStyle, bgLayoutInStatusBar)
     }
 
     private fun setAuthNavLayout(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder): Int {
@@ -313,8 +482,10 @@ object UIHelper {
             navWebViewText, navWebViewTextColor, navWebViewTextSize, navTextMargin)
     }
 
-    private fun setLogo(param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder,
-                        authViewWidth: Int, authNavHeight: Int) {
+    private fun setLogo(
+        param: Map<*, *>, uiConfigBuilder: OneLoginThemeConfig.Builder,
+        authViewWidth: Int, authNavHeight: Int,
+    ) {
         if (!param.containsKey(Constant.logoImage)
             && !param.containsKey(Constant.logoImageHidden)
             && !param.containsKey(Constant.logoImageRect)) {

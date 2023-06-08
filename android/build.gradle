@@ -18,6 +18,9 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
+//        flatDir {
+//            dirs project(':gt_onelogin_flutter_plugin').file('libs')
+//        }
     }
 }
 
@@ -25,7 +28,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -41,7 +44,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
     }
 }
 
@@ -60,7 +63,8 @@ if (flutterRoot == null) {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.geetest.android:onelogin:2.7.5"
+    implementation "com.geetest.android:onelogin:2.8.4"
+//    implementation ('name':'geetest_onelogin_android_v2.8.4_20230607',ext:'aar')
     // 解决 FlutterPlugin 报红
     compileOnly files("$flutterRoot/bin/cache/artifacts/engine/android-arm/flutter.jar")
 }

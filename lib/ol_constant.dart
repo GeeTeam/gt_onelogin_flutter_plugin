@@ -79,9 +79,9 @@ class _OLConstant {
   //状态栏样式
   static const statusBarStyle = "$methodParameters/statusBarStyle";
 
-  ///--------------系统虚拟按键----------------
+  ///--------------背景侵入状态栏区域----------------
   //Only for Android
-  static const systemNavBarBgColor = "$methodParameters/systemNavBarBgColor";
+  static const bgLayoutInStatusBar = "$methodParameters/bgLayoutInStatusBar";
 
   ///--------------标题栏----------------
   // 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致
@@ -227,10 +227,12 @@ class _OLConstant {
   static const authDialogDisagreeBtnFontSize = "$methodParameters/authDialogDisagreeBtnFontSize";
   static const authDialogDisagreeBtnColor = "$methodParameters/authDialogDisagreeBtnColor";
   static const authDialogDisagreeBtnImages = "$methodParameters/authDialogDisagreeBtnImages";
+  static const authDialogDisagreeBtnBg = "$methodParameters/authDialogDisagreeBtnBg";
   static const authDialogAgreeBtnText = "$methodParameters/authDialogAgreeBtnText";
   static const authDialogAgreeBtnFontSize = "$methodParameters/authDialogAgreeBtnFontSize";
   static const authDialogAgreeBtnColor = "$methodParameters/authDialogAgreeBtnColor";
   static const authDialogAgreeBtnImages = "$methodParameters/authDialogAgreeBtnImages";
+  static const authDialogAgreeBtnBg = "$methodParameters/authDialogAgreeBtnBg";
   static const authDialogCornerRadius = "$methodParameters/authDialogCornerRadius";
   static const isCustomDisabledAuthAction = "$methodParameters/isCustomDisabledAuthAction";
 }
