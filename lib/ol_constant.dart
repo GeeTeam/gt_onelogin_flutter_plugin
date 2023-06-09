@@ -31,7 +31,6 @@ class _OLConstant {
   static const onTermCheckBoxClick =
       "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
   static const onAuthDialogDisagreeBtnClick = "$methodNames/onAuthDialogDisagreeBtnClick";
-  static const onCustomDisabledAuthAction = "$methodNames/onCustomDisabledAuthAction";
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";

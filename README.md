@@ -1,7 +1,7 @@
 # gt_onelogin_flutter_plugin
 
-The official flutter plugin project for geetest OneLoginSDK. Support Flutter 2.0.
-极验 OneLoginSDK Flutter 官方插件。支持 Flutter 2.0。
+The official flutter plugin project for geetest OneLoginSDK. Support Flutter 2.x/3.x.
+极验 OneLoginSDK Flutter 官方插件。支持 Flutter 2.x/3.x。
 
 [官网/Official](https://www.geetest.com)
 
@@ -26,7 +26,7 @@ dependencies:
 
 ```
 dependencies:
-  gt_onelogin_flutter_plugin: 0.0.1
+  gt_onelogin_flutter_plugin: 0.0.3
 ```
   
 ## 配置 / Configuration
@@ -338,6 +338,7 @@ protocolShakeStyle | ProtocolShakeStyle | 未勾选授权页面隐私协议前�
 uncheckedImage    | String|未选中下按钮的图片地址|-
 checkedImage   | String|选中下按钮的图片地址|-
 defaultCheckBoxState    | bool|选择框是否默认勾选|false
+checkBoxRect | OLRect | 选择框的位置和大小 | -
 
 #### 12、多语言配置
 **参数说明**
@@ -346,7 +347,32 @@ defaultCheckBoxState    | bool|选择框是否默认勾选|false
 -----           |------ |-----|----
 languageType | OLLanguageType | 多语言配置，支持中文简体，中文繁体，英文 | `simplifiedChinese`，默认中文简体
 
-#### 13、其他
+#### 13、授权弹窗
+**参数说明**
+
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+willAuthDialogDisplay  | bool  | 未勾选同意协议时是否弹出授权弹窗  | false
+canCloseAuthDialogFromTapGesture   | bool  | 点击授权弹窗外是否关闭授权弹窗  | true
+authDialogRect  | OLRect  | 授权弹窗宽、高、起始点位置  | iOS 宽 300, 高 204，按距离屏幕一定偏移水平垂直居中
+isAuthDialogBottom  | bool  | 授权弹窗是否显示在屏幕下方  | false
+authDialogBgColor  | Color  | 授权弹窗背景颜色  | 白色
+authDialogTitleText  | String  | 授权弹窗标题文字  | 服务协议和隐私政策等指引
+authDialogTitleColor  | Color  | 授权弹窗标题颜色  | 黑色
+authDialogTitleSize  | int  | 授权弹窗标题字体大小  | 16
+authDialogContentFontSize  | int  | 授权弹窗富文本字体大小  | 12
+authDialogDisagreeBtnText  | String  | 授权弹窗不同意按钮文字  | 不同意
+authDialogDisagreeBtnFontSize  | int  | 授权弹窗不同意按钮字体大小  | 14
+authDialogDisagreeBtnColor  | Color  | 授权弹窗不同意按钮文字颜色  | 黑色
+authDialogDisagreeBtnImages  | List<String>  | 授权弹窗不同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。  | iOS 默认正常状态为灰色, 高亮状态为深灰色。
+authDialogAgreeBtnText  | String  | 授权弹窗同意按钮文字  | 同意并继续
+authDialogAgreeBtnFontSize  | int  | 授权弹窗同意按钮字体大小  | 14
+authDialogAgreeBtnColor  | Color  | 授权弹窗同意按钮文字颜色  | 白色
+authDialogAgreeBtnImages  | List<String>  | 授权弹窗同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。  | iOS 默认正常状态为蓝色纯色, 高亮状态为灰蓝色
+authDialogCornerRadius | double | 授权弹窗圆角  | 默认为10
+
+
+#### 14、其他
 
 **参数说明**
 
@@ -359,6 +385,7 @@ webNaviBgColor    | Color|服务条款页面标题栏的背景颜色(仅iOS有�
 navWebViewText    | bool|服务条款页面标题栏的文本|不设置时自定义服务条款的标题与协议名称保持一致。运营商协议的标题固定为对应的协议名称
 navWebViewTextColor    | bool|服务条款页面标题栏的字体颜色|0xFF000000
 navWebViewTextSize    | bool|服务条款页面标题栏的字体大小|17
+
 
 ### dismissAuthView
 
@@ -442,6 +469,13 @@ oneLoginPlugin.deletePreResultCache();
 oneLoginPlugin.setProtocolCheckState(true);
 ```
 
+### getCurrentNetworkInfo
+获取当前网络类型
+
+```dart
+oneLoginPlugin.getCurrentNetworkInfo()
+```
+
 
 ### addEventHandler
 
@@ -461,6 +495,9 @@ oneLoginPlugin.addEventListener(
     }, 
     onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
+    },
+    onAuthDialogDisagreeBtnClick: (_){
+      debugPrint(tag + "点击了授权弹窗不同意按钮");
     }
 );
 ```

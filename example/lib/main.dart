@@ -20,6 +20,7 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -46,9 +47,6 @@ class _MyAppState extends State<MyApp> {
       oneLoginPlugin?.dismissAuthView();
     }, onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
-    },onCustomDisabledAuthAction: (_) {
-      debugPrint(tag + "自定义授权弹窗");
-      oneLoginPlugin?.startRequestToken();
     },onAuthDialogDisagreeBtnClick: (_){
       debugPrint(tag + "点击了授权弹窗不同意按钮");
     });
@@ -209,7 +207,8 @@ class _MyAppState extends State<MyApp> {
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.light;
     configure.dialogCornersRadius = 20;
-    // configure.isCustomDisabledAuthAction = true;
+
+    //授权弹窗
     configure.willAuthDialogDisplay = true;
     configure.authDialogTitleText = "测试标题";
     configure.authDialogTitleColor = Colors.black;
@@ -222,7 +221,7 @@ class _MyAppState extends State<MyApp> {
     // configure.authDialogAgreeBtnBg = "gt_test_bg_btn";
     // configure.authDialogDisagreeBtnBg = "gt_test_bg_btn";
     // configure.protocolShakeStyle = ProtocolShakeStyle.shakeHorizontal;
-    // configure.checkBoxRect = OLRect(width: 50,height: 50);
+    configure.checkBoxRect = OLRect(width: 50,height: 50);
 
     // configure.authDialogRect = OLRect(x: 200,y: 100,width: 300,height: 300);
     //背景

@@ -291,7 +291,6 @@ class OLUIConfiguration {
         self.authDialogAgreeBtnColor = parseColor(dict: dict, key: OLConstant.authDialogAgreeBtnColor)
         self.authDialogAgreeBtnImages = dict[OLConstant.authDialogAgreeBtnImages] as? [String]
         self.authDialogCornerRadius = parseDouble(dict: dict, key: OLConstant.authDialogCornerRadius)
-        self.isCustomDisabledAuthAction = parseBool(dict: dict, key: OLConstant.isCustomDisabledAuthAction)
         
     }
     

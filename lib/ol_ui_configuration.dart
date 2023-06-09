@@ -201,8 +201,6 @@ class OLUIConfiguration {
   String? authDialogAgreeBtnBg;
   //授权弹窗圆角，默认为10。
   double? authDialogCornerRadius;
-  //是否自定义授权弹窗，默认否，要自定义授权弹窗，请设置此属性为true,并实现插件 onCustomDisabledAuthAction 回调
-  bool? isCustomDisabledAuthAction;
 
   Map<String, dynamic> toMap() {
     if (terms != null && (terms?.isNotEmpty ?? false)) {
@@ -301,7 +299,6 @@ class OLUIConfiguration {
       _OLConstant.authDialogAgreeBtnImages: authDialogAgreeBtnImages,
       _OLConstant.authDialogAgreeBtnBg: authDialogAgreeBtnBg,
       _OLConstant.authDialogCornerRadius: authDialogCornerRadius,
-      _OLConstant.isCustomDisabledAuthAction: isCustomDisabledAuthAction,
     }..removeWhere((key, value) => value == null);
   }
 }

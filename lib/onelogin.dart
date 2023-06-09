@@ -56,11 +56,6 @@ class GtOneloginFlutterPlugin {
     return OLNetworkInfo.values[networkInfo];
   }
 
-  //开始取号
-  startRequestToken() {
-    _channel.invokeListMethod(_OLConstant.startRequestToken);
-  }
-
   //隐私条款是否勾选
   Future<bool> isProtocolCheckboxChecked() async {
     return await _channel.invokeMethod(_OLConstant.isProtocolCheckboxChecked);
@@ -103,8 +98,6 @@ class GtOneloginFlutterPlugin {
   EventHandler<bool>? _onTermCheckBoxClick;
   //点击授权弹窗不同意按钮
   EventHandler<void>? _onAuthDialogDisagreeBtnClick;
-  //自定义授权弹窗,要实现自定义授权弹窗，除实现此回调外，还需设置 OLUIConfiguration 的 isCustomDisabledAuthAction 属性为 true
-  EventHandler<void>? _onCustomDisabledAuthAction;
 
   addEventListener(
       {
@@ -121,7 +114,6 @@ class GtOneloginFlutterPlugin {
     _onSwitchButtonClick = onSwitchButtonClick;
     _onTermCheckBoxClick = onTermCheckBoxClick;
     _onAuthDialogDisagreeBtnClick = onAuthDialogDisagreeBtnClick;
-    _onCustomDisabledAuthAction = onCustomDisabledAuthAction;
 
     _channel.setMethodCallHandler(_handler);
   }
@@ -138,8 +130,6 @@ class GtOneloginFlutterPlugin {
         return _onTermCheckBoxClick?.call(call.arguments as bool);
       case _OLConstant.onAuthDialogDisagreeBtnClick:
         return _onAuthDialogDisagreeBtnClick?.call(null);
-      case _OLConstant.onCustomDisabledAuthAction:
-        return _onCustomDisabledAuthAction?.call(null);
       default:
         return null;
     }

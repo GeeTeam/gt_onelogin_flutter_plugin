@@ -27,8 +27,7 @@ struct OLConstant {
     static let setProtocolCheckState =
           "\(methodNames)/setProtocolCheckState";
     static let networkInfo = "\(methodNames)/networkInfo";
-    static let startRequestToken = "\(methodNames)/startRequestToken";
-
+    
     ///native事件回调flutter方法名称
     static let onBackButtonClick = "\(methodNames)/onBackButtonClick";
     static let onAuthButtonClick = "\(methodNames)/onAuthButtonClick";
@@ -37,8 +36,6 @@ struct OLConstant {
     static let onTermCheckBoxClick = "\(methodNames)/onTermCheckBoxClick"; //点击服务条款的选择框
 
     static let onAuthDialogDisagreeBtnClick = "\(methodNames)/onAuthDialogDisagreeBtnClick";
-
-    static let onCustomDisabledAuthAction = "\(methodNames)/onCustomDisabledAuthAction"; //自定义授权弹窗
 
     ///方法参数
     static let methodParameters = "\(methodChannel)/methodParameters";
@@ -225,6 +222,5 @@ struct OLConstant {
     static let authDialogAgreeBtnColor = "\(methodParameters)/authDialogAgreeBtnColor";
     static let authDialogAgreeBtnImages = "\(methodParameters)/authDialogAgreeBtnImages";
     static let authDialogCornerRadius = "\(methodParameters)/authDialogCornerRadius";
-    static let isCustomDisabledAuthAction = "\(methodParameters)/isCustomDisabledAuthAction";
 
 }

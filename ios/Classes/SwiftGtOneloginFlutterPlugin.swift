@@ -41,9 +41,7 @@ public class SwiftGtOneloginFlutterPlugin: NSObject, FlutterPlugin {
           deletePreResultCache(call: call, result: result)
       case OLConstant.networkInfo:
           getCurrentNetworkInfo(call: call, result: result)
-      case OLConstant.startRequestToken:
-          startRequestToken(call: call, result: result)
-          
+        
       default:
           result(FlutterMethodNotImplemented)
       }
@@ -68,16 +66,11 @@ extension SwiftGtOneloginFlutterPlugin {
     func requestToken(call:FlutterMethodCall, result: @escaping FlutterResult) {
         let vc = UIApplication.shared.keyWindow?.rootViewController
         var authModel = OLAuthViewModel()
-        var isCustomDisabledAuthAction = false
+        
         if let authModelDict = call.arguments as? [String:Any]  {
-            let configuration = OLUIConfiguration(dict: authModelDict)
-            if let isCustomDisabled = configuration.isCustomDisabledAuthAction {
-                isCustomDisabledAuthAction = isCustomDisabled
-            }
-            
-            authModel = configuration.toAuthViewModel()
+            authModel = OLUIConfiguration(dict: authModelDict).toAuthViewModel()
         }
-        uiConfigureEvent(authModel, isCustomDisabledAuthAction)
+        uiConfigureEvent(authModel)
         OneLoginPro.requestToken(with: vc!, viewModel: authModel) { res in
             guard let dict = res as? [String:Any],!dict.isEmpty,let status = dict["status"] as? Int,status == 500,let errorCode = dict["errorCode"] as? String,errorCode == "-20302" || errorCode == "-20303" else{
                 
@@ -103,7 +96,7 @@ extension SwiftGtOneloginFlutterPlugin {
         }
     }
     
-    func uiConfigureEvent(_ authModel:OLAuthViewModel,_ isCustomDisabledAuthAction: Bool) {
+    func uiConfigureEvent(_ authModel:OLAuthViewModel) {
         authModel.clickAuthButtonBlock = {[weak self] in
               self?.channel.invokeMethod(OLConstant.onAuthButtonClick, arguments: nil)
         }
@@ -118,12 +111,6 @@ extension SwiftGtOneloginFlutterPlugin {
         }
         authModel.clickAuthDialogDisagreeBtnBlock = {[weak self] in
             self?.channel.invokeMethod(OLConstant.onAuthDialogDisagreeBtnClick, arguments: nil)
-        }
-        authModel.customDisabledAuthActionBlock = {[weak self] in
-            if isCustomDisabledAuthAction {
-                self?.channel.invokeMethod(OLConstant.onCustomDisabledAuthAction, arguments: nil)
-            }
-            return isCustomDisabledAuthAction
         }
         
     }
@@ -194,10 +181,5 @@ extension SwiftGtOneloginFlutterPlugin {
             return
         }
         result(networkType.rawValue)
-    }
-    
-    func startRequestToken(call:FlutterMethodCall, result: @escaping FlutterResult) {
-        OneLoginPro.startRequestToken()
-        result(nil)
     }
 }
