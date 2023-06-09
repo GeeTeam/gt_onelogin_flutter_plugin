@@ -223,7 +223,7 @@ class OLUIConfiguration {
       _OLConstant.backgroundColor: backgroundColor?.hexString,
       _OLConstant.statusBarBgColor: statusBarBgColor?.hexString,
       _OLConstant.statusBarStyle: statusBarStyle?.index,
-      _OLConstant.bgLayoutInStatusBar:bgLayoutInStatusBar,
+      _OLConstant.bgLayoutInStatusBar: bgLayoutInStatusBar,
       _OLConstant.navTextMargin: navTextMargin,
       _OLConstant.navigationBarColor: navigationBarColor?.hexString,
       _OLConstant.authNavHeight: authNavHeight,
@@ -280,7 +280,8 @@ class OLUIConfiguration {
       _OLConstant.protocolShakeStyle: protocolShakeStyle?.index ?? 0,
       _OLConstant.checkBoxRect: checkBoxRect?.toMap(),
       _OLConstant.willAuthDialogDisplay: willAuthDialogDisplay,
-      _OLConstant.canCloseAuthDialogFromTapGesture: canCloseAuthDialogFromTapGesture,
+      _OLConstant.canCloseAuthDialogFromTapGesture:
+          canCloseAuthDialogFromTapGesture,
       _OLConstant.authDialogRect: authDialogRect?.toMap(),
       _OLConstant.isAuthDialogBottom: isAuthDialogBottom,
       _OLConstant.authDialogBgColor: authDialogBgColor?.hexString,
@@ -290,7 +291,8 @@ class OLUIConfiguration {
       _OLConstant.authDialogContentFontSize: authDialogContentFontSize,
       _OLConstant.authDialogDisagreeBtnText: authDialogDisagreeBtnText,
       _OLConstant.authDialogDisagreeBtnFontSize: authDialogDisagreeBtnFontSize,
-      _OLConstant.authDialogDisagreeBtnColor: authDialogDisagreeBtnColor?.hexString,
+      _OLConstant.authDialogDisagreeBtnColor:
+          authDialogDisagreeBtnColor?.hexString,
       _OLConstant.authDialogDisagreeBtnImages: authDialogDisagreeBtnImages,
       _OLConstant.authDialogDisagreeBtnBg: authDialogDisagreeBtnBg,
       _OLConstant.authDialogAgreeBtnText: authDialogAgreeBtnText,

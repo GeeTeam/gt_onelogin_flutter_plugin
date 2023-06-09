@@ -20,7 +20,6 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -47,7 +46,7 @@ class _MyAppState extends State<MyApp> {
       oneLoginPlugin?.dismissAuthView();
     }, onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
-    },onAuthDialogDisagreeBtnClick: (_){
+    }, onAuthDialogDisagreeBtnClick: (_) {
       debugPrint(tag + "点击了授权弹窗不同意按钮");
     });
     oneLoginPlugin?.setLogEnable(true);
@@ -114,20 +113,26 @@ class _MyAppState extends State<MyApp> {
                   "sdk 版本号",
                   style: TextStyle(fontSize: 20),
                 )),
-            TextButton(onPressed: () async {
-              var networkInfo = await oneLoginPlugin?.getCurrentNetworkInfo();
-              Fluttertoast.showToast(msg: "current NetworkInfo：$networkInfo");
-            }, child: const Text(
-              "当前网络",
-              style: TextStyle(fontSize: 20),
-            )),
-            TextButton(onPressed: () async {
-              var carrier = await oneLoginPlugin?.getCurrentCarrier();
-              Fluttertoast.showToast(msg: "current NetworkInfo：$carrier");
-            }, child: const Text(
-              "当前运营商",
-              style: TextStyle(fontSize: 20),
-            )),
+            TextButton(
+                onPressed: () async {
+                  var networkInfo =
+                      await oneLoginPlugin?.getCurrentNetworkInfo();
+                  Fluttertoast.showToast(
+                      msg: "current NetworkInfo：$networkInfo");
+                },
+                child: const Text(
+                  "当前网络",
+                  style: TextStyle(fontSize: 20),
+                )),
+            TextButton(
+                onPressed: () async {
+                  var carrier = await oneLoginPlugin?.getCurrentCarrier();
+                  Fluttertoast.showToast(msg: "current NetworkInfo：$carrier");
+                },
+                child: const Text(
+                  "当前运营商",
+                  style: TextStyle(fontSize: 20),
+                )),
           ],
         ),
       ),
@@ -213,7 +218,7 @@ class _MyAppState extends State<MyApp> {
     configure.authDialogTitleText = "测试标题";
     configure.authDialogTitleColor = Colors.black;
     //Only for iOS
-    configure.authDialogAgreeBtnImages= [
+    configure.authDialogAgreeBtnImages = [
       "login_button_enabled",
       "login_button_disabled",
     ];
@@ -221,7 +226,7 @@ class _MyAppState extends State<MyApp> {
     // configure.authDialogAgreeBtnBg = "gt_test_bg_btn";
     // configure.authDialogDisagreeBtnBg = "gt_test_bg_btn";
     // configure.protocolShakeStyle = ProtocolShakeStyle.shakeHorizontal;
-    configure.checkBoxRect = OLRect(width: 50,height: 50);
+    configure.checkBoxRect = OLRect(width: 50, height: 50);
 
     // configure.authDialogRect = OLRect(x: 200,y: 100,width: 300,height: 300);
     //背景

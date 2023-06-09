@@ -99,15 +99,14 @@ class GtOneloginFlutterPlugin {
   //点击授权弹窗不同意按钮
   EventHandler<void>? _onAuthDialogDisagreeBtnClick;
 
-  addEventListener(
-      {
-        EventHandler<void>? onBackButtonClick,
-        EventHandler<void>? onAuthButtonClick,
-        EventHandler<void>? onSwitchButtonClick,
-        EventHandler<bool>? onTermCheckBoxClick,
-        EventHandler<void>? onAuthDialogDisagreeBtnClick,
-        EventHandler<void>? onCustomDisabledAuthAction,
-      }) {
+  addEventListener({
+    EventHandler<void>? onBackButtonClick,
+    EventHandler<void>? onAuthButtonClick,
+    EventHandler<void>? onSwitchButtonClick,
+    EventHandler<bool>? onTermCheckBoxClick,
+    EventHandler<void>? onAuthDialogDisagreeBtnClick,
+    EventHandler<void>? onCustomDisabledAuthAction,
+  }) {
     debugPrint(flutterLog + "addEventListener");
     _onBackButtonClick = onBackButtonClick;
     _onAuthButtonClick = onAuthButtonClick;

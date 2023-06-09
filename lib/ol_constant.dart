@@ -30,7 +30,8 @@ class _OLConstant {
   static const onSwitchButtonClick = "$methodNames/onSwitchButtonClick";
   static const onTermCheckBoxClick =
       "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
-  static const onAuthDialogDisagreeBtnClick = "$methodNames/onAuthDialogDisagreeBtnClick";
+  static const onAuthDialogDisagreeBtnClick =
+      "$methodNames/onAuthDialogDisagreeBtnClick";
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";
@@ -213,25 +214,39 @@ class _OLConstant {
   //隐私条款抖动动画样式
   static const protocolShakeStyle = "$methodParameters/protocolShakeStyle";
 
-  static const willAuthDialogDisplay = "$methodParameters/willAuthDialogDisplay";
-  static const canCloseAuthDialogFromTapGesture = "$methodParameters/canCloseAuthDialogFromTapGesture";
+  static const willAuthDialogDisplay =
+      "$methodParameters/willAuthDialogDisplay";
+  static const canCloseAuthDialogFromTapGesture =
+      "$methodParameters/canCloseAuthDialogFromTapGesture";
   static const authDialogRect = "$methodParameters/authDialogRect";
   static const isAuthDialogBottom = "$methodParameters/isAuthDialogBottom";
   static const authDialogBgColor = "$methodParameters/authDialogBgColor";
   static const authDialogTitleText = "$methodParameters/authDialogTitleText";
   static const authDialogTitleColor = "$methodParameters/authDialogTitleColor";
   static const authDialogTitleSize = "$methodParameters/authDialogTitleSize";
-  static const authDialogContentFontSize = "$methodParameters/authDialogContentFontSize";
-  static const authDialogDisagreeBtnText = "$methodParameters/authDialogDisagreeBtnText";
-  static const authDialogDisagreeBtnFontSize = "$methodParameters/authDialogDisagreeBtnFontSize";
-  static const authDialogDisagreeBtnColor = "$methodParameters/authDialogDisagreeBtnColor";
-  static const authDialogDisagreeBtnImages = "$methodParameters/authDialogDisagreeBtnImages";
-  static const authDialogDisagreeBtnBg = "$methodParameters/authDialogDisagreeBtnBg";
-  static const authDialogAgreeBtnText = "$methodParameters/authDialogAgreeBtnText";
-  static const authDialogAgreeBtnFontSize = "$methodParameters/authDialogAgreeBtnFontSize";
-  static const authDialogAgreeBtnColor = "$methodParameters/authDialogAgreeBtnColor";
-  static const authDialogAgreeBtnImages = "$methodParameters/authDialogAgreeBtnImages";
+  static const authDialogContentFontSize =
+      "$methodParameters/authDialogContentFontSize";
+  static const authDialogDisagreeBtnText =
+      "$methodParameters/authDialogDisagreeBtnText";
+  static const authDialogDisagreeBtnFontSize =
+      "$methodParameters/authDialogDisagreeBtnFontSize";
+  static const authDialogDisagreeBtnColor =
+      "$methodParameters/authDialogDisagreeBtnColor";
+  static const authDialogDisagreeBtnImages =
+      "$methodParameters/authDialogDisagreeBtnImages";
+  static const authDialogDisagreeBtnBg =
+      "$methodParameters/authDialogDisagreeBtnBg";
+  static const authDialogAgreeBtnText =
+      "$methodParameters/authDialogAgreeBtnText";
+  static const authDialogAgreeBtnFontSize =
+      "$methodParameters/authDialogAgreeBtnFontSize";
+  static const authDialogAgreeBtnColor =
+      "$methodParameters/authDialogAgreeBtnColor";
+  static const authDialogAgreeBtnImages =
+      "$methodParameters/authDialogAgreeBtnImages";
   static const authDialogAgreeBtnBg = "$methodParameters/authDialogAgreeBtnBg";
-  static const authDialogCornerRadius = "$methodParameters/authDialogCornerRadius";
-  static const isCustomDisabledAuthAction = "$methodParameters/isCustomDisabledAuthAction";
+  static const authDialogCornerRadius =
+      "$methodParameters/authDialogCornerRadius";
+  static const isCustomDisabledAuthAction =
+      "$methodParameters/isCustomDisabledAuthAction";
 }

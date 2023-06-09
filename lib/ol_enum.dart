@@ -2,8 +2,8 @@ part of gt_onelogin_flutter_plugin;
 
 enum OLNetworkInfo {
   none, //网络类型未知
-  cellular,//仅移动蜂窝数据网络
-  wifi,//仅 WIFI 网络
+  cellular, //仅移动蜂窝数据网络
+  wifi, //仅 WIFI 网络
   cellularAndWifi //移动蜂窝数据网络及 WIFI 网络
 }
 
@@ -29,12 +29,14 @@ enum OLIOSInterfaceOrientation {
   portrait,
   landscape,
 }
+
 //仅供iOS使用
 enum OLIOSUserInterfaceStyle {
   unspecified, // 不指定样式，跟随系统设置进行展示
   light, //  明亮
   dark, //  暗黑 仅对 iOS 13+ 系统有效
 }
+
 //仅供iOS使用
 enum OLStatusBarStyle {
   notSet,
