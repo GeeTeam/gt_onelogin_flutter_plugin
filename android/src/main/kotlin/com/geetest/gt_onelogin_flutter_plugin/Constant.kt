@@ -21,14 +21,14 @@ class Constant {
         const val renewPreGetToken = "$methodNames/renewPreGetToken";
         const val deletePreResultCache = "$methodNames/deletePreResultCache";
         const val setProtocolCheckState = "$methodNames/setProtocolCheckState";
-        const val startRequestToken = "$methodNames/startRequestToken";
+//        const val startRequestToken = "$methodNames/startRequestToken";
 
         ///native事件回调flutter方法名称
         const val onBackButtonClick = "$methodNames/onBackButtonClick"
         const val onAuthButtonClick = "$methodNames/onAuthButtonClick"
         const val onSwitchButtonClick = "$methodNames/onSwitchButtonClick"
         const val onTermCheckBoxClick = "$methodNames/onTermCheckBoxClick" //点击服务条款的选择框
-        const val onCustomDisabledAuthAction = "$methodNames/onCustomDisabledAuthAction"//自定义授权弹窗,要实现自定义授权弹窗
+//        const val onCustomDisabledAuthAction = "$methodNames/onCustomDisabledAuthAction"//自定义授权弹窗,要实现自定义授权弹窗
 
         ///方法参数
         private const val methodParameters = "$methodChannel/methodParameters"
@@ -174,7 +174,7 @@ class Constant {
         //隐私条款抖动动画样式
         const val protocolShakeStyle = "$methodParameters/protocolShakeStyle"
         //是否自定义授权弹窗
-        const val isCustomDisabledAuthAction  = "$methodParameters/isCustomDisabledAuthAction"
+//        const val isCustomDisabledAuthAction  = "$methodParameters/isCustomDisabledAuthAction"
 
         ///--------------未勾选同意协议时授权弹窗----------------
         //未勾选同意协议时是否弹出授权弹窗

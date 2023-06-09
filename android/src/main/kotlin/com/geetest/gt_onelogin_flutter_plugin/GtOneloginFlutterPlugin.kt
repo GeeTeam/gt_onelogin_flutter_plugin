@@ -24,7 +24,7 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var channel: MethodChannel
   private lateinit var mContext: Context
   private val tag = "| Geetest | Android | "
-  private var startRequestToken: OneLoginAuthCallback? = null
+//  private var startRequestToken: OneLoginAuthCallback? = null
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, Constant.methodChannel)
@@ -44,9 +44,9 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       Constant.requestToken -> {
         requestToken(call.arguments, result)
       }
-      Constant.startRequestToken -> {
-        startRequestToken?.onOLAuthCallback(true)
-      }
+//      Constant.startRequestToken -> {
+//        startRequestToken?.onOLAuthCallback(true)
+//      }
       Constant.dismissAuthView -> {
         OneLoginHelper.with().dismissAuthActivity()
       }
@@ -112,23 +112,23 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
   //设置未勾选同意协议时的回调（供自定义弹窗使用）
   private fun setOneLoginAuthListener(uiConfigBuilder: OneLoginThemeConfig.Builder) {
     uiConfigBuilder.setOneLoginAuthListener { _, oneLoginAuthCallback ->
-      startRequestToken = oneLoginAuthCallback
-      Log.i(tag, "onCustomDisabledAuthAction")
-      channel.invokeMethod(Constant.onCustomDisabledAuthAction, null)
+//      startRequestToken = oneLoginAuthCallback
+//      Log.i(tag, "onCustomDisabledAuthAction")
+//      channel.invokeMethod(Constant.onCustomDisabledAuthAction, null)
     }
   }
 
   private fun requestToken(uiConfig: Any?, result: Result) {
     val uiConfigBuilder = OneLoginThemeConfig.Builder()
-    if (uiConfig is Map<*, *>) {
-      if (uiConfig.containsKey(Constant.isCustomDisabledAuthAction)) {
-        val isCustomDisabledAuthAction = uiConfig[Constant.isCustomDisabledAuthAction] as Boolean
-        if (isCustomDisabledAuthAction) {
-          Log.i(tag, "setOneLoginAuthListener>>>")
-          setOneLoginAuthListener(uiConfigBuilder)
-        }
-      }
-    }
+//    if (uiConfig is Map<*, *>) {
+//      if (uiConfig.containsKey(Constant.isCustomDisabledAuthAction)) {
+//        val isCustomDisabledAuthAction = uiConfig[Constant.isCustomDisabledAuthAction] as Boolean
+//        if (isCustomDisabledAuthAction) {
+//          Log.i(tag, "setOneLoginAuthListener>>>")
+//          setOneLoginAuthListener(uiConfigBuilder)
+//        }
+//      }
+//    }
     val oneLoginUIConfig = UIHelper.generateUIConfig(uiConfig, uiConfigBuilder, mContext)
     OneLoginHelper.with().requestToken(oneLoginUIConfig, object : AbstractOneLoginListener() {
       override fun onResult(p0: JSONObject?) {
