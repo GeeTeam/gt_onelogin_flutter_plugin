@@ -26,7 +26,7 @@ dependencies:
 
 ```
 dependencies:
-  gt_onelogin_flutter_plugin: 0.0.3
+  gt_onelogin_flutter_plugin: 0.0.4
 ```
   
 ## 配置 / Configuration
