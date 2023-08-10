@@ -285,7 +285,7 @@ switchTextSize    | int|切换账号字体大小|Android：14  iOS：15
 switchButtonHidden    | bool|切换账号是否隐藏|false
 switchButtonBackgroundColor    | Color|切换账号按钮背景颜色(仅iOS有效)|-
 switchButtonRect    | OLRect|切换账号的宽高和位置坐标|Android：宽80，高25，水平居中，y轴偏移249 iOS：按比例计算
-switchButtonBgImage    | String|切换账号背景图片|默认无背景
+switchButtonBgImage    | String|切换账号背景图片|默认无背景，仅 Android 有效
 
 #### 8、登录按钮
 
@@ -338,7 +338,7 @@ protocolShakeStyle | ProtocolShakeStyle | 未勾选授权页面隐私协议前�
 uncheckedImage    | String|未选中下按钮的图片地址|-
 checkedImage   | String|选中下按钮的图片地址|-
 defaultCheckBoxState    | bool|选择框是否默认勾选|false
-checkBoxRect | OLRect | 选择框的位置和大小 | -
+checkBoxRect | OLRect | 选择框的位置和大小,仅对 iOS 有效，Android 根据图片大小自适应 | -
 
 #### 12、多语言配置
 **参数说明**

@@ -132,7 +132,7 @@ class OLUIConfiguration {
 //      //隐私条款文本：隐私条款文字行间距的倍数
 //    var termsLineSpacingMultiplier:Double?;
     var termsClauseAttributes:[NSAttributedString.Key:Any]?
-      //隐私条款文本：隐私条款名称是否显示书名号
+      //隐私条款文本：隐私条款名称是否隐藏书名号
     var termsBookTitleMarkHidden:Bool?;
       //未同意隐私条款的提示文字
     var termsUncheckedToastText:String?;
@@ -211,7 +211,7 @@ class OLUIConfiguration {
                 supportedinterfaceOrientations = .landscape
             }
         }
-        if let userinterfaceStyleIndex = dict[OLConstant.supportedinterfaceOrientations] as? Int {
+        if let userinterfaceStyleIndex = dict[OLConstant.userinterfaceStyle] as? Int {
             self.userinterfaceStyle = userinterfaceStyleIndex;
         }
         self.isDialogStyle = parseBool(dict: dict, key: OLConstant.isDialogStyle)
@@ -259,6 +259,7 @@ class OLUIConfiguration {
         self.sloganColor = parseColor(dict: dict, key: OLConstant.sloganColor)
         self.sloganRect = parseRect(dict: dict, key: OLConstant.sloganRect)
         self.termsRect = parseRect(dict: dict, key: OLConstant.termsRect)
+        self.termTextColor = parseColor(dict: dict, key: OLConstant.termTextColor)
         self.termsClauseAttributes = parseAttributes(dict: dict, colorKey: OLConstant.termsClauseColor, OLConstant.termsClauseTextSize, OLConstant.termsLineSpacingExtra, OLConstant.termsLineSpacingMultiplier)
         self.termsBookTitleMarkHidden = parseBool(dict: dict, key: OLConstant.termsBookTitleMarkHidden)
         self.termsUncheckedToastText = parseString(dict: dict, key: OLConstant.termsUncheckedToastText)
@@ -400,9 +401,12 @@ extension OLUIConfiguration{
         if let termsRect = termsRect {
             authViewModel.termsRect = termsRect
         }
+        if let termTextColor = termTextColor {
+            authViewModel.termTextColor = termTextColor
+        }
         authViewModel.privacyTermsAttributes = termsClauseAttributes
         if let termsBookTitleMarkHidden = termsBookTitleMarkHidden {
-            authViewModel.hasQuotationMarkOnCarrierProtocol = termsBookTitleMarkHidden
+            authViewModel.hasQuotationMarkOnCarrierProtocol = !termsBookTitleMarkHidden
         }
         authViewModel.notCheckProtocolHint = termsUncheckedToastText
         authViewModel.additionalPrivacyTerms = terms
