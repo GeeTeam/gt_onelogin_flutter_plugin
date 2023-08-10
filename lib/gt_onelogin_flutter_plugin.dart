@@ -1,9 +1,7 @@
 library gt_onelogin_flutter_plugin;
 
-import 'dart:async';
 import 'dart:collection';
 import 'dart:core';
-import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 

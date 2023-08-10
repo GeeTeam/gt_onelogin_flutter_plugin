@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gt_onelogin_flutter_plugin/gt_onelogin_flutter_plugin.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('gt_onelogin_flutter_plugin');

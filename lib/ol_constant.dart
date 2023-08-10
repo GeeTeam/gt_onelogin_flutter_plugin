@@ -22,7 +22,6 @@ class _OLConstant {
   static const deletePreResultCache = "$methodNames/deletePreResultCache";
   static const setProtocolCheckState = "$methodNames/setProtocolCheckState";
   static const networkInfo = "$methodNames/networkInfo";
-  static const startRequestToken = "$methodNames/startRequestToken";
 
   ///native事件回调flutter方法名称
   static const onBackButtonClick = "$methodNames/onBackButtonClick";
@@ -247,6 +246,4 @@ class _OLConstant {
   static const authDialogAgreeBtnBg = "$methodParameters/authDialogAgreeBtnBg";
   static const authDialogCornerRadius =
       "$methodParameters/authDialogCornerRadius";
-  static const isCustomDisabledAuthAction =
-      "$methodParameters/isCustomDisabledAuthAction";
 }
