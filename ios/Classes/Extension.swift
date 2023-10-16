@@ -22,7 +22,7 @@ extension UIColor {
         case 3: (a,r,g,b) = (255,(color >> 8) * 17,(color >> 4 & 0xF) * 17,(color & 0xF) * 17)
         case 6: (a,r,g,b) = (255,color >> 16,color >> 8 & 0xFF,color & 0xFF)
         case 8: (a,r,g,b) = (color >> 24,color >> 16 & 0xFF,color >> 8 & 0xFF, color & 0xFF)
-        default: (a,r,g,b) = (255,0,0,0)
+        default: (a,r,g,b) = (0,0,0,0)
         }
         let red   = CGFloat(r) / 255.0
         let green = CGFloat(g) / 255.0
