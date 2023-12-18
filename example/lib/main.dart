@@ -316,6 +316,7 @@ class _MyAppState extends State<MyApp> {
     configure.termsLineSpacingMultiplier = 1.0;
     configure.termsBookTitleMarkHidden = true;
     configure.termsUncheckedToastText = "请查看服务条款并同意后再登录~";
+    configure.termsUncheckedEnableToast = true;
 
     //checkbox
     // configure.checkedImage = "checked";

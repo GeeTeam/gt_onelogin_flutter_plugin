@@ -153,6 +153,8 @@ class Constant {
         const val termsBookTitleMarkHidden = "$methodParameters/termsBookTitleMarkHidden"
         //未同意隐私条款的提示文字
         const val termsUncheckedToastText = "$methodParameters/termsUncheckedToastText"
+        //是否显示未同意隐私条款的提示文字
+        const val termsUncheckedEnableToast = "$methodParameters/termsUncheckedEnableToast"
         //隐私条款对象数组
         const val terms = "$methodParameters/terms"
         //除隐私条款外的其他文案,连接字符串

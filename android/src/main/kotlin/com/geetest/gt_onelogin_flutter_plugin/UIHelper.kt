@@ -112,7 +112,11 @@ object UIHelper {
         //未同意隐私条款的提示文字
         if (param.containsKey(Constant.termsUncheckedToastText)) {
             val termsUncheckedToastText = param[Constant.termsUncheckedToastText] as String
-            uiConfigBuilder.setPrivacyUnCheckedToastText(termsUncheckedToastText)
+            val termsUncheckedEnableToast = param[Constant.termsUncheckedEnableToast] as Boolean
+            uiConfigBuilder.setPrivacyUnCheckedToastText(
+                termsUncheckedEnableToast,
+                termsUncheckedToastText
+            )
         }
 
         //服务条款的内容

@@ -131,6 +131,8 @@ class OLUIConfiguration {
   bool? termsBookTitleMarkHidden;
   //未同意隐私条款的提示文字
   String? termsUncheckedToastText;
+  //是否显示未同意隐私条款的提示文字
+  bool? termsUncheckedEnableToast;
   //隐私条款对象数组
   List<OLTermsPrivacyItem>? terms;
   //除隐私条款外的其他文案,连接字符串
@@ -267,6 +269,7 @@ class OLUIConfiguration {
       _OLConstant.termsLineSpacingMultiplier: termsLineSpacingMultiplier,
       _OLConstant.termsBookTitleMarkHidden: termsBookTitleMarkHidden,
       _OLConstant.termsUncheckedToastText: termsUncheckedToastText,
+      _OLConstant.termsUncheckedEnableToast: termsUncheckedEnableToast,
       _OLConstant.terms: terms?.map((e) => e.toMap()).toList(),
       _OLConstant.auxiliaryPrivacyWords: auxiliaryPrivacyWords,
       _OLConstant.uncheckedImage: uncheckedImage,

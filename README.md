@@ -315,19 +315,20 @@ sloganRect    | OLRect|Slogan 的宽高和位置坐标|Android：宽高包裹内
 
 **参数说明**
 
-参数            |参数类型|说明|默认值
------           |------ |-----|----
-termsRect    | OLRect|服务条款的宽高和位置坐标|默认256，高度自适应，服务条款整体的高度取决于checkbox背景资源的高度以及文本的长度，水平居中，y轴偏移400
-termTextColor    | Color|服务条款基础文字颜色|Android：0xFFA8A8A8 iOS：灰色
-termsClauseColor    | Color|服务条款协议文字颜色|Android：0xFF3973FF  iOS：蓝色
-termsClauseTextSize    | int|服务条款字体大小|Android:10 iOS：12
-termsLineSpacingExtra   | double|服务条款文字行间距|8.0
-termsLineSpacingMultiplier   | double|服务条款文字行间距的倍数|1.0
-termsBookTitleMarkHidden   | bool|条款名称是否隐藏书名号|true
-termsUncheckedToastText   | String|未同意服务条款时的提示文字|请同意服务条款
-terms   | List<OLTermsPrivacyItem>|自定义服务条款对象数组。最多支持设置3个自定义服务条款，也可以不设置|-
-auxiliaryPrivacyWords   | List<String>|除服务条款外的其他文案，包含服务条款之前和之间以及之后的文本，数组的第一个元素表示服务条款之前的文本，如”登录即同意“，最后一个元素表示末尾的文本，其他表示服务条款之间的连接文本，如”和“、顿号|-
-protocolShakeStyle | ProtocolShakeStyle | 未勾选授权页面隐私协议前勾选框时，点击授权页面登录按钮时勾选框与协议的抖动样式,默认不抖动 |`none`，默认不抖动
+参数            | 参数类型                     | 说明                                                                                                |默认值
+-----           |--------------------------|---------------------------------------------------------------------------------------------------|----
+termsRect    | OLRect                   | 服务条款的宽高和位置坐标                                                                                      |默认256，高度自适应，服务条款整体的高度取决于checkbox背景资源的高度以及文本的长度，水平居中，y轴偏移400
+termTextColor    | Color                    | 服务条款基础文字颜色                                                                                        |Android：0xFFA8A8A8 iOS：灰色
+termsClauseColor    | Color                    | 服务条款协议文字颜色                                                                                        |Android：0xFF3973FF  iOS：蓝色
+termsClauseTextSize    | int                      | 服务条款字体大小                                                                                          |Android:10 iOS：12
+termsLineSpacingExtra   | double                   | 服务条款文字行间距                                                                                         |8.0
+termsLineSpacingMultiplier   | double                   | 服务条款文字行间距的倍数                                                                                      |1.0
+termsBookTitleMarkHidden   | bool                     | 条款名称是否隐藏书名号                                                                                       |true
+termsUncheckedToastText   | String                   | 未同意服务条款时的提示文字                                                                                     |请同意服务条款
+termsUncheckedEnableToast   | bool                     | 是否显示未同意服务条款时的提示文字                                                                                 |true
+terms   | List<OLTermsPrivacyItem> | 自定义服务条款对象数组。最多支持设置3个自定义服务条款，也可以不设置                                                                |-
+auxiliaryPrivacyWords   | List<String>             | 除服务条款外的其他文案，包含服务条款之前和之间以及之后的文本，数组的第一个元素表示服务条款之前的文本，如”登录即同意“，最后一个元素表示末尾的文本，其他表示服务条款之间的连接文本，如”和“、顿号 |-
+protocolShakeStyle | ProtocolShakeStyle       | 未勾选授权页面隐私协议前勾选框时，点击授权页面登录按钮时勾选框与协议的抖动样式,默认不抖动                                                     |`none`，默认不抖动
 
 #### 11、Checkbox
 
