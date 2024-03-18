@@ -6,9 +6,9 @@ PODS:
   - gt_onelogin_flutter_plugin (0.0.1):
     - Flutter
     - OneLoginSDK-iOS-xcframework
-  - OneLoginSDK-iOS-xcframework (2.8.6):
-    - OneLoginSDK-iOS-xcframework/Main (= 2.8.6)
-  - OneLoginSDK-iOS-xcframework/Main (2.8.6)
+  - OneLoginSDK-iOS-xcframework (2.9.1):
+    - OneLoginSDK-iOS-xcframework/Main (= 2.9.1)
+  - OneLoginSDK-iOS-xcframework/Main (2.9.1)
   - Toast (4.0.0)
 
 DEPENDENCIES:
@@ -31,11 +31,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
+  fluttertoast: 31b00dabfa7fb7bacd9e7dbee580d7a2ff4bf265
   gt_onelogin_flutter_plugin: a8f5adcf1c40a59965d9b4f8ddbf5e927398b405
-  OneLoginSDK-iOS-xcframework: cac6879dbab85f608595fe0d37e4441996d5fac8
+  OneLoginSDK-iOS-xcframework: 249e7733bf8d1322f95a01df7a3a64697350aa6b
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
 PODFILE CHECKSUM: 663715e941f9adb426e33bf9376914006f9ea95b
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.14.3

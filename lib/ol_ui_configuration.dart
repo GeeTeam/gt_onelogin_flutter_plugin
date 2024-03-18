@@ -15,6 +15,8 @@ class OLUIConfiguration {
   bool? isWebDialogStyle;
   //弹窗圆角
   double? dialogCornersRadius;
+  //是否需要通过点击弹窗的背景区域以关闭授权页面
+  bool? isDialogClosedWhenTapBackground;
 
   ///--------------多语言配置----------------
   OLLanguageType? languageType;
@@ -220,6 +222,8 @@ class OLUIConfiguration {
       _OLConstant.dialogRect: dialogRect?.toMap(),
       _OLConstant.isWebDialogStyle: isWebDialogStyle,
       _OLConstant.dialogCornersRadius: dialogCornersRadius,
+      _OLConstant.isDialogClosedWhenTapBackground:
+          isDialogClosedWhenTapBackground,
       _OLConstant.languageType: languageType?.index ?? 0,
       _OLConstant.authViewBackgroundImage: authViewBackgroundImage,
       _OLConstant.backgroundColor: backgroundColor?.hexString,

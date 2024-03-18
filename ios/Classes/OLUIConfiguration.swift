@@ -25,6 +25,8 @@ class OLUIConfiguration {
     var dialogRect:OLRect?
       //弹窗圆角
     var dialogCornersRadius:Double?
+      //是否需要通过点击弹窗的背景区域以关闭授权页面
+    var isDialogClosedWhenTapBackground:Bool?
 
       ///--------------多语言配置----------------
     var languageType: Int?
@@ -218,6 +220,7 @@ class OLUIConfiguration {
         self.dialogRect = parseRect(dict: dict, key: OLConstant.dialogRect)
         self.dialogCornersRadius = dict[OLConstant.dialogCornersRadius] as? Double
         self.dialogCornersRadius = parseDouble(dict: dict, key: OLConstant.dialogCornersRadius)
+        self.isDialogClosedWhenTapBackground = parseBool(dict: dict, key: OLConstant.isDialogClosedWhenTapBackground)
         self.languageType = parseInt(dict: dict, key: OLConstant.languageType)
         self.authViewBackgroundImage = parseIntoAssetsImage(dict[OLConstant.authViewBackgroundImage])
         self.backgroundColor = parseColor(dict: dict, key: OLConstant.backgroundColor)
@@ -315,11 +318,14 @@ extension OLUIConfiguration{
         if let popRect = dialogRect {
             authViewModel.popupRect = popRect
         }
-        if let dialogCornersRadius = dialogCornersRadius{
+        if let dialogCornersRadius = dialogCornersRadius {
             authViewModel.popupCornerRadius = dialogCornersRadius
         }
-        if let dialogCornersRadius = dialogCornersRadius{
+        if let dialogCornersRadius = dialogCornersRadius {
             authViewModel.popupCornerRadius = dialogCornersRadius
+        }
+        if let isDialogClosedWhenTapBackground = isDialogClosedWhenTapBackground {
+            authViewModel.canClosePopupFromTapGesture = isDialogClosedWhenTapBackground;
         }
         if let languageType = languageType, languageType > 0, languageType < 3 {
             authViewModel.languageType = OLLanguageType.init(rawValue: languageType)!

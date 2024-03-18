@@ -212,6 +212,7 @@ class _MyAppState extends State<MyApp> {
     // configure.supportedinterfaceOrientations = OLIOSInterfaceOrientation.landscape;
     configure.userinterfaceStyle = OLIOSUserInterfaceStyle.light;
     configure.dialogCornersRadius = 20;
+    configure.isDialogClosedWhenTapBackground = true;
 
     //授权弹窗
     configure.willAuthDialogDisplay = true;

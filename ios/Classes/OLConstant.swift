@@ -63,7 +63,9 @@ struct OLConstant {
     static let dialogRect = "\(methodParameters)/dialogRect";
     // 弹窗圆角
     static let dialogCornersRadius = "\(methodParameters)/dialogCornersRadius";
-    
+    //是否需要通过点击弹窗的背景区域以关闭授权页面
+    static let isDialogClosedWhenTapBackground = "\(methodParameters)/isDialogClosedWhenTapBackground";
+
     ///--------------多语言----------------
     static let languageType =
           "\(methodParameters)/languageType";

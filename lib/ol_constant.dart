@@ -61,6 +61,9 @@ class _OLConstant {
   static const dialogCornersRadius = "$methodParameters/dialogCornersRadius";
   //服务条款页面是否使用弹窗样式
   static const isWebDialogStyle = "$methodParameters/isWebDialogStyle";
+  //是否需要通过点击弹窗的背景区域以关闭授权页面
+  static const isDialogClosedWhenTapBackground =
+      "$methodParameters/isDialogClosedWhenTapBackground";
 
   ///--------------多语言----------------
   static const languageType = "$methodParameters/languageType";
