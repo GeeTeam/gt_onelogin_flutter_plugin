@@ -1,5 +1,6 @@
 package com.geetest.gt_onelogin_flutter_plugin
 
+import android.app.Dialog
 import android.content.Context
 import android.util.Log
 import com.geetest.common.support.NonNull
@@ -177,6 +178,14 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
       override fun onPrivacyCheckBoxClick(isChecked: Boolean) {
         Log.i(tag, "onTermCheckBoxClick")
         channel.invokeMethod(Constant.onTermCheckBoxClick, isChecked)
+      }
+
+      override fun onAuthDialogDisagreeClick(dialog: Dialog?) {
+        Log.i(tag, "onAuthDialogDisagreeClick")
+        dialog?.apply {
+          dismiss()
+        }
+        channel.invokeMethod(Constant.onAuthDialogDisagreeClick, null)
       }
     })
   }

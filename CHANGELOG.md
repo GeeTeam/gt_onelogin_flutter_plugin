@@ -1,3 +1,11 @@
+## 0.0.7
+
+2024-03-18
+* 更新 Android AGP 版本
+* 新增 Android 二次确认弹窗的disagree回调
+* 修复 Android Toast配置报错问题
+* 更新 Android SDK 为 2.9.1.1 版本
+
 ## 0.0.6
 
 2023-12-19

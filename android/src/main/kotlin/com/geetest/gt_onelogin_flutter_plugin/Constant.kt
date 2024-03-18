@@ -28,6 +28,7 @@ class Constant {
         const val onAuthButtonClick = "$methodNames/onAuthButtonClick"
         const val onSwitchButtonClick = "$methodNames/onSwitchButtonClick"
         const val onTermCheckBoxClick = "$methodNames/onTermCheckBoxClick" //点击服务条款的选择框
+        const val onAuthDialogDisagreeClick = "$methodNames/onAuthDialogDisagreeBtnClick"
 //        const val onCustomDisabledAuthAction = "$methodNames/onCustomDisabledAuthAction"//自定义授权弹窗,要实现自定义授权弹窗
 
         ///方法参数
