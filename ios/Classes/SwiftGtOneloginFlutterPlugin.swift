@@ -57,8 +57,8 @@ extension SwiftGtOneloginFlutterPlugin {
         }
         OneLoginPro.register(withAppID: appId)
 
-        if let timeout = arguments[OLConstant.timeout] as? Int {
-            OneLoginPro.setRequestTimeout(TimeInterval(timeout*1000))
+        if let timeout = arguments[OLConstant.timeout] as? TimeInterval {
+            OneLoginPro.setRequestTimeout(timeout)
         }
         result(true)
     }

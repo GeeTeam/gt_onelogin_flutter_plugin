@@ -60,7 +60,7 @@ extension NSAttributedString {
     }
 }
 
-extension CGRect{
+extension CGRect {
     func olRect(_ isForcePortrait:Bool?) -> OLRect {
 //        根据当前屏幕方向设置横竖屏的坐标
         var orientation = UIApplication.shared.statusBarOrientation
@@ -69,5 +69,24 @@ extension CGRect{
         }
         let isPortrait:Bool = orientation == UIInterfaceOrientation.portrait
         return OLRect(portraitTopYOffset: (isPortrait ? origin.y :0), portraitCenterXOffset: 0, portraitLeftXOffset: (isPortrait ? origin.x:0) , landscapeTopYOffset: (isPortrait ? 0:origin.y), landscapeCenterXOffset:  0, landscapeLeftXOffset:  (isPortrait ? 0:origin.x), size: size)
+    }
+}
+
+extension UIViewController {
+
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    }
+
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    }
+
+    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    }
+
+    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+
     }
 }
