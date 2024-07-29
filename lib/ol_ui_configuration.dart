@@ -206,6 +206,9 @@ class OLUIConfiguration {
   //授权弹窗圆角，默认为10。
   double? authDialogCornerRadius;
 
+  ///--------------自定义组件----------------
+  List<OLCustomWidget>? customWidgets;
+
   Map<String, dynamic> toMap() {
     if (terms != null && (terms?.isNotEmpty ?? false)) {
       if (terms!.length > 3) {
@@ -308,6 +311,7 @@ class OLUIConfiguration {
       _OLConstant.authDialogAgreeBtnImages: authDialogAgreeBtnImages,
       _OLConstant.authDialogAgreeBtnBg: authDialogAgreeBtnBg,
       _OLConstant.authDialogCornerRadius: authDialogCornerRadius,
+      _OLConstant.customWidgetsParameter: customWidgets?.map((e) => e.toMap()).toList()
     }..removeWhere((key, value) => value == null);
   }
 }

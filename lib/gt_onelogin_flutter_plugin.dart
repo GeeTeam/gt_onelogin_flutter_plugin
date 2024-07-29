@@ -11,3 +11,4 @@ part 'ol_enum.dart';
 part 'ol_rect.dart';
 part 'ol_ui_configuration.dart';
 part 'ol_terms_privacy_item.dart';
+part 'ol_custom_widget.dart';

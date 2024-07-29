@@ -98,6 +98,9 @@ class GtOneloginFlutterPlugin {
   EventHandler<bool>? _onTermCheckBoxClick;
   //点击授权弹窗不同意按钮
   EventHandler<void>? _onAuthDialogDisagreeBtnClick;
+  //自定义组件点击回调
+  EventHandler<String>? _onCustomWidgetsClick;
+
 
   addEventListener({
     EventHandler<void>? onBackButtonClick,
@@ -106,6 +109,7 @@ class GtOneloginFlutterPlugin {
     EventHandler<bool>? onTermCheckBoxClick,
     EventHandler<void>? onAuthDialogDisagreeBtnClick,
     EventHandler<void>? onCustomDisabledAuthAction,
+    EventHandler<String>? onCustomWidgetsClick,
   }) {
     debugPrint(flutterLog + "addEventListener");
     _onBackButtonClick = onBackButtonClick;
@@ -113,6 +117,7 @@ class GtOneloginFlutterPlugin {
     _onSwitchButtonClick = onSwitchButtonClick;
     _onTermCheckBoxClick = onTermCheckBoxClick;
     _onAuthDialogDisagreeBtnClick = onAuthDialogDisagreeBtnClick;
+    _onCustomWidgetsClick = onCustomWidgetsClick;
 
     _channel.setMethodCallHandler(_handler);
   }
@@ -129,6 +134,8 @@ class GtOneloginFlutterPlugin {
         return _onTermCheckBoxClick?.call(call.arguments as bool);
       case _OLConstant.onAuthDialogDisagreeBtnClick:
         return _onAuthDialogDisagreeBtnClick?.call(null);
+      case _OLConstant.onCustomWidgetsClick:
+        return _onCustomWidgetsClick?.call(call.arguments as String);
       default:
         return null;
     }

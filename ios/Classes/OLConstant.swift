@@ -37,6 +37,9 @@ struct OLConstant {
 
     static let onAuthDialogDisagreeBtnClick = "\(methodNames)/onAuthDialogDisagreeBtnClick";
 
+    static let onCustomWidgetsClick =
+          "\(methodNames)/onCustomWidgetsClick";
+    
     ///方法参数
     static let methodParameters = "\(methodChannel)/methodParameters";
     static let appId = "\(methodParameters)/appId";
@@ -179,6 +182,9 @@ struct OLConstant {
     static let termsBookTitleMarkHidden = "\(methodParameters)/termsBookTitleMarkHidden";
     // 未同意隐私条款的提示文字
     static let termsUncheckedToastText = "\(methodParameters)/termsUncheckedToastText";
+    //是否显示未同意隐私条款的提示文字
+    static let termsUncheckedEnableToast =
+          "\(methodParameters)/termsUncheckedEnableToast";
     // 隐私条款对象数组
     static let terms = "\(methodParameters)/terms";
     // 除隐私条款外的其他文案,连接字符串
@@ -224,5 +230,19 @@ struct OLConstant {
     static let authDialogAgreeBtnColor = "\(methodParameters)/authDialogAgreeBtnColor";
     static let authDialogAgreeBtnImages = "\(methodParameters)/authDialogAgreeBtnImages";
     static let authDialogCornerRadius = "\(methodParameters)/authDialogCornerRadius";
+
+    ///--------------自定义组件----------------
+    static let customWidgetsParameter = "\(methodParameters)/customWidgets";
+    static let customWidgetsParaViewId = "\(customWidgetsParameter)/viewId";
+    static let customWidgetsParaType = "\(customWidgetsParameter)/type";
+    static let customWidgetsParaRect = "\(customWidgetsParameter)/rect";
+    static let customWidgetsParaText = "\(customWidgetsParameter)/text";
+    static let customWidgetsParaTextSize = "\(customWidgetsParameter)/textSize";
+    static let customWidgetsParaTextColor = "\(customWidgetsParameter)/textColor";
+    static let customWidgetsParaBackgroundImage = "\(customWidgetsParameter)/backgroundImage";
+    static let customWidgetsParaImage = "\(customWidgetsParameter)/image";
+    static let customWidgetsParaBackgroundColor = "\(customWidgetsParameter)/backgroundColor";
+    static let customWidgetsParaCornerRadius = "\(customWidgetsParameter)/cornerRadius";
+    static let customWidgetsParaTextAlignment = "\(customWidgetsParameter)/textAlignment";
 
 }

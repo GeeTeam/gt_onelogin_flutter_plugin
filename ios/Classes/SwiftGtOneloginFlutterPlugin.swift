@@ -58,7 +58,7 @@ extension SwiftGtOneloginFlutterPlugin {
         OneLoginPro.register(withAppID: appId)
 
         if let timeout = arguments[OLConstant.timeout] as? TimeInterval {
-            OneLoginPro.setRequestTimeout(timeout)
+            OneLoginPro.setRequestTimeout(timeout / 1000)
         }
         result(true)
     }
@@ -68,7 +68,13 @@ extension SwiftGtOneloginFlutterPlugin {
         var authModel = OLAuthViewModel()
         
         if let authModelDict = call.arguments as? [String:Any]  {
-            authModel = OLUIConfiguration(dict: authModelDict).toAuthViewModel()
+            let configuration = OLUIConfiguration(dict: authModelDict)
+            configuration.clickCustomWidgetsBlock = { [weak self](viewId:String) in
+                self?.channel.invokeMethod(OLConstant.onCustomWidgetsClick, arguments: viewId)
+            }
+            authModel = configuration.toAuthViewModel()
+            
+            
         }
         uiConfigureEvent(authModel)
         OneLoginPro.requestToken(with: vc!, viewModel: authModel) { res in
@@ -112,7 +118,6 @@ extension SwiftGtOneloginFlutterPlugin {
         authModel.clickAuthDialogDisagreeBtnBlock = {[weak self] in
             self?.channel.invokeMethod(OLConstant.onAuthDialogDisagreeBtnClick, arguments: nil)
         }
-        
     }
     
     func dismissAuthView(call:FlutterMethodCall, result: @escaping FlutterResult) {
@@ -136,7 +141,7 @@ extension SwiftGtOneloginFlutterPlugin {
     }
     
     func getCurrentCarrier(call:FlutterMethodCall, result: @escaping FlutterResult) {
-        guard let info = OneLoginPro.currentNetworkInfo(),let carrierName = info.carrierName,let carrierType = OLCarrierType.init(rawValue: carrierName) else{
+        guard let info = OneLoginPro.currentNetworkInfo(),let carrierName = info.carrierName,let carrierType = OLCarrierType.init(rawValue: carrierName) else {
             
             result(OLCarrierType.unknow.intValue())
             return

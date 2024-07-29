@@ -31,6 +31,8 @@ class _OLConstant {
       "$methodNames/onTermCheckBoxClick"; //点击服务条款的选择框
   static const onAuthDialogDisagreeBtnClick =
       "$methodNames/onAuthDialogDisagreeBtnClick";
+  static const onCustomWidgetsClick =
+      "$methodNames/onCustomWidgetsClick";
 
   ///方法参数
   static const methodParameters = "$methodChannel/methodParameters";
@@ -219,6 +221,7 @@ class _OLConstant {
   //隐私条款抖动动画样式
   static const protocolShakeStyle = "$methodParameters/protocolShakeStyle";
 
+  ///--------------二次授权弹窗----------------
   static const willAuthDialogDisplay =
       "$methodParameters/willAuthDialogDisplay";
   static const canCloseAuthDialogFromTapGesture =
@@ -252,4 +255,18 @@ class _OLConstant {
   static const authDialogAgreeBtnBg = "$methodParameters/authDialogAgreeBtnBg";
   static const authDialogCornerRadius =
       "$methodParameters/authDialogCornerRadius";
+
+  ///--------------自定义组件----------------
+  static const customWidgetsParameter = "$methodParameters/customWidgets";
+  static const customWidgetsParaViewId = "$customWidgetsParameter/viewId";
+  static const customWidgetsParaType = "$customWidgetsParameter/type";
+  static const customWidgetsParaRect = "$customWidgetsParameter/rect";
+  static const customWidgetsParaText = "$customWidgetsParameter/text";
+  static const customWidgetsParaTextSize = "$customWidgetsParameter/textSize";
+  static const customWidgetsParaTextColor = "$customWidgetsParameter/textColor";
+  static const customWidgetsParaBackgroundImage = "$customWidgetsParameter/backgroundImage";
+  static const customWidgetsParaImage = "$customWidgetsParameter/image";
+  static const customWidgetsParaBackgroundColor = "$customWidgetsParameter/backgroundColor";
+  static const customWidgetsParaCornerRadius = "$customWidgetsParameter/cornerRadius";
+  static const customWidgetsParaTextAlignment = "$customWidgetsParameter/textAlignment";
 }

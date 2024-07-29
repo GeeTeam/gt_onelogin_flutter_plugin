@@ -49,3 +49,18 @@ enum ProtocolShakeStyle {
   shakeHorizontal, // 水平抖动
   shakeVertical, // 竖直抖动
 }
+
+enum OLTextAlignment {
+  left, //Visually left aligned
+  center, //Visually centered
+  right, //Visually right aligned
+  justified, //Fully-justified. The last line in a paragraph is natural-aligned.
+  natural //Indicates the default alignment
+}
+
+enum OLCustomWidgetType {
+  view,
+  imageView,
+  textView,
+  button
+}

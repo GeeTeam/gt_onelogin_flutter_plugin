@@ -17,7 +17,7 @@ dependencies:
   gt_onelogin_flutter_plugin:
     git:
       url: https://github.com/GeeTeam/gt_onelogin_flutter_plugin.git
-      ref: master
+      ref: main
 ```
 
 或
@@ -374,8 +374,29 @@ authDialogAgreeBtnImages  | List<String>  | 授权弹窗同意按钮的背景图
 authDialogAgreeBtnBg | String  | 授权弹窗不同意按钮的背景图片,不同状态的图通过drawable下的xml配置实现。   | Only for Android
 authDialogCornerRadius | double | 授权弹窗圆角(Only for iOS;Android使用xml的shape配置实现) | 默认为10
 
+#### 14 自定义组件
+**参数说明**
 
-#### 14、其他
+参数            |参数类型|说明|默认值
+-----           |------ |-----|----
+customWidgets | `List<OLCustomWidget>`| 设置自定义组件属性 | 空数组
+
+##### OLCustomWidget 属性
+参数            |参数类型|安卓端侧|iOS端侧|默认值|
+-----           |------ |-----|----|----
+viewId|	String|	✅|	✅|	自定义控件 ID，如果是 `Button` 类型的组件，在 `onCustomWidgetsClick` 回调中通过 这个ID 区分不同组件的点击事件
+type|	String|	✅|	✅|	自定义控件类型，当前只支持 `view`, `imageView`, `textView`，`button`，其中只有button 可点击
+rect|	OLRect|	✅|	✅|	控件位置，宽高
+text|	String|	✅|	✅|	type 为 textView 和 button 时控件文本内容
+textSize|	int|	✅|	✅|	type 为 textView 时控件文本字体大小，单位: 安卓 sp ios pt
+textColor|	Color|	✅|	✅|	type 为 textView 和 button 时控件文本颜色
+backgroundImage|	String|	✅|	✅|	type 为 button 时控件背景图片
+image|	String|	✅|	✅|	type 为 imageView 和 button 时控件图片
+backgroundColor|	Color|	✅|	✅|	控件背景颜色
+cornerRadius|	double|	-|	✅|	控件圆角大小，仅 iOS 支持
+textAlignment|	OLTextAlignment|	✅|	✅|	type 为 textView 和 button 时控件文本对齐方式
+
+#### 15、其他
 
 **参数说明**
 
@@ -485,22 +506,23 @@ oneLoginPlugin.getCurrentNetworkInfo()
 添加处理回调
 
 ```dart
-oneLoginPlugin.addEventListener(
-    onBackButtonClick: (_) {
+    oneLoginPlugin?.addEventListener(onBackButtonClick: (_) {
       debugPrint(tag + "onBackButtonClick");
-    },
+    }, 
     onAuthButtonClick: (_) {
       debugPrint(tag + "onAuthButtonClick");
     }, 
     onSwitchButtonClick: (_) {
+      // 用户选择切换账号登录，收到此回调后可关闭授权页，跳转或降级走其他方式登录，或者待用户选择
       debugPrint(tag + "onSwitchButtonClick");
-      oneLoginPlugin.dismissAuthView();
+      oneLoginPlugin?.dismissAuthView();
     }, 
     onTermCheckBoxClick: (isChecked) {
       debugPrint(tag + "onTermItemClick:$isChecked");
-    },
-    onAuthDialogDisagreeBtnClick: (_){
+    }, onAuthDialogDisagreeBtnClick: (_) {
       debugPrint(tag + "点击了授权弹窗不同意按钮");
-    }
-);
+    },
+    onCustomWidgetsClick: (viewId) {
+      debugPrint(tag + "onCustomWidgetsClick:$viewId");
+    });
 ```
