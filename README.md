@@ -26,7 +26,7 @@ dependencies:
 
 ```
 dependencies:
-  gt_onelogin_flutter_plugin: 0.0.8
+  gt_onelogin_flutter_plugin: 0.0.9
 ```
   
 ## 配置 / Configuration
@@ -391,10 +391,10 @@ text|	String|	✅|	✅|	type 为 textView 和 button 时控件文本内容
 textSize|	int|	✅|	✅|	type 为 textView 时控件文本字体大小，单位: 安卓 sp ios pt
 textColor|	Color|	✅|	✅|	type 为 textView 和 button 时控件文本颜色
 backgroundImage|	String|	✅|	✅|	type 为 button 时控件背景图片
-image|	String|	✅|	✅|	type 为 imageView 和 button 时控件图片
+image|	String|	✅|	✅|	type 为 imageView 和 button 时控件图片，仅 iOS 可设置button image，Android 设置 backgroundImage
 backgroundColor|	Color|	✅|	✅|	控件背景颜色
 cornerRadius|	double|	-|	✅|	控件圆角大小，仅 iOS 支持
-textAlignment|	OLTextAlignment|	✅|	✅|	type 为 textView 和 button 时控件文本对齐方式
+textAlignment|	OLTextAlignment|	✅|	✅|	type 为 textView 和 button 时控件文本对齐方式，`justified` 方式仅 iOS 支持
 
 #### 15、其他
 

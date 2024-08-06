@@ -3,6 +3,7 @@ package com.geetest.gt_onelogin_flutter_plugin
 import android.app.Dialog
 import android.content.Context
 import android.util.Log
+import android.view.View
 import com.geetest.common.support.NonNull
 import com.geetest.onelogin.OneLoginHelper
 import com.geetest.onelogin.config.OneLoginThemeConfig
@@ -130,7 +131,8 @@ class GtOneloginFlutterPlugin: FlutterPlugin, MethodCallHandler {
 //        }
 //      }
 //    }
-    val oneLoginUIConfig = UIHelper.generateUIConfig(uiConfig, uiConfigBuilder, mContext)
+    val oneLoginUIConfig = UIHelper.generateUIConfig(uiConfig, uiConfigBuilder, mContext, channel)
+
     OneLoginHelper.with().requestToken(oneLoginUIConfig, object : AbstractOneLoginListener() {
       override fun onResult(p0: JSONObject?) {
         requireNotNull(p0) {

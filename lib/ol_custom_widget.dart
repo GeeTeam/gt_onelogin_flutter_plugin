@@ -14,7 +14,6 @@ class OLCustomWidget {
   OLTextAlignment?	textAlignment;	//type 为 TextView 和 Button 时控件文本对齐方式
 
   Map<String, dynamic> toMap() {
-
     return {
       _OLConstant.customWidgetsParaViewId:viewId,
       _OLConstant.customWidgetsParaType: type?.index ?? 0,

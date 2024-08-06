@@ -1,21 +1,29 @@
 package com.geetest.gt_onelogin_flutter_plugin
 
 import android.content.Context
+import android.content.res.Resources.NotFoundException
 import android.graphics.BitmapFactory
 import android.nfc.FormatException
 import android.util.Log
+import android.view.Gravity
+import android.view.View
+import android.widget.Button
+import com.geetest.common.support.ContextCompat
+import com.geetest.onelogin.OneLoginHelper
+import com.geetest.onelogin.config.AuthRegisterViewConfig
 import com.geetest.onelogin.config.OLLanguageType
 import com.geetest.onelogin.config.OneLoginThemeConfig
 import com.geetest.onelogin.config.ProtocolShakeStyle
 import com.geetest.onelogin.config.UserInterfaceStyle
+import io.flutter.plugin.common.MethodChannel
 
 object UIHelper {
     private const val tag = "| Geetest | Android | "
-
     fun generateUIConfig(
         param: Any?,
         uiConfigBuilder: OneLoginThemeConfig.Builder,
-        context: Context
+        context: Context,
+        channel: MethodChannel?
     ): OneLoginThemeConfig {
         Log.i(tag, "generateUIConfig enter ${param?.toString()}")
         if (param !is Map<*, *>) {
@@ -138,6 +146,42 @@ object UIHelper {
                 else -> ProtocolShakeStyle.SHAKE_VERTICAL
             }
             uiConfigBuilder.setProtocolShakeStyle(shakeStyle)
+        }
+
+        //自定义view
+        if (param.containsKey(Constant.customWidgetsParameter)) {
+            // 获取自定义控件参数
+            var customWidgetList: List<OLCustomWidget>? = null
+            val customWidgetsParam =
+                param[Constant.customWidgetsParameter] as? List<Map<String, Any>>
+            if (customWidgetsParam != null) {
+                val customWidgets = customWidgetsParam.map { widgetDict ->
+                    OLCustomWidget(widgetDict) // 创建 OLCustomWidget 实例
+                }
+                customWidgetList = customWidgets;
+            }
+
+            customWidgetList?.let { widgets ->
+                for (widget in widgets) {
+                    widget.toUIView(context).let { customView ->
+                        val authRegisterViewConfig = AuthRegisterViewConfig.Builder()
+                            .setView(customView)
+                            .setRootViewId(AuthRegisterViewConfig.RootViewId.ROOT_VIEW_ID_BODY)
+                            .setCustomInterface {
+                                if (customView is Button) {
+                                    channel?.invokeMethod(
+                                        Constant.onCustomWidgetsClick,
+                                        customView.tag as? String
+                                    )
+                                }
+                            }.build()
+
+                        OneLoginHelper.with().addOneLoginRegisterViewConfig(
+                            "custom_view_${customView.id}", authRegisterViewConfig
+                        )
+                    }
+                }
+            }
         }
         return uiConfigBuilder.build()
     }
@@ -995,32 +1039,6 @@ object UIHelper {
         }
     }
 
-    private fun convertMapToRect(param: Map<*, *>, vararg argus: Int): OLRect {
-        val hasDefaultVarargs = argus.size >= 4
-        val rect = OLRect()
-        if (param.containsKey(Constant.rectWidth)) {
-            rect.width = (param[Constant.rectWidth] as Double).toInt()
-        } else if (hasDefaultVarargs) {
-            rect.width = argus[0]
-        }
-        if (param.containsKey(Constant.rectHeight)) {
-            rect.height = (param[Constant.rectHeight] as Double).toInt()
-        } else if (hasDefaultVarargs) {
-            rect.height = argus[1]
-        }
-        if (param.containsKey(Constant.rectX)) {
-            rect.x = (param[Constant.rectX] as Double).toInt()
-        } else if (hasDefaultVarargs) {
-            rect.x = argus[2]
-        }
-        if (param.containsKey(Constant.rectY)) {
-            rect.y = (param[Constant.rectY] as Double).toInt()
-        } else if (hasDefaultVarargs) {
-            rect.y = argus[3]
-        }
-        return rect
-    }
-
     private fun getPrivacyItemsList(argus: List<*>): List<OLTermsPrivacyItem>? {
         if (argus.isEmpty()) {
             return null
@@ -1049,7 +1067,7 @@ object UIHelper {
     /**
      * 十六进制表示的字符串转整数
      */
-    private fun hexStrToInt(hex: String): Int {
+    fun hexStrToInt(hex: String): Int {
         var result = 0
         val len = hex.length
         for (i in 0 until len) {
@@ -1085,4 +1103,101 @@ object UIHelper {
         val statusBarHeightPx = res.getDimensionPixelSize(statusBarId)
         return (statusBarHeightPx / res.displayMetrics.density).toInt()
     }
+}
+
+fun convertMapToRect(param: Map<*, *>, vararg argus: Int): OLRect {
+    val hasDefaultVarargs = argus.size >= 4
+    val rect = OLRect()
+    if (param.containsKey(Constant.rectWidth)) {
+        rect.width = (param[Constant.rectWidth] as Double).toInt()
+    } else if (hasDefaultVarargs) {
+        rect.width = argus[0]
+    }
+    if (param.containsKey(Constant.rectHeight)) {
+        rect.height = (param[Constant.rectHeight] as Double).toInt()
+    } else if (hasDefaultVarargs) {
+        rect.height = argus[1]
+    }
+    if (param.containsKey(Constant.rectX)) {
+        rect.x = (param[Constant.rectX] as Double).toInt()
+    } else if (hasDefaultVarargs) {
+        rect.x = argus[2]
+    }
+    if (param.containsKey(Constant.rectY)) {
+        rect.y = (param[Constant.rectY] as Double).toInt()
+    } else if (hasDefaultVarargs) {
+        rect.y = argus[3]
+    }
+    return rect
+}
+
+fun convertTextAlignment(alignment: Int): Int {
+    when (alignment) {
+        0 -> {
+            return Gravity.START or Gravity.CENTER_VERTICAL
+        }
+
+        1, 3 -> {
+            return Gravity.CENTER
+        }
+
+        2 -> {
+            return Gravity.END or Gravity.CENTER_VERTICAL
+        }
+
+        4 -> {
+            return Gravity.NO_GRAVITY
+        }
+
+        else -> {
+            return Gravity.START or Gravity.CENTER_VERTICAL
+        }
+    }
+}
+
+fun dip2px(context: Context, dpValue: Int): Int {
+    val scale = context.resources.displayMetrics.density
+    return (dpValue * scale + 0.5f).toInt()
+}
+
+/**
+ * 优先从res里查找颜色值，如果找不到就把colorId作为颜色值返回
+ *
+ * @param context 上下文
+ * @param colorId 颜色id，如果传递固定值
+ * @return int 整型颜色值
+ */
+fun findColorFormRes(context: Context?, colorId: Int): Int {
+    var result = colorId
+    try {
+        result = ContextCompat.getColor(context, colorId)
+    } catch (e: NotFoundException) {
+    }
+    return result
+}
+
+/**
+ * 获取Drawable
+ *
+ * @param name    具体命名
+ * @param context 上下文
+ * @return Drawable
+ * @throws Exception 错误上报
+ */
+fun getDrawableId(name: String?, context: Context): Int {
+    val appInfo = context.applicationInfo
+    return context.resources.getIdentifier(name, "drawable", appInfo.packageName)
+}
+
+/**
+ * 获取 color ID
+ *
+ * @param name    具体命名
+ * @param context 上下文
+ * @return ID
+ * @throws Exception 错误上报
+ */
+fun getColorId(name: String?, context: Context): Int {
+    val appInfo = context.applicationInfo
+    return context.resources.getIdentifier(name, "color", appInfo.packageName)
 }

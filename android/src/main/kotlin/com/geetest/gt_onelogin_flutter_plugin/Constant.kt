@@ -30,6 +30,7 @@ class Constant {
         const val onTermCheckBoxClick = "$methodNames/onTermCheckBoxClick" //点击服务条款的选择框
         const val onAuthDialogDisagreeClick = "$methodNames/onAuthDialogDisagreeBtnClick"
 //        const val onCustomDisabledAuthAction = "$methodNames/onCustomDisabledAuthAction"//自定义授权弹窗,要实现自定义授权弹窗
+        const val onCustomWidgetsClick = "$methodNames/onCustomWidgetsClick"
 
         ///方法参数
         private const val methodParameters = "$methodChannel/methodParameters"
@@ -215,5 +216,17 @@ class Constant {
         //授权弹窗同意按钮的背景图片
         const val authDialogAgreeBtnBg = "$methodParameters/authDialogAgreeBtnBg"
 
+        ///--------------自定义组件----------------
+        const val customWidgetsParameter = "$methodParameters/customWidgets"
+        const val customWidgetsParaViewId= "$customWidgetsParameter/viewId"
+        const val customWidgetsParaType= "$customWidgetsParameter/type"
+        const val customWidgetsParaRect= "$customWidgetsParameter/rect"
+        const val customWidgetsParaText= "$customWidgetsParameter/text"
+        const val customWidgetsParaTextSize= "$customWidgetsParameter/textSize"
+        const val customWidgetsParaTextColor= "$customWidgetsParameter/textColor"
+        const val customWidgetsParaBackgroundImage= "$customWidgetsParameter/backgroundImage"
+        const val customWidgetsParaImage= "$customWidgetsParameter/image"
+        const val customWidgetsParaBackgroundColor= "$customWidgetsParameter/backgroundColor"
+        const val customWidgetsParaTextAlignment= "$customWidgetsParameter/textAlignment"
     }
 }
