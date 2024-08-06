@@ -24,21 +24,21 @@ class OLCustomWidget {
     
     init(dict:[String:Any]) {
         
-        self.viewId = DictParseutil.parseString(dict:dict,key: OLConstant.customWidgetsParaViewId)
-        self.type = OLCustomWidgetType(rawValue: DictParseutil.parseInt(dict:dict,key: OLConstant.customWidgetsParaType) ?? 0) ?? OLCustomWidgetType.view
-        self.rect = DictParseutil.parseCGRect(dict:dict,key:OLConstant.customWidgetsParaRect)
-        self.text = DictParseutil.parseString(dict:dict,key: OLConstant.customWidgetsParaText)
-        self.textSize = DictParseutil.parseInt(dict:dict,key: OLConstant.customWidgetsParaTextSize)
-        self.textColor = DictParseutil.parseColor(dict:dict,key: OLConstant.customWidgetsParaTextColor)
+        self.viewId = DictParseUtil.parseString(dict:dict,key: OLConstant.customWidgetsParaViewId)
+        self.type = OLCustomWidgetType(rawValue: DictParseUtil.parseInt(dict:dict,key: OLConstant.customWidgetsParaType) ?? 0) ?? OLCustomWidgetType.view
+        self.rect = DictParseUtil.parseCGRect(dict:dict,key:OLConstant.customWidgetsParaRect)
+        self.text = DictParseUtil.parseString(dict:dict,key: OLConstant.customWidgetsParaText)
+        self.textSize = DictParseUtil.parseInt(dict:dict,key: OLConstant.customWidgetsParaTextSize)
+        self.textColor = DictParseUtil.parseColor(dict:dict,key: OLConstant.customWidgetsParaTextColor)
         if let backgroundImageKey = dict[OLConstant.customWidgetsParaBackgroundImage] {
-            self.backgroundImage = DictParseutil.parseIntoAssetsImage(backgroundImageKey)
+            self.backgroundImage = DictParseUtil.parseIntoAssetsImage(backgroundImageKey)
         }
         if let imageKey = dict[OLConstant.customWidgetsParaImage] as? String{
-            self.image = DictParseutil.parseIntoAssetsImage(imageKey)
+            self.image = DictParseUtil.parseIntoAssetsImage(imageKey)
         }
-        self.backgroundColor = DictParseutil.parseColor(dict:dict,key: OLConstant.customWidgetsParaBackgroundColor)
-        self.cornerRadius = DictParseutil.parseDouble(dict:dict, key:OLConstant.customWidgetsParaCornerRadius)
-        self.textAlignment = NSTextAlignment(rawValue: DictParseutil.parseInt(dict:dict,key: OLConstant.customWidgetsParaTextAlignment) ?? 0) ?? .left
+        self.backgroundColor = DictParseUtil.parseColor(dict:dict,key: OLConstant.customWidgetsParaBackgroundColor)
+        self.cornerRadius = DictParseUtil.parseDouble(dict:dict, key:OLConstant.customWidgetsParaCornerRadius)
+        self.textAlignment = NSTextAlignment(rawValue: DictParseUtil.parseInt(dict:dict,key: OLConstant.customWidgetsParaTextAlignment) ?? 0) ?? .left
     }
     
     func toUIView(target:Any?,action:Selector) -> UIView? {
@@ -77,9 +77,6 @@ class OLCustomWidget {
         if type == .button {
             let button = UIButton()
             setViewBasicAttributes(view: button)
-            if let image = image {
-                button.setImage(image, for: .normal)
-            }
             if let title = text {
                 button.setTitle(title, for: .normal)
             }

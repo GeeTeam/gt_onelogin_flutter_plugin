@@ -225,14 +225,14 @@ class OLUIConfiguration {
         if let userinterfaceStyleIndex = dict[OLConstant.userinterfaceStyle] as? Int {
             self.userinterfaceStyle = userinterfaceStyleIndex
         }
-        self.isDialogStyle = DictParseutil.parseBool(dict: dict, key: OLConstant.isDialogStyle)
+        self.isDialogStyle = DictParseUtil.parseBool(dict: dict, key: OLConstant.isDialogStyle)
         self.dialogRect = parseRect(dict: dict, key: OLConstant.dialogRect)
         self.dialogCornersRadius = dict[OLConstant.dialogCornersRadius] as? Double
-        self.dialogCornersRadius = DictParseutil.parseDouble(dict: dict, key: OLConstant.dialogCornersRadius)
-        self.isDialogClosedWhenTapBackground = DictParseutil.parseBool(dict: dict, key: OLConstant.isDialogClosedWhenTapBackground)
-        self.languageType = DictParseutil.parseInt(dict: dict, key: OLConstant.languageType)
-        self.authViewBackgroundImage = DictParseutil.parseIntoAssetsImage(dict[OLConstant.authViewBackgroundImage])
-        self.backgroundColor = DictParseutil.parseColor(dict: dict, key: OLConstant.backgroundColor)
+        self.dialogCornersRadius = DictParseUtil.parseDouble(dict: dict, key: OLConstant.dialogCornersRadius)
+        self.isDialogClosedWhenTapBackground = DictParseUtil.parseBool(dict: dict, key: OLConstant.isDialogClosedWhenTapBackground)
+        self.languageType = DictParseUtil.parseInt(dict: dict, key: OLConstant.languageType)
+        self.authViewBackgroundImage = DictParseUtil.parseIntoAssetsImage(dict[OLConstant.authViewBackgroundImage])
+        self.backgroundColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.backgroundColor)
         if let statusBarStyleIndex = dict[OLConstant.statusBarStyle] as? Int{
             if statusBarStyleIndex < 2,let statusBarStyle = UIStatusBarStyle(rawValue: statusBarStyleIndex) {
                 self.statusBarStyle = statusBarStyle
@@ -243,68 +243,68 @@ class OLUIConfiguration {
             }
             
         }
-        self.navTextMargin = DictParseutil.parseDouble(dict: dict, key: OLConstant.navTextMargin)
-        self.navigationBarColor = DictParseutil.parseColor(dict: dict, key: OLConstant.navigationBarColor)
-        self.navHidden = DictParseutil.parseBool(dict: dict, key: OLConstant.navHidden)
-        self.navAttributedString = NSAttributedString.textFontColorString(color: DictParseutil.parseColor(dict: dict, key: OLConstant.navTextColor), font: DictParseutil.parseInt(dict: dict, key: OLConstant.navTextSize), text: (dict[OLConstant.navText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
-        self.navBackImage = DictParseutil.parseIntoAssetsImage(dict[OLConstant.navBackImage])
+        self.navTextMargin = DictParseUtil.parseDouble(dict: dict, key: OLConstant.navTextMargin)
+        self.navigationBarColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.navigationBarColor)
+        self.navHidden = DictParseUtil.parseBool(dict: dict, key: OLConstant.navHidden)
+        self.navAttributedString = NSAttributedString.textFontColorString(color: DictParseUtil.parseColor(dict: dict, key: OLConstant.navTextColor), font: DictParseUtil.parseInt(dict: dict, key: OLConstant.navTextSize), text: (dict[OLConstant.navText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.navBackImage = DictParseUtil.parseIntoAssetsImage(dict[OLConstant.navBackImage])
         self.navBackImageRect = parseRect(dict: dict, key: OLConstant.navBackImageRect)
-        self.navBackImageHidden = DictParseutil.parseBool(dict: dict, key: OLConstant.navBackImageHidden)
-        self.logoImage = DictParseutil.parseIntoAssetsImage(dict[OLConstant.logoImage])
+        self.navBackImageHidden = DictParseUtil.parseBool(dict: dict, key: OLConstant.navBackImageHidden)
+        self.logoImage = DictParseUtil.parseIntoAssetsImage(dict[OLConstant.logoImage])
         self.logoImageRect = parseRect(dict: dict, key: OLConstant.logoImageRect)
-        self.logoImageHidden = DictParseutil.parseBool(dict: dict, key: OLConstant.logoImageHidden)
-        self.logoCornerRadius = DictParseutil.parseDouble(dict: dict, key: OLConstant.logoCornerRadius)
-        self.numberColor = DictParseutil.parseColor(dict: dict, key: OLConstant.numberColor)
-        self.numberSize = DictParseutil.parseInt(dict: dict, key: OLConstant.numberSize)
+        self.logoImageHidden = DictParseUtil.parseBool(dict: dict, key: OLConstant.logoImageHidden)
+        self.logoCornerRadius = DictParseUtil.parseDouble(dict: dict, key: OLConstant.logoCornerRadius)
+        self.numberColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.numberColor)
+        self.numberSize = DictParseUtil.parseInt(dict: dict, key: OLConstant.numberSize)
         self.numberRect = parseRect(dict: dict, key: OLConstant.numberRect)
-        self.switchButtonText = DictParseutil.parseString(dict: dict, key: OLConstant.switchButtonText)
-        self.switchTextSize = DictParseutil.parseInt(dict: dict, key: OLConstant.switchTextSize)
-        self.switchButtonColor = DictParseutil.parseColor(dict: dict, key: OLConstant.switchButtonColor)
-        self.switchButtonHidden = DictParseutil.parseBool(dict: dict, key: OLConstant.switchButtonHidden)
+        self.switchButtonText = DictParseUtil.parseString(dict: dict, key: OLConstant.switchButtonText)
+        self.switchTextSize = DictParseUtil.parseInt(dict: dict, key: OLConstant.switchTextSize)
+        self.switchButtonColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.switchButtonColor)
+        self.switchButtonHidden = DictParseUtil.parseBool(dict: dict, key: OLConstant.switchButtonHidden)
         self.switchButtonRect = parseRect(dict: dict, key: OLConstant.switchButtonRect)
         self.authButtonImages = dict[OLConstant.authButtonImages] as? [String]
         self.authButtonRect = parseRect(dict: dict, key: OLConstant.authButtonRect)
-        self.authButtonCornerRadius = DictParseutil.parseDouble(dict: dict, key: OLConstant.authButtonCornerRadius)
-        self.authBtnAttString = NSAttributedString.textFontColorString(color: DictParseutil.parseColor(dict: dict, key: OLConstant.authBtnColor), font: DictParseutil.parseInt(dict: dict, key: OLConstant.authBtnTextSize), text: (dict[OLConstant.authBtnText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
-        self.sloganText = DictParseutil.parseString(dict: dict, key: OLConstant.sloganText)
-        self.sloganSize = DictParseutil.parseInt(dict: dict, key: OLConstant.sloganSize)
-        self.sloganColor = DictParseutil.parseColor(dict: dict, key: OLConstant.sloganColor)
+        self.authButtonCornerRadius = DictParseUtil.parseDouble(dict: dict, key: OLConstant.authButtonCornerRadius)
+        self.authBtnAttString = NSAttributedString.textFontColorString(color: DictParseUtil.parseColor(dict: dict, key: OLConstant.authBtnColor), font: DictParseUtil.parseInt(dict: dict, key: OLConstant.authBtnTextSize), text: (dict[OLConstant.authBtnText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.sloganText = DictParseUtil.parseString(dict: dict, key: OLConstant.sloganText)
+        self.sloganSize = DictParseUtil.parseInt(dict: dict, key: OLConstant.sloganSize)
+        self.sloganColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.sloganColor)
         self.sloganRect = parseRect(dict: dict, key: OLConstant.sloganRect)
         self.termsRect = parseRect(dict: dict, key: OLConstant.termsRect)
-        self.termTextColor = DictParseutil.parseColor(dict: dict, key: OLConstant.termTextColor)
-        self.termsClauseAttributes = DictParseutil.parseAttributes(dict: dict, colorKey: OLConstant.termsClauseColor, OLConstant.termsClauseTextSize, OLConstant.termsLineSpacingExtra, OLConstant.termsLineSpacingMultiplier)
-        self.termsBookTitleMarkHidden = DictParseutil.parseBool(dict: dict, key: OLConstant.termsBookTitleMarkHidden)
-        self.termsUncheckedToastText = DictParseutil.parseString(dict: dict, key: OLConstant.termsUncheckedToastText)
-        self.termsUncheckedEnableToast = DictParseutil.parseBool(dict: dict, key: OLConstant.termsUncheckedEnableToast)
-        self.terms = DictParseutil.parsePrivacyTermItem(dict: dict, key: OLConstant.terms)
+        self.termTextColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.termTextColor)
+        self.termsClauseAttributes = DictParseUtil.parseAttributes(dict: dict, colorKey: OLConstant.termsClauseColor, OLConstant.termsClauseTextSize, OLConstant.termsLineSpacingExtra, OLConstant.termsLineSpacingMultiplier)
+        self.termsBookTitleMarkHidden = DictParseUtil.parseBool(dict: dict, key: OLConstant.termsBookTitleMarkHidden)
+        self.termsUncheckedToastText = DictParseUtil.parseString(dict: dict, key: OLConstant.termsUncheckedToastText)
+        self.termsUncheckedEnableToast = DictParseUtil.parseBool(dict: dict, key: OLConstant.termsUncheckedEnableToast)
+        self.terms = DictParseUtil.parsePrivacyTermItem(dict: dict, key: OLConstant.terms)
         self.auxiliaryPrivacyWords = dict[OLConstant.auxiliaryPrivacyWords] as? [String]
-        self.uncheckedImage = DictParseutil.parseIntoAssetsImage(dict[OLConstant.uncheckedImage])
-        self.checkedImage = DictParseutil.parseIntoAssetsImage(dict[OLConstant.checkedImage])
-        self.defaultCheckBoxState = DictParseutil.parseBool(dict: dict, key: OLConstant.defaultCheckBoxState)
-        self.webNaviHidden = DictParseutil.parseBool(dict: dict, key: OLConstant.webNaviHidden)
-        self.webNaviBgColor = DictParseutil.parseColor(dict: dict, key: OLConstant.webNaviBgColor)
-        self.navWebViewAttString = NSAttributedString.textFontColorString(color: DictParseutil.parseColor(dict: dict, key: OLConstant.navWebViewTextColor), font: DictParseutil.parseInt(dict: dict, key: OLConstant.navWebViewTextSize), text: (dict[OLConstant.navWebViewText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
-        self.protocolShakeStyle = DictParseutil.parseInt(dict: dict, key: OLConstant.protocolShakeStyle)
+        self.uncheckedImage = DictParseUtil.parseIntoAssetsImage(dict[OLConstant.uncheckedImage])
+        self.checkedImage = DictParseUtil.parseIntoAssetsImage(dict[OLConstant.checkedImage])
+        self.defaultCheckBoxState = DictParseUtil.parseBool(dict: dict, key: OLConstant.defaultCheckBoxState)
+        self.webNaviHidden = DictParseUtil.parseBool(dict: dict, key: OLConstant.webNaviHidden)
+        self.webNaviBgColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.webNaviBgColor)
+        self.navWebViewAttString = NSAttributedString.textFontColorString(color: DictParseUtil.parseColor(dict: dict, key: OLConstant.navWebViewTextColor), font: DictParseUtil.parseInt(dict: dict, key: OLConstant.navWebViewTextSize), text: (dict[OLConstant.navWebViewText] as? String), lineSpace: nil, lineSpacingMultiplier: nil)
+        self.protocolShakeStyle = DictParseUtil.parseInt(dict: dict, key: OLConstant.protocolShakeStyle)
 
         self.checkBoxRect = parseRect(dict: dict, key: OLConstant.checkBoxRect)
-        self.willAuthDialogDisplay = DictParseutil.parseBool(dict: dict, key: OLConstant.willAuthDialogDisplay)
-        self.canCloseAuthDialogFromTapGesture = DictParseutil.parseBool(dict: dict, key: OLConstant.canCloseAuthDialogFromTapGesture)
+        self.willAuthDialogDisplay = DictParseUtil.parseBool(dict: dict, key: OLConstant.willAuthDialogDisplay)
+        self.canCloseAuthDialogFromTapGesture = DictParseUtil.parseBool(dict: dict, key: OLConstant.canCloseAuthDialogFromTapGesture)
         self.authDialogRect = parseRect(dict: dict, key: OLConstant.authDialogRect)
-        self.isAuthDialogBottom = DictParseutil.parseBool(dict: dict, key: OLConstant.isAuthDialogBottom)
-        self.authDialogBgColor = DictParseutil.parseColor(dict: dict, key: OLConstant.authDialogBgColor)
-        self.authDialogTitleText = DictParseutil.parseString(dict: dict, key: OLConstant.authDialogTitleText)
-        self.authDialogTitleColor = DictParseutil.parseColor(dict: dict, key: OLConstant.authDialogTitleColor)
-        self.authDialogTitleSize = DictParseutil.parseInt(dict: dict, key: OLConstant.authDialogTitleSize)
-        self.authDialogContentFontSize = DictParseutil.parseInt(dict: dict, key: OLConstant.authDialogContentFontSize)
-        self.authDialogDisagreeBtnText = DictParseutil.parseString(dict: dict, key: OLConstant.authDialogDisagreeBtnText)
-        self.authDialogDisagreeBtnFontSize = DictParseutil.parseInt(dict: dict, key: OLConstant.authDialogDisagreeBtnFontSize)
-        self.authDialogDisagreeBtnColor = DictParseutil.parseColor(dict: dict, key: OLConstant.authDialogDisagreeBtnColor)
+        self.isAuthDialogBottom = DictParseUtil.parseBool(dict: dict, key: OLConstant.isAuthDialogBottom)
+        self.authDialogBgColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.authDialogBgColor)
+        self.authDialogTitleText = DictParseUtil.parseString(dict: dict, key: OLConstant.authDialogTitleText)
+        self.authDialogTitleColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.authDialogTitleColor)
+        self.authDialogTitleSize = DictParseUtil.parseInt(dict: dict, key: OLConstant.authDialogTitleSize)
+        self.authDialogContentFontSize = DictParseUtil.parseInt(dict: dict, key: OLConstant.authDialogContentFontSize)
+        self.authDialogDisagreeBtnText = DictParseUtil.parseString(dict: dict, key: OLConstant.authDialogDisagreeBtnText)
+        self.authDialogDisagreeBtnFontSize = DictParseUtil.parseInt(dict: dict, key: OLConstant.authDialogDisagreeBtnFontSize)
+        self.authDialogDisagreeBtnColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.authDialogDisagreeBtnColor)
         self.authDialogDisagreeBtnImages = dict[OLConstant.authDialogDisagreeBtnImages] as? [String]
-        self.authDialogAgreeBtnText = DictParseutil.parseString(dict: dict, key: OLConstant.authDialogAgreeBtnText)
-        self.authDialogAgreeBtnFontSize = DictParseutil.parseInt(dict: dict, key: OLConstant.authDialogAgreeBtnFontSize)
-        self.authDialogAgreeBtnColor = DictParseutil.parseColor(dict: dict, key: OLConstant.authDialogAgreeBtnColor)
+        self.authDialogAgreeBtnText = DictParseUtil.parseString(dict: dict, key: OLConstant.authDialogAgreeBtnText)
+        self.authDialogAgreeBtnFontSize = DictParseUtil.parseInt(dict: dict, key: OLConstant.authDialogAgreeBtnFontSize)
+        self.authDialogAgreeBtnColor = DictParseUtil.parseColor(dict: dict, key: OLConstant.authDialogAgreeBtnColor)
         self.authDialogAgreeBtnImages = dict[OLConstant.authDialogAgreeBtnImages] as? [String]
-        self.authDialogCornerRadius = DictParseutil.parseDouble(dict: dict, key: OLConstant.authDialogCornerRadius)
+        self.authDialogCornerRadius = DictParseUtil.parseDouble(dict: dict, key: OLConstant.authDialogCornerRadius)
         
         if let customWidgetsParam = dict[OLConstant.customWidgetsParameter] as? Array<[String:Any]> {
             let customWidgets = customWidgetsParam.compactMap { dict in
@@ -399,7 +399,7 @@ extension OLUIConfiguration{
         authViewModel.authButtonTitle = authBtnAttString
         if let imagesString = authButtonImages,!imagesString.isEmpty {
             let images = imagesString.compactMap({ (string) in
-                return DictParseutil.parseIntoAssetsImage(string)
+                return DictParseUtil.parseIntoAssetsImage(string)
             })
             if !images.isEmpty,images.count <= 3  {
                 authViewModel.authButtonImages = images
@@ -485,7 +485,7 @@ extension OLUIConfiguration{
         authViewModel.authDialogDisagreeBtnColor = authDialogDisagreeBtnColor
         if let imagesString = authDialogDisagreeBtnImages,!imagesString.isEmpty {
             let images = imagesString.compactMap({ (string) in
-                return DictParseutil.parseIntoAssetsImage(string)
+                return DictParseUtil.parseIntoAssetsImage(string)
             })
             if !images.isEmpty,images.count < 3  {
                 authViewModel.authDialogDisagreeBtnImages = images
@@ -498,7 +498,7 @@ extension OLUIConfiguration{
         authViewModel.authDialogAgreeBtnColor = authDialogAgreeBtnColor
         if let imagesString = authDialogAgreeBtnImages,!imagesString.isEmpty {
             let images = imagesString.compactMap({ (string) in
-                return DictParseutil.parseIntoAssetsImage(string)
+                return DictParseUtil.parseIntoAssetsImage(string)
             })
             if !images.isEmpty,images.count < 3  {
                 authViewModel.authDialogAgreeBtnImages = images
@@ -532,7 +532,7 @@ extension OLUIConfiguration{
 extension OLUIConfiguration{
     
     func parseRect(dict:[String:Any],key:String) -> OLRect {
-        let rect = DictParseutil.parseCGRect(dict: dict, key: key)
+        let rect = DictParseUtil.parseCGRect(dict: dict, key: key)
         var isForcePortrait:Bool?
         if let supportOrientation = supportedinterfaceOrientations {
             isForcePortrait = supportOrientation == .portrait
@@ -542,7 +542,7 @@ extension OLUIConfiguration{
     
 }
 
-struct DictParseutil {
+struct DictParseUtil {
     static func parseBool(dict:[String:Any],key:String) -> Bool? {
         return dict[key] as? Bool
     }

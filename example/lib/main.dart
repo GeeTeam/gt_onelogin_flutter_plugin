@@ -347,14 +347,12 @@ class _MyAppState extends State<MyApp> {
       var widget1 = OLCustomWidget();
       widget1.viewId = "qqLogin";
       widget1.type = OLCustomWidgetType.button;
-      widget1.image = 'qq_icon';
       widget1.backgroundColor = Colors.orangeAccent;
       widget1.backgroundImage = 'qq_icon';
       widget1.rect = OLRect(x: (screenSize.width-100)/2-50,y: configure.authButtonRect!.y! + 100,width: 45,height: 45);
       var widget2 = OLCustomWidget();
       widget2.viewId="weixinLogin";
       widget2.type = OLCustomWidgetType.button;
-      widget2.image = 'weixin_icon';
       widget2.backgroundColor = Colors.blueAccent;
       widget2.backgroundImage = 'weixin_icon';
       widget2.rect = OLRect(x: (screenSize.width-45)/2+50,y: configure.authButtonRect!.y! + 100,width: 45,height: 45);

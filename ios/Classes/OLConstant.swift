@@ -32,7 +32,6 @@ struct OLConstant {
     static let onBackButtonClick = "\(methodNames)/onBackButtonClick";
     static let onAuthButtonClick = "\(methodNames)/onAuthButtonClick";
     static let onSwitchButtonClick = "\(methodNames)/onSwitchButtonClick";
-    static let onTermItemClick = "\(methodNames)/onTermItemClick"; //点击服务条款
     static let onTermCheckBoxClick = "\(methodNames)/onTermCheckBoxClick"; //点击服务条款的选择框
 
     static let onAuthDialogDisagreeBtnClick = "\(methodNames)/onAuthDialogDisagreeBtnClick";
