@@ -101,7 +101,6 @@ class GtOneloginFlutterPlugin {
   //自定义组件点击回调
   EventHandler<String>? _onCustomWidgetsClick;
 
-
   addEventListener({
     EventHandler<void>? onBackButtonClick,
     EventHandler<void>? onAuthButtonClick,

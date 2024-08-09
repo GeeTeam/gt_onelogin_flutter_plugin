@@ -58,9 +58,4 @@ enum OLTextAlignment {
   natural //Indicates the default alignment
 }
 
-enum OLCustomWidgetType {
-  view,
-  imageView,
-  textView,
-  button
-}
+enum OLCustomWidgetType { view, imageView, textView, button }

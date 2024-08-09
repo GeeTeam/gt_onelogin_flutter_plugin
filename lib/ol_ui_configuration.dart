@@ -311,7 +311,8 @@ class OLUIConfiguration {
       _OLConstant.authDialogAgreeBtnImages: authDialogAgreeBtnImages,
       _OLConstant.authDialogAgreeBtnBg: authDialogAgreeBtnBg,
       _OLConstant.authDialogCornerRadius: authDialogCornerRadius,
-      _OLConstant.customWidgetsParameter: customWidgets?.map((e) => e.toMap()).toList()
+      _OLConstant.customWidgetsParameter:
+          customWidgets?.map((e) => e.toMap()).toList()
     }..removeWhere((key, value) => value == null);
   }
 }

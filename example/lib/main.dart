@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
       debugPrint(tag + "onTermItemClick:$isChecked");
     }, onAuthDialogDisagreeBtnClick: (_) {
       debugPrint(tag + "点击了授权弹窗不同意按钮");
-    },onCustomWidgetsClick: (viewId) {
+    }, onCustomWidgetsClick: (viewId) {
       debugPrint(tag + "onCustomWidgetsClick:$viewId");
     });
     oneLoginPlugin?.setLogEnable(true);
@@ -342,37 +342,47 @@ class _MyAppState extends State<MyApp> {
     // 服务条款抖动动画
     configure.protocolShakeStyle = ProtocolShakeStyle.shakeHorizontal;
 
-    if(!_isDialog) {
+    if (!_isDialog) {
       // 自定义组件
       var widget1 = OLCustomWidget();
       widget1.viewId = "qqLogin";
       widget1.type = OLCustomWidgetType.button;
       widget1.backgroundColor = Colors.orangeAccent;
       widget1.backgroundImage = 'qq_icon';
-      widget1.rect = OLRect(x: (screenSize.width-100)/2-50,y: configure.authButtonRect!.y! + 100,width: 45,height: 45);
+      widget1.rect = OLRect(
+          x: (screenSize.width - 100) / 2 - 50,
+          y: configure.authButtonRect!.y! + 100,
+          width: 45,
+          height: 45);
       var widget2 = OLCustomWidget();
-      widget2.viewId="weixinLogin";
+      widget2.viewId = "weixinLogin";
       widget2.type = OLCustomWidgetType.button;
       widget2.backgroundColor = Colors.blueAccent;
       widget2.backgroundImage = 'weixin_icon';
-      widget2.rect = OLRect(x: (screenSize.width-45)/2+50,y: configure.authButtonRect!.y! + 100,width: 45,height: 45);
+      widget2.rect = OLRect(
+          x: (screenSize.width - 45) / 2 + 50,
+          y: configure.authButtonRect!.y! + 100,
+          width: 45,
+          height: 45);
 
       var widget3 = OLCustomWidget();
-      widget3.viewId="image test";
-      widget3.type=OLCustomWidgetType.imageView;
+      widget3.viewId = "image test";
+      widget3.type = OLCustomWidgetType.imageView;
       widget3.image = "logo";
-      widget3.rect = OLRect(x: widget1.rect?.x,y: widget1.rect!.y! + 80,width: 45,height: 45);
+      widget3.rect = OLRect(
+          x: widget1.rect?.x, y: widget1.rect!.y! + 80, width: 45, height: 45);
       var widget4 = OLCustomWidget();
-      widget4.viewId="textView test";
-      widget4.type=OLCustomWidgetType.textView;
+      widget4.viewId = "textView test";
+      widget4.type = OLCustomWidgetType.textView;
       widget4.text = "三方登录";
       widget4.textColor = Colors.green;
       widget4.textSize = 20;
       widget4.backgroundColor = Colors.brown;
       widget4.textAlignment = OLTextAlignment.center;
-      widget4.rect = OLRect(x: widget2.rect?.x,y: widget2.rect!.y! + 80,width: 150,height: 80);
+      widget4.rect = OLRect(
+          x: widget2.rect?.x, y: widget2.rect!.y! + 80, width: 150, height: 80);
       widget4.cornerRadius = 10;
-      configure.customWidgets = [widget1,widget2,widget3,widget4];
+      configure.customWidgets = [widget1, widget2, widget3, widget4];
     }
 
     // debugPrint("configure:${configure.toMap()}");
