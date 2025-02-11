@@ -1,4 +1,4 @@
-part of gt_onelogin_flutter_plugin;
+part of 'gt_onelogin_flutter_plugin.dart';
 
 enum OLNetworkInfo {
   none, //网络类型未知
@@ -15,7 +15,15 @@ enum OLCarrierType {
 }
 
 extension HexColor on Color {
-  String get hexString => value.toRadixString(16);
+  int toInt() {
+    final int alpha = (a * 255).toInt();
+    final int red = (r * 255).toInt();
+    final int green = (g * 255).toInt();
+    final int blue = (b * 255).toInt();
+    return (alpha << 24) | (red << 16) | (green << 8) | blue;
+  }
+
+  String get hexString => toInt().toRadixString(16);
 }
 
 enum OLLanguageType {

@@ -1,4 +1,4 @@
-part of gt_onelogin_flutter_plugin;
+part of 'gt_onelogin_flutter_plugin.dart';
 
 class _OLConstant {
   ///方法通道名称

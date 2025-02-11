@@ -1,4 +1,4 @@
-part of gt_onelogin_flutter_plugin;
+part of 'gt_onelogin_flutter_plugin.dart';
 
 typedef EventHandler<T> = void Function(T);
 
@@ -110,7 +110,7 @@ class GtOneloginFlutterPlugin {
     EventHandler<void>? onCustomDisabledAuthAction,
     EventHandler<String>? onCustomWidgetsClick,
   }) {
-    debugPrint(flutterLog + "addEventListener");
+    debugPrint("${flutterLog}addEventListener");
     _onBackButtonClick = onBackButtonClick;
     _onAuthButtonClick = onAuthButtonClick;
     _onSwitchButtonClick = onSwitchButtonClick;
