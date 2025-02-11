@@ -28,6 +28,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    namespace 'com.geetest.gt_onelogin_flutter_plugin'
     compileSdkVersion 33
 
     compileOptions {
