@@ -1,4 +1,4 @@
-part of gt_onelogin_flutter_plugin;
+part of 'gt_onelogin_flutter_plugin.dart';
 
 class OLUIConfiguration {
   //Only for iOS 授权页面支持的横竖屏方向
