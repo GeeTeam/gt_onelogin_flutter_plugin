@@ -459,7 +459,7 @@ object UIHelper {
         if (param.containsKey(Constant.navHidden)) {
             navHidden = param[Constant.navHidden] as Boolean
         }
-        uiConfigBuilder.setAuthNavLayout(navigationBarColor, authNavHeight, false, navHidden)
+        uiConfigBuilder.setAuthNavLayout(navigationBarColor, authNavHeight, true, navHidden)
         return if (navHidden) {
             0
         } else {
