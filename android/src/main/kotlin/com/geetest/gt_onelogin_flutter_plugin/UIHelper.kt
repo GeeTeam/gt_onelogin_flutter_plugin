@@ -122,18 +122,21 @@ object UIHelper {
             uiConfigBuilder.setPrivacyAddFrenchQuotes(!termsBookTitleMarkHidden)
         }
 
+        var termsUncheckedEnableToast = true
+        //未同意隐私条款的提示文字是否显示
+        if (param.containsKey(Constant.termsUncheckedEnableToast)) {
+            termsUncheckedEnableToast = param[Constant.termsUncheckedEnableToast] as Boolean
+        }
+        var termsUncheckedToastText = "请同意服务条款"
         //未同意隐私条款的提示文字
         if (param.containsKey(Constant.termsUncheckedToastText)) {
-            val termsUncheckedToastText = param[Constant.termsUncheckedToastText] as String
-            var termsUncheckedEnableToast = true
-            if (param.containsKey(Constant.termsUncheckedEnableToast)) {
-                termsUncheckedEnableToast = param[Constant.termsUncheckedEnableToast] as Boolean
-            }
-            uiConfigBuilder.setPrivacyUnCheckedToastText(
-                termsUncheckedEnableToast,
-                termsUncheckedToastText
-            )
+            termsUncheckedToastText = param[Constant.termsUncheckedToastText] as String
         }
+
+        uiConfigBuilder.setPrivacyUnCheckedToastText(
+            termsUncheckedEnableToast,
+            termsUncheckedToastText
+        )
 
         //服务条款的内容
         setPrivacyClauseText(param, uiConfigBuilder)
