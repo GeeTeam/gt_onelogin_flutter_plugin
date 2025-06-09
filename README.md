@@ -357,7 +357,8 @@ willAuthDialogDisplay  | bool  | 未勾选同意协议时是否弹出授权弹�
 canCloseAuthDialogFromTapGesture   | bool  | 点击授权弹窗外是否关闭授权弹窗                             | true
 authDialogRect  | OLRect  | 授权弹窗宽、高、起始点位置                               | iOS 宽 300, 高 204，按距离屏幕一定偏移水平垂直居中
 isAuthDialogBottom  | bool  | 授权弹窗是否显示在屏幕下方                               | false
-authDialogBgColor  | Color  | 授权弹窗背景颜色                                    | 白色
+authDialogBg  | String  | 授权弹窗背景图片                                    | Only for Android
+authDialogBgColor  | Color  | 授权弹窗背景颜色                                    | Only for iOS 白色
 authDialogTitleText  | String  | 授权弹窗标题文字                                    | 服务协议和隐私政策等指引
 authDialogTitleColor  | Color  | 授权弹窗标题颜色                                    | 黑色
 authDialogTitleSize  | int  | 授权弹窗标题字体大小                                  | 16
