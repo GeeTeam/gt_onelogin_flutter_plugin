@@ -173,8 +173,10 @@ class OLUIConfiguration {
   OLRect? authDialogRect;
   //授权弹窗是否显示在屏幕下方
   bool? isAuthDialogBottom;
-  //授权弹窗背景颜色
+  //Only for iOS 授权弹窗背景颜色
   Color? authDialogBgColor;
+  //Only for Android 授权弹窗背景图
+  String? authDialogBg;
   //授权弹窗标题文字
   String? authDialogTitleText;
   //授权弹窗标题颜色
@@ -295,6 +297,7 @@ class OLUIConfiguration {
       _OLConstant.authDialogRect: authDialogRect?.toMap(),
       _OLConstant.isAuthDialogBottom: isAuthDialogBottom,
       _OLConstant.authDialogBgColor: authDialogBgColor?.hexString,
+      _OLConstant.authDialogBg: authDialogBg,
       _OLConstant.authDialogTitleText: authDialogTitleText,
       _OLConstant.authDialogTitleColor: authDialogTitleColor?.hexString,
       _OLConstant.authDialogTitleSize: authDialogTitleSize,
